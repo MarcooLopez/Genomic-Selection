@@ -4,7 +4,8 @@
 Data from CIMMYT’s Global Wheat Program. It contains information on 599 wheat lines whose grain
 yield was evaluated in four environments (E1, low rainfall and
 irrigated; E2, high rainfall; E3, low rainfall and high temperature;
-and E4, low humidity and hot). Data is available for download in R-package 'BGLR' (Perez and de los Campos, 2014).
+and E4, low humidity and hot). 
+Data is available for download in R-package 'BGLR' (Perez and de los Campos, 2014).
 
 ## R-packages installation
 ```
@@ -33,8 +34,9 @@ p <- ncol(X)
 # Select first environment
 y <- Y[,1]
 
+# Genomic relationship matrix
 Z <- scale(X)
-G <- tcrossprod(Z)/ncol(X)
+G <- tcrossprod(Z)/p
 I <- diag(n)
 
 # Matrix to store results
@@ -44,7 +46,7 @@ dimnames(out) <- list(c(paste0("fold_",1:5),"mean"),c("GBLUP","BGBLUP","BRR","LA
 
 # Model assessment
 ## Cross validation with 5-folds.
-Model is trained using data from 4 folds and tested in the remaining fold, thi means that the model is
+Model is trained using data from 4 folds and tested in the remaining fold, this means that the model is
 trained using 80% of the data and tested in the other 20%. This procedure is repeated for all the 5 folds. 
 
 ## Folds creation
