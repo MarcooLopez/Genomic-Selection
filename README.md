@@ -58,7 +58,7 @@ folds <- folds[1:n]
 ```
 
 # Running models
-## Mixed Model G-BLUP. rrBLUP package
+### Mixed Model G-BLUP. rrBLUP package
 ```
 for(i in 1:5)
 {
@@ -72,7 +72,7 @@ out[6,1] <- mean(out[1:5,1])
 out[,1]
 ```
 
-## Bayesian G-BLUP. BGLR package using RKHS model with K=G
+### Bayesian G-BLUP. BGLR package using RKHS model with K=G
 ```
 for(i in 1:5)
 {
@@ -86,7 +86,7 @@ out[6,2] <- mean(out[1:5,2])
 out[,2]
 ```
 
-## Bayesian Ridge Regression. BGLR package using keyword 'BRR'
+### Bayesian Ridge Regression. BGLR package using keyword 'BRR'
 ```
 for(i in 1:5)
 {
@@ -100,7 +100,7 @@ out[6,3] <- mean(out[1:5,3])
 out[,3]
 ```
 
-## Bayesian LASSO. BGLR package using keyword 'BL'
+### Bayesian LASSO. BGLR package using keyword 'BL'
 ```
 for(i in 1:5)
 {
@@ -114,7 +114,7 @@ out[6,4] <- mean(out[1:5,4])
 out[,4]
 ```
 
-## Bayesian LASSO. BGLR package using keyword 'BayesB'
+### Bayesian LASSO. BGLR package using keyword 'BayesB'
 ```
 for(i in 1:5)
 {
