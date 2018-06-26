@@ -1,4 +1,4 @@
-# Genomic-Selection-Demo
+# Genomic Selection Demo
 
 ## Data
 Data from CIMMYT’s Global Wheat Program. It contains information on 599 wheat lines whose grain
