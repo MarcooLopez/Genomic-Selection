@@ -46,8 +46,8 @@ dimnames(out) <- list(c(paste0("fold_",1:5),"mean"),c("GBLUP","BGBLUP","BRR","LA
 
 # Model assessment
 ## Cross validation with 5-folds.
-Model is trained using data from 4 folds and tested in the remaining fold, this means that the model is
-trained using 80% of the data and tested in the other 20%. This procedure is repeated for all the 5 folds. 
+To mimic prediction of GEBV of new untested breeding material, data is randomly splitted into 5 sets where training set is comprised of any 4 folds and testing set will consist of the remaining fold. This means that the model is
+trained using 80% of the data and tested in the other 20%. This procedure is repeated for all the 5 folds.
 
 ## Folds creation
 ```
