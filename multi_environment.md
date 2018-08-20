@@ -23,7 +23,7 @@ and can be used in two predictions problems (CV1 and CV2) that mimic 2 evaluatio
 trials.
 2. Cross Validation 1 (CV1). Represent a scheme of prediction of lines that have been evaluated in some but all target environments.
 
-Reference: **[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)**
+Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
 
 # Model assessment
 ## Cross validation with 5-folds.
