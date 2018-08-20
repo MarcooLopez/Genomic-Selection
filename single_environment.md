@@ -86,7 +86,7 @@ out[6,4] <- mean(out[1:5,4])
 out[,4]
 ```
 
-### 4. Bayesian LASSO. BGLR package using keyword 'BayesB'
+### 4. Bayesian B. BGLR package using keyword 'BayesB'
 ```
 for(i in 1:5)
 {
