@@ -30,7 +30,7 @@ Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/256601
 ## Training-Testing random partitions.
 Data is randomly splitted into training and testing using 70% of the data for training and 30%  for testing as depicted in the figures below.
 
-![picture alt](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png)
+![picture alt](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png | width=400)
 
 This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE)
 
