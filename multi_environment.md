@@ -1,5 +1,8 @@
 # Data preparation
 ```
+X <- wheat.X
+Y <- wheat.Y
+
 n <- nrow(Y)
 p <- ncol(X)
 
@@ -9,11 +12,11 @@ G <- tcrossprod(Z)/p
 I <- diag(n)
 
 # Select only environments 2,4, and 5 to work with
-Y0 <- Y[,c(2,3,4)]
+Y <- Y[,c(2,3,4)]
 
 # Matrix to store results
-out <- matrix(NA,nrow=ncol(Y0),ncol=3)
-out[,1] <- colnames(Y0)
+out <- matrix(NA,nrow=ncol(Y),ncol=3)
+out[,1] <- colnames(Y)
 colnames(out) <- c("Environment","Within","MxE")
 ```
 
@@ -23,6 +26,8 @@ and can be used in two predictions problems (CV1 and CV2) that mimic 2 evaluatio
 1. Cross Validation 1 (CV1). Represent a scheme of prediction of lines that have not been evaluated in any field
 trials.
 2. Cross Validation 2 (CV2). Represent a scheme of prediction of lines that have been evaluated in some but all target environments.
+
+Using a GBLUP approach, the prediction power of the multi-environment MxE model is compared with that that ignores GxE (across-environment) and with the GBLUP model fitted within environment. 
 
 Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
 
@@ -43,26 +48,45 @@ env <- c(1,2,3) # choose any set of environments from 1:ncol(Y)
 nEnv <- length(env)
 Y <- Y[,env]
 n <- nrow(Y)
-percTST<-0.3
+percTST <- 0.3
 nTST <- round(percTST*n)
-tst<-sample(1:n,size=nTST,replace=FALSE)
+tst <- sample(1:n,size=nTST,replace=FALSE)
 YNA <- Y
 YNA[tst,]<-NA
 ```
 
-# Running models
-### 1. Mixed Model G-BLUP. rrBLUP package
+### Running models
 ```
-for(i in 1:5)
-{
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
-    fm <- mixed.solve(y=yNA,Z=I,K=G)
-    out[i,1] <- cor(fm$u[indexTST],y[indexTST])
+## Single environments models #####################################
+YHatSE <- matrix(nrow=nrow(Y),ncol=ncol(Y),NA)
+ETA <- list(G=list(K=G,model='RKHS'))
+for(i in 1:nEnv){
+prefix <- paste(colnames(Y)[i],"_",sep="")
+fm <-BGLR(y=YNA[,i],ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
+YHatSE[,i] <- fm$yHat
 }
-out[6,1] <- mean(out[1:5,1])
-out[,1]
+## Across environment model (ignoring GxE) #######################
+yNA <- as.vector(YNA)
+# Fixed effect (env-intercepts)
+envID <- rep(env,each=nrow(Y))
+ETA <- list(list(~factor(envID)-1,model="FIXED"))
+# Main effects of markers
+G0 <- kronecker(matrix(nrow=nEnv,ncol=nEnv,1),G)
+ETA[[2]] <- list(K=G0,model='RKHS')
+# Model Fitting
+prefix <- paste(c('Across',colnames(Y),''),collapse='_')
+fm <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
+YHatAcross <- matrix(fm$yHat,ncol=nEnv)
+## MxE Interaction Model #########################################
+# Adding interaction terms
+for(i in 1:nEnv){
+tmp <- rep(0,nEnv) ; tmp[i] <- 1; G1 <- kronecker(diag(tmp),G)
+ETA[[(i+2)]] <- list(K=G1,model='RKHS')
+}
+# Model Fitting
+prefix <- paste(c('MxE',colnames(Y),''),collapse='_')
+fm <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
+YHatInt <- matrix(fm$yHat,ncol=nEnv)
 ```
 
 ### 2. Bayesian G-BLUP. BGLR package using RKHS model with K=G
