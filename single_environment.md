@@ -99,6 +99,16 @@ for(i in 1:5)
 out[6,5] <- mean(out[1:5,5])
 out[,5]
 ```
+## Results
+
+        GBLUP | B-GBLUP | BRR   | LASSO | Bayes B
+Fold 1  | 0.54  | 0.53   | 0.50 | 0.51 | 0.51
+Fold 2  | 0.48  | 0.49  | 0.46  | 0.45  | 0.45
+Fold 3  | 0.54  | 0.54  | 0.52  | 0.52  | 0.52
+Fold 4  | 0.52  | 0.52  | 0.53  | 0.53  | 0.53
+Fold 5  | 0.51  | 0.52  | 0.50  | 0.49  | 0.48
+Mean    | 0.52  | 0.52  | 0.50  | 0.50  | 0.50
+
 
 #
 * **[back](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/README.md)**
