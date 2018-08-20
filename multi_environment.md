@@ -57,92 +57,41 @@ YNA[tst,]<-NA
 
 ### Running models
 ```
-## Single environments models #####################################
+#====== Single environments models ===================================
 YHatSE <- matrix(nrow=nrow(Y),ncol=ncol(Y),NA)
 ETA <- list(G=list(K=G,model='RKHS'))
-for(i in 1:nEnv){
-prefix <- paste(colnames(Y)[i],"_",sep="")
-fm <-BGLR(y=YNA[,i],ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
-YHatSE[,i] <- fm$yHat
+for(j in 1:nEnv){
+    prefix <- paste(colnames(Y)[j],"_",sep="")
+    fm <-BGLR(y=YNA[,i],ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
+    YHatSE[,j] <- fm$yHat
 }
-## Across environment model (ignoring GxE) #######################
+
+#====== Across environment model (ignoring GxE) ======================
 yNA <- as.vector(YNA)
+
 # Fixed effect (env-intercepts)
 envID <- rep(env,each=nrow(Y))
 ETA <- list(list(~factor(envID)-1,model="FIXED"))
+
 # Main effects of markers
 G0 <- kronecker(matrix(nrow=nEnv,ncol=nEnv,1),G)
 ETA[[2]] <- list(K=G0,model='RKHS')
+
 # Model Fitting
 prefix <- paste(c('Across',colnames(Y),''),collapse='_')
 fm <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
 YHatAcross <- matrix(fm$yHat,ncol=nEnv)
-## MxE Interaction Model #########################################
+
+#====== MxE Interaction Model =======================================
 # Adding interaction terms
-for(i in 1:nEnv){
-tmp <- rep(0,nEnv) ; tmp[i] <- 1; G1 <- kronecker(diag(tmp),G)
-ETA[[(i+2)]] <- list(K=G1,model='RKHS')
+    for(j in 1:nEnv){
+    tmp <- rep(0,nEnv) ; tmp[j] <- 1; G1 <- kronecker(diag(tmp),G)
+    ETA[[(j+2)]] <- list(K=G1,model='RKHS')
 }
 # Model Fitting
 prefix <- paste(c('MxE',colnames(Y),''),collapse='_')
 fm <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
 YHatInt <- matrix(fm$yHat,ncol=nEnv)
-```
-
-### 2. Bayesian G-BLUP. BGLR package using RKHS model with K=G
-```
-for(i in 1:5)
-{
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(K=G,model="RKHS")),nIter=4000,burnIn=1000)
-    out[i,2] <- cor(fm$yHat[indexTST],y[indexTST])
-}
-out[6,2] <- mean(out[1:5,2])
-out[,2]
-```
-
-### 3. Bayesian Ridge Regression. BGLR package using keyword 'BRR'
-```
-for(i in 1:5)
-{
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BRR")),nIter=4000,burnIn=1000)
-    out[i,3] <- cor(fm$yHat[indexTST],y[indexTST])
-}
-out[6,3] <- mean(out[1:5,3])
-out[,3]
-```
-
-### 4. Bayesian LASSO. BGLR package using keyword 'BL'
-```
-for(i in 1:5)
-{
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BL")),nIter=4000,burnIn=1000)
-    out[i,4] <- cor(fm$yHat[indexTST],y[indexTST])
-}
-out[6,4] <- mean(out[1:5,4])
-out[,4]
-```
-
-### 4. Bayesian B. BGLR package using keyword 'BayesB'
-```
-for(i in 1:5)
-{
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BayesB")),nIter=4000,burnIn=1000)
-    out[i,5] <- cor(fm$yHat[indexTST],y[indexTST])
-}
-out[6,5] <- mean(out[1:5,5])
-out[,5]
 ```
 ## Results
 
