@@ -26,20 +26,28 @@ trials.
 
 Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
 
-# Model assessment
 ## Training-Testing random partitions.
 Data is randomly splitted into training and testing using 70% of the data for training and 30%  for testing as depicted in the figures below.
 
 <img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="450">
 
+CV1 scheme is made in such a way that 30% of the lines are missing in all environments. CV2 scheme is created by having 30% of the entries missing in one environment but present in all the rest of environments.
+
 This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE)
 
-## Folds creation
+## Cross Validation 1 (CV1)
+### TRN and TST sets creation
 ```
 set.seed(123)
-folds <- rep(1:5,ceiling(n/5))
-folds <- folds[sample(1:length(folds))]
-folds <- folds[1:n]
+env <- c(1,2,3) # choose any set of environments from 1:ncol(Y)
+nEnv <- length(env)
+Y <- Y[,env]
+n <- nrow(Y)
+percTST<-0.3
+nTST <- round(percTST*n)
+tst<-sample(1:n,size=nTST,replace=FALSE)
+YNA <- Y
+YNA[tst,]<-NA
 ```
 
 # Running models
