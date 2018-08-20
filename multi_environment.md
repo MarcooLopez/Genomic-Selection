@@ -30,7 +30,7 @@ Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/256601
 ## Training-Testing random partitions.
 Data is randomly splitted into training and testing using 70% of the data for training and 30%  for testing as depicted in the figures below.
 
-![picture alt](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png){:height="70%" width="70%"}
+<img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="450">
 
 This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE)
 
@@ -41,8 +41,6 @@ folds <- rep(1:5,ceiling(n/5))
 folds <- folds[sample(1:length(folds))]
 folds <- folds[1:n]
 ```
-
-<img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="300">
 
 # Running models
 ### 1. Mixed Model G-BLUP. rrBLUP package
