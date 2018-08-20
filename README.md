@@ -11,11 +11,12 @@ Data is available for download in R-package 'BGLR' (Perez and de los Campos, 201
 ```
 install.packages("BGLR")
 install.packages("rrBLUP")
+library(BGLR)
+library(rrBLUP)
 ```
 
 ## Download data
 ```
-library(BGLR)
 data(wheat)
 X <- wheat.X
 Y <- wheat.Y
