@@ -42,7 +42,7 @@ folds <- folds[sample(1:length(folds))]
 folds <- folds[1:n]
 ```
 
-<img src="https://github.com/favicon.ico" width="48">
+<img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="300">
 
 # Running models
 ### 1. Mixed Model G-BLUP. rrBLUP package
