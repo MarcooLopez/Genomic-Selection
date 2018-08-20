@@ -1,5 +1,8 @@
 # Data preparation
 ```
+X <- wheat.X
+Y <- wheat.Y
+
 n <- nrow(Y)
 p <- ncol(X)
 
