@@ -42,6 +42,8 @@ folds <- folds[sample(1:length(folds))]
 folds <- folds[1:n]
 ```
 
+<img src="https://github.com/favicon.ico" width="48">
+
 # Running models
 ### 1. Mixed Model G-BLUP. rrBLUP package
 ```
