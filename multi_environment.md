@@ -12,24 +12,25 @@ I <- diag(n)
 Y0 <- Y[,c(2,3,4)]
 
 # Matrix to store results
-out <- matrix(NA,ncol=5,nrow=6)
-dimnames(out) <- list(c(paste0("fold_",1:5),"mean"),c("GBLUP","BGBLUP","BRR","LASSO","BayesB"))
+out <- matrix(NA,nrow=ncol(Y0),ncol=3)
+out[,1] <- colnames(Y0)
+colnames(out) <- c("Environment","Within","MxE")
 ```
 
 # MxE model
 Model GxE interaction using a marker x environment (MxE) approach that benefits of positively correlated environments 
-and can be used in two predictions problems (CV1 and CV2) that mimic 2 evaluations situations:
+and can be used in two predictions problems (CV1 and CV2) that mimic 2 evaluation situations:
 1. Cross Validation 1 (CV1). Represent a scheme of prediction of lines that have not been evaluated in any field
 trials.
-2. Cross Validation 1 (CV1). Represent a scheme of prediction of lines that have been evaluated in some but all target environments.
+2. Cross Validation 2 (CV2). Represent a scheme of prediction of lines that have been evaluated in some but all target environments.
 
 Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
 
 # Model assessment
-## Cross validation with 5-folds.
-To mimic prediction of GEBV of new untested breeding material, data is randomly splitted into 5 sets where training set is 
-comprised of any 4 folds and testing set will consist of the remaining fold. This means that the model is
-trained using 80% of the data and tested in the other 20%. This procedure is repeated for all the 5 folds.
+## Training-Testing random partitions.
+Data is randomly splitted into training and testing using 70% of the data for training and 30%  for testing as depicted in the figures below.
+
+This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE)
 
 ## Folds creation
 ```
