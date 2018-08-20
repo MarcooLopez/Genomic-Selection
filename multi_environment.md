@@ -21,24 +21,28 @@ colnames(out) <- c("Environment","Within","MxE")
 ```
 
 # MxE model
-Model GxE interaction using a marker x environment (MxE) approach that benefits of positively correlated environments 
-and can be used in two predictions problems (CV1 and CV2) that mimic 2 evaluation situations:
-1. Cross Validation 1 (CV1). Represent a scheme of prediction of lines that have not been evaluated in any field
-trials.
-2. Cross Validation 2 (CV2). Represent a scheme of prediction of lines that have been evaluated in some but all target environments.
+Model GxE interaction using a marker x environment (MxE) approach that benefits of positively correlated environments. The bennefit is more remarkable depending of the prediction problem faced in breeding programs.
+
+MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
 
 Using a GBLUP approach, the prediction power of the multi-environment MxE model is compared with that that ignores GxE (across-environment) and with the GBLUP model fitted within environment. 
 
 Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
 
 ## Training-Testing random partitions.
-Data is randomly splitted into training and testing using 70% of the data for training and 30%  for testing as depicted in the figures below.
+Data is randomly splitted into training (TRN) and testing (TST) sets. Model parameters are estimated in training set and model is tested in TST set.  Two main estimations problems are addressed using the MxE interaction model. 
+
+1. Cross Validation 1 (CV1). Represent a scheme of prediction of lines that have not been evaluated in any field
+trials.
+2. Cross Validation 2 (CV2). Represent a scheme of prediction of lines that have been evaluated in some but all target environments.
 
 <img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="450">
 
+This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE).
+
+
 CV1 scheme is made in such a way that 30% of the lines are missing in all environments. CV2 scheme is created by having 30% of the entries missing in one environment but present in all the rest of environments.
 
-This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE)
 
 ## Cross Validation 1 (CV1)
 ### TRN and TST sets creation
