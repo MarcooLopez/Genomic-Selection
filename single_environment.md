@@ -30,7 +30,7 @@ folds <- folds[1:n]
 ```
 
 # Running models
-### Mixed Model G-BLUP. rrBLUP package
+[1] Mixed Model G-BLUP. rrBLUP package
 ```
 for(i in 1:5)
 {
