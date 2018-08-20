@@ -30,6 +30,8 @@ Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/256601
 ## Training-Testing random partitions.
 Data is randomly splitted into training and testing using 70% of the data for training and 30%  for testing as depicted in the figures below.
 
+![picture alt]()
+
 This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE)
 
 ## Folds creation
