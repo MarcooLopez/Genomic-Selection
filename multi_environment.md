@@ -93,7 +93,20 @@ prefix <- paste(c('MxE',colnames(Y),''),collapse='_')
 fm <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
 YHatInt <- matrix(fm$yHat,ncol=nEnv)
 ```
-## Results
+### Results
+Computing the within-environment correlation
+```
+COR <- matrix(nrow=length(env),ncol=3,NA)
+colnames(COR) <- c('SingleEnv', 'AcrossEnv', 'MxE')
+rownames(COR) <- colnames(Y)
+for(j in 1:nEnv){
+    tst <- which(is.na(YNA[,j]))
+    COR[j,1] <- cor(Y[tst,j],YHatSE[tst,j])
+    COR[j,2] <- cor(Y[tst,j],YHatAcross[tst,j])
+    COR[j,3] <- cor(Y[tst,j],YHatInt[tst,j])
+}
+COR
+```
 
 |       |GBLUP  |B-GBLUP | BRR  | LASSO | Bayes B |
 |-------|-------|--------|------|-------|-------|
