@@ -5,7 +5,9 @@ Response variable 'y' is regressed on allelic content dictated by molecular mark
 ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D%5Csim%20N%280%2C%5Csigma%5E2_u%5Ctextbf%7BK%7D%29)
 
 where 'X' is a full-rank desig matrix for the fixed effects ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cbeta%7D), Z is the 
-design matrix for the random effects ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7Bu%7D)
+design matrix for the random effects ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7Bu%7D), K is a positive semidefinite matrix, and the residuals are normal with constant variance.
+
+
 # Data preparation
 ```
 X <- wheat.X
