@@ -67,14 +67,14 @@ YNA[tst,]<-NA
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. 
 
 ```
-set.seed(12345)
+set.seed(123)
 
-env <- c(4,5) # choose any set of environments from 1:ncol(Y)
+env <- c(1,2,3) # choose any set of environments from 1:ncol(Y)
 nEnv <- length(env)
 Y <- Y[,env]
 n <- nrow(Y)
 
-percTST<-0.3
+percTST <- 0.3
 nTST <- round(percTST*n)
 nNA <- nEnv*nTST
 if(nNA<n){ indexNA <- sample(1:n,nNA,replace=FALSE) }
@@ -94,22 +94,25 @@ if(nNA>=n){
 indexEnv <- rep(1:nEnv,each=nTST)
 YNA <- Y
 for(j in 1:nEnv) YNA[indexNA[indexEnv==j],j] <- NA
-
 ```
 
+## Running models
+### 1. Single environments models
+Within-environment model, ignoring GxE effect
 
-### Running models
 ```
-#====== Single environments models ===================================
-YHatSE <- matrix(nrow=nrow(Y),ncol=ncol(Y),NA)
+YHat1 <- matrix(nrow=nrow(Y),ncol=ncol(Y),NA)
 ETA <- list(G=list(K=G,model='RKHS'))
 for(j in 1:nEnv){
     prefix <- paste(colnames(Y)[j],"_",sep="")
-    fm <-BGLR(y=YNA[,i],ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
-    YHatSE[,j] <- fm$yHat
+    fm <-BGLR(y=YNA[,j],ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
+    YHat1[,j] <- fm$yHat
 }
+```
 
-#====== Across environment model (ignoring GxE) ======================
+### 2. Across environment model (ignoring GxE) 
+Including all environments together but ignoring GxE interaction.
+```
 yNA <- as.vector(YNA)
 
 # Fixed effect (env-intercepts)
@@ -123,9 +126,12 @@ ETA[[2]] <- list(K=G0,model='RKHS')
 # Model Fitting
 prefix <- paste(c('Across',colnames(Y),''),collapse='_')
 fm <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
-YHatAcross <- matrix(fm$yHat,ncol=nEnv)
+YHat2 <- matrix(fm$yHat,ncol=nEnv)
+```
 
-#====== MxE Interaction Model =======================================
+### 3. MxE Interaction Model
+Including all environments together and including an environment-specific effect that accounts for GxE.
+```
 # Adding interaction terms
     for(j in 1:nEnv){
     tmp <- rep(0,nEnv) ; tmp[j] <- 1; G1 <- kronecker(diag(tmp),G)
@@ -134,19 +140,20 @@ YHatAcross <- matrix(fm$yHat,ncol=nEnv)
 # Model Fitting
 prefix <- paste(c('MxE',colnames(Y),''),collapse='_')
 fm <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
-YHatInt <- matrix(fm$yHat,ncol=nEnv)
+YHat3 <- matrix(fm$yHat,ncol=nEnv)
 ```
-### Results
-Computing the within-environment correlation
+
+## Results
+Computing the within-environment correlation for all three models
 ```
 COR <- matrix(nrow=length(env),ncol=3,NA)
 colnames(COR) <- c('SingleEnv', 'AcrossEnv', 'MxE')
 rownames(COR) <- colnames(Y)
 for(j in 1:nEnv){
     tst <- which(is.na(YNA[,j]))
-    COR[j,1] <- cor(Y[tst,j],YHatSE[tst,j])
-    COR[j,2] <- cor(Y[tst,j],YHatAcross[tst,j])
-    COR[j,3] <- cor(Y[tst,j],YHatInt[tst,j])
+    COR[j,1] <- cor(Y[tst,j],YHat1[tst,j])
+    COR[j,2] <- cor(Y[tst,j],YHat2[tst,j])
+    COR[j,3] <- cor(Y[tst,j],YHat3[tst,j])
 }
 COR
 ```
