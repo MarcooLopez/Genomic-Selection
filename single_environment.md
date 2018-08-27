@@ -1,3 +1,7 @@
+# Model
+Response variable 'y' is regressed on allelic content dictated by molecular markers 'X'. Breeding values are estimated using information from markers through the model
+![](https://latex.codecogs.com/gif.latex?y%3DX%5Cbeta&plus;Zu&plus;%5Cvarepsilon)
+
 # Data preparation
 ```
 X <- wheat.X
@@ -34,6 +38,7 @@ folds <- folds[1:n]
 
 # Running models
 ### 1. Mixed Model G-BLUP. rrBLUP package
+
 ```
 for(i in 1:5)
 {
@@ -112,9 +117,6 @@ out[,5]
 |Fold 4  | 0.49  | 0.49  | 0.49 | 0.48 | 0.49 |
 |Fold 5  | 0.53  | 0.53  | 0.54 | 0.54 | 0.53 |
 |Mean    | 0.52  | 0.52  | 0.52 | 0.52 | 0.52 |
-
-![](https://latex.codecogs.com/gif.latex?%5Cfrac%7B1%7D%7B2%7De%5E%7B-%28x-%5Cmu%29%5E2%7D)
-<img src="https://latex.codecogs.com/gif.latex?%5Cfrac%7B1%7D%7B2%7De%5E%7B-%28x-%5Cmu%29%5E2%7D">
 
 #
 * **[back](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/README.md)**
