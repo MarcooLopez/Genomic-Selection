@@ -113,7 +113,8 @@ out[,5]
 |Fold 5  | 0.53  | 0.53  | 0.54 | 0.54 | 0.53 |
 |Mean    | 0.52  | 0.52  | 0.52 | 0.52 | 0.52 |
 
-https://latex.codecogs.com/gif.latex?%5Cfrac%7B1%7D%7B2%7De%5E%7B-%28x-%5Cmu%29%5E2%7D
+![](https://latex.codecogs.com/gif.latex?%5Cfrac%7B1%7D%7B2%7De%5E%7B-%28x-%5Cmu%29%5E2%7D)
+<img src="https://latex.codecogs.com/gif.latex?%5Cfrac%7B1%7D%7B2%7De%5E%7B-%28x-%5Cmu%29%5E2%7D">
 
 #
 * **[back](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/README.md)**
