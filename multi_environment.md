@@ -30,7 +30,8 @@ Using a GBLUP approach, the prediction power of the multi-environment MxE model 
 Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
 
 ## Training-Testing random partitions.
-Data is randomly splitted into training (TRN) and testing (TST) sets. Model parameters are estimated in training set and model is tested in TST set.  Two main estimations problems are addressed using the MxE interaction model. 
+The prediction power of the model will be assessed using the training-testing (TRN-TST) random partitions approach. 
+Data is randomly splitted into training and testing sets. Model parameters are estimated in training set and model is tested in TST set.  Two main estimations problems are addressed using the MxE interaction model. 
 
 1. Cross Validation 1 (CV1). Represent a scheme of prediction of lines that have not been evaluated in any field
 trials.
@@ -38,15 +39,15 @@ trials.
 
 <img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="450">
 
-This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE).
-
-
-## Cross Validation 1 (CV1)
-### TRN and TST sets creation
-
-The prediction power will be assessed using the TRN-TST random partitions approach. 
+In our case, we will use 70% of the data for training set and the remaining 30% for the testing set.
 For CV1, we will create a scheme in which 30% of the lines are missing in all environments. 
 CV2 scheme is created by having 30% of the entries missing in one environment but present in all the rest of environments.
+
+This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE).
+
+### Cross Validation 1 (CV1)
+
+Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. 
 
 ```
 set.seed(123)
@@ -60,6 +61,42 @@ tst <- sample(1:n,size=nTST,replace=FALSE)
 YNA <- Y
 YNA[tst,]<-NA
 ```
+
+### Cross Validation 2 (CV2)
+
+Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. 
+
+```
+set.seed(12345)
+
+env <- c(4,5) # choose any set of environments from 1:ncol(Y)
+nEnv <- length(env)
+Y <- Y[,env]
+n <- nrow(Y)
+
+percTST<-0.3
+nTST <- round(percTST*n)
+nNA <- nEnv*nTST
+if(nNA<n){ indexNA <- sample(1:n,nNA,replace=FALSE) }
+if(nNA>=n){
+  nRep <- floor(nNA/n)
+  remain <- sample(1:n,nNA%%n,replace=FALSE)
+  a0 <- sample(1:n,n,replace=FALSE)
+  indexNA <- rep(a0,nRep)
+  if(length(remain)>0){
+         a1 <- floor(length(indexNA)/nTST)*nTST
+         a2 <- nNA - a1 - length(remain)
+         bb <- sample(a0[!a0%in%remain],a2,replace=FALSE)
+         noInIndexNA <- c(rep(a0,nRep-1),a0[!a0%in%bb])
+         indexNA <- c(noInIndexNA,bb,remain)
+  }
+}
+indexEnv <- rep(1:nEnv,each=nTST)
+YNA <- Y
+for(j in 1:nEnv) YNA[indexNA[indexEnv==j],j] <- NA
+
+```
+
 
 ### Running models
 ```
