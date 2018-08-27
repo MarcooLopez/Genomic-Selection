@@ -133,7 +133,7 @@ YHat2 <- matrix(fm$yHat,ncol=nEnv)
 Including all environments together and including an environment-specific effect that accounts for GxE.
 ```
 # Adding interaction terms
-    for(j in 1:nEnv){
+for(j in 1:nEnv){
     tmp <- rep(0,nEnv) ; tmp[j] <- 1; G1 <- kronecker(diag(tmp),G)
     ETA[[(j+2)]] <- list(K=G1,model='RKHS')
 }
@@ -159,15 +159,14 @@ COR
 ```
 
 CV1. One TRN-TST partition
-
 |       |Single-Env |Across-Env | MxE  |
 |-------|-------|--------|------|
 |Env 2  | 0.41  | 0.62  | 0.64 |
 |Env 4  | 0.38  | 0.61  | 0.59 |
 |Env 5  | 0.43  | 0.41  | 0.46 |
 
+##
 CV2. One TRN-TST partition
-
 |       |Single-Env |Across-Env | MxE  |
 |-------|-------|--------|------|
 |Env 2  | 0.41  | 0.62  | 0.64 |
