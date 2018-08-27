@@ -1,5 +1,6 @@
 # Model
 Response variable 'y' is regressed on allelic content dictated by molecular markers 'X'. Breeding values are estimated using information from markers through the model
+
 ![](https://latex.codecogs.com/gif.latex?y%3DX%5Cbeta&plus;Zu&plus;%5Cvarepsilon)
 
 # Data preparation
