@@ -54,7 +54,7 @@ for(i in 1:5)
     indexTST <- which(folds==i)
     yNA <- y
     yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(K=G,model="RKHS")),nIter=4000,burnIn=1000)
+    fm <- BGLR(yNA,ETA=list(list(K=G,model="RKHS")),nIter=12000,burnIn=2000)
     out[i,2] <- cor(fm$yHat[indexTST],y[indexTST])
 }
 out[6,2] <- mean(out[1:5,2])
@@ -68,7 +68,7 @@ for(i in 1:5)
     indexTST <- which(folds==i)
     yNA <- y
     yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BRR")),nIter=4000,burnIn=1000)
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BRR")),nIter=12000,burnIn=2000)
     out[i,3] <- cor(fm$yHat[indexTST],y[indexTST])
 }
 out[6,3] <- mean(out[1:5,3])
@@ -82,7 +82,7 @@ for(i in 1:5)
     indexTST <- which(folds==i)
     yNA <- y
     yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BL")),nIter=4000,burnIn=1000)
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BL")),nIter=12000,burnIn=2000)
     out[i,4] <- cor(fm$yHat[indexTST],y[indexTST])
 }
 out[6,4] <- mean(out[1:5,4])
@@ -96,7 +96,7 @@ for(i in 1:5)
     indexTST <- which(folds==i)
     yNA <- y
     yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BayesB")),nIter=4000,burnIn=1000)
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BayesB")),nIter=12000,burnIn=2000)
     out[i,5] <- cor(fm$yHat[indexTST],y[indexTST])
 }
 out[6,5] <- mean(out[1:5,5])
