@@ -6,8 +6,8 @@ Y <- wheat.Y
 n <- nrow(Y)
 p <- ncol(X)
 
-# Select first environment
-y <- Y[,1]
+# Select environment 2
+y <- Y[,2]
 
 # Genomic relationship matrix
 Z <- scale(X)
