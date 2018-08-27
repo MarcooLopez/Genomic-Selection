@@ -9,8 +9,8 @@ Data is available for download in R-package 'BGLR' (Perez and de los Campos, 201
 
 ## R-packages installation
 ```
-install.packages("BGLR")
-install.packages("rrBLUP")
+if(!"BGLR"%in%rownames(installed.packages()))  install.packages("BGLR")
+if(!"rrBLUP"%in%rownames(installed.packages())) install.packages("rrBLUP")
 library(BGLR)
 library(rrBLUP)
 ```
