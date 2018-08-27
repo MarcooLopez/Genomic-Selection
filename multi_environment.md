@@ -41,11 +41,13 @@ trials.
 This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE).
 
 
-CV1 scheme is made in such a way that 30% of the lines are missing in all environments. CV2 scheme is created by having 30% of the entries missing in one environment but present in all the rest of environments.
-
-
 ## Cross Validation 1 (CV1)
 ### TRN and TST sets creation
+
+The prediction power will be assessed using the TRN-TST random partitions approach. 
+For CV1, we will create a scheme in which 30% of the lines are missing in all environments. 
+CV2 scheme is created by having 30% of the entries missing in one environment but present in all the rest of environments.
+
 ```
 set.seed(123)
 env <- c(1,2,3) # choose any set of environments from 1:ncol(Y)
