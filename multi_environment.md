@@ -13,11 +13,6 @@ I <- diag(n)
 
 # Select only environments 2,4, and 5 to work with
 Y <- Y[,c(2,3,4)]
-
-# Matrix to store results
-out <- matrix(NA,nrow=ncol(Y),ncol=3)
-out[,1] <- colnames(Y)
-colnames(out) <- c("Environment","Within","MxE")
 ```
 
 # MxE model
