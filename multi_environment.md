@@ -162,9 +162,9 @@ CV1. One TRN-TST partition
 
 |       |Single-Env |Across-Env | MxE  |
 |-------|-------|--------|------|
-|Env 2  | 0.41  | 0.62  | 0.64 |
-|Env 4  | 0.38  | 0.61  | 0.59 |
-|Env 5  | 0.43  | 0.41  | 0.46 |
+|Env 2  | 0.41  | 0.33  | 0.38 |
+|Env 4  | 0.29  | 0.32  | 0.32 |
+|Env 5  | 0.47  | 0.49  | 0.51 |
 
 ##
 CV2. One TRN-TST partition
