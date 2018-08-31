@@ -116,7 +116,7 @@ eigen_G0 <- eigen(G0)
 
 **2. Accros-environment**
 
-Including all environments together but ignoring GxE interaction (only main effect)
+Including only main effect that is common to all environments but ignoring GxE interaction.
 
 ```
 # Fixed effect and main effects of markers
@@ -130,7 +130,7 @@ YHat2 <- matrix(fm2$yHat,ncol=nEnv)
 
 **3. MxE Interaction**
 
-Including all environments together (main effect) and an environment-specific effect that accounts for GxE.
+Including main effect that is common to all environments and an environment-specific effect (interaction) that accounts for GxE.
 
 ```
 # Fixed effect and main effects of markers
@@ -149,7 +149,8 @@ YHat3 <- matrix(fm3$yHat,ncol=nEnv)
 ```
 
 **4. Reaction norm model**
-Including all environments together and modeling GxE using covariance structure.
+
+Including main effect that is common to all environments and modeling GxE using a covariance structure.
 
 ```
 # Fixed effect and main effects of markers
