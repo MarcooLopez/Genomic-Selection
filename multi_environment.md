@@ -165,6 +165,7 @@ for(j in 1:nEnv){
     eigen_G1 <- eigen(G1)
     ETA[[(j+2)]] <- list(V=eigen_G1$vectors,d=eigen_G1$values,model='RKHS')
 }
+
 # Model Fitting
 fm3 <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt="MxE_")
 YHat3 <- matrix(fm3$yHat,ncol=nEnv)
