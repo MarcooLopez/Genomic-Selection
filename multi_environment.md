@@ -18,9 +18,9 @@ Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/256601
 The prediction power of the model will be assessed using the training-testing (TRN-TST) random partitions approach. 
 Data is randomly splitted into training and testing sets. Model parameters are estimated in training set and model is tested in TST set.  Two main estimations problems are addressed using the MxE interaction model. 
 
-1. Cross Validation 1 (CV1). Represent a scheme of prediction of lines that have not been evaluated in any field
+**1. Cross Validation 1 (CV1)**. Represent a scheme of prediction of lines that have not been evaluated in any field
 trials.
-2. Cross Validation 2 (CV2). Represent a scheme of prediction of lines that have been evaluated in some but all target environments. Thus, prediction of non-evaluated lines benefits from borrowing of information from lines that were evaluated in other environments.
+**2. Cross Validation 2 (CV2)**. Represent a scheme of prediction of lines that have been evaluated in some but all target environments. Thus, prediction of non-evaluated lines benefits from borrowing of information from lines that were evaluated in other environments.
 
 <img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="450">
 
@@ -30,7 +30,28 @@ CV2 scheme is created by having 30% of the entries missing in one environment bu
 
 This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE).
 
-### Cross Validation 1 (CV1)
+# Data preparation
+### Load data, generate G-matrix
+```
+X <- wheat.X
+Y <- wheat.Y
+
+n <- nrow(Y)
+p <- ncol(X)
+
+# Select environments with good phenotypic correlations. Environments 2,4, and 5
+Y <- Y[,c(2,3,4)]
+
+# Genomic relationship matrix
+Z <- scale(X)
+G <- tcrossprod(Z)/p
+I <- diag(n)
+```
+
+### Training-Testing partitions
+User can choose either to perform CV1 or CV2 aproaches
+
+**Cross Validation 1 (CV1)**
 
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. 
 
@@ -47,7 +68,7 @@ YNA <- Y
 YNA[tst,]<-NA
 ```
 
-### Cross Validation 2 (CV2)
+**Cross Validation 2 (CV2)**
 
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. 
 
