@@ -99,58 +99,74 @@ for(j in 1:nEnv) YNA[indexNA[indexEnv==j],j] <- NA
 ```
 
 ## Running models
-### 1. Single environments models
-Within-environment model, ignoring GxE effect
+### Single environment models
+1. **Within-environment model, ignoring GxE effect**
 
 ```
 YHat1 <- matrix(nrow=nrow(Y),ncol=ncol(Y),NA)
 ETA <- list(G=list(K=G,model='RKHS'))
 for(j in 1:nEnv){
     prefix <- paste(colnames(Y)[j],"_",sep="")
-    fm <-BGLR(y=YNA[,j],ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
-    YHat1[,j] <- fm$yHat
+    fm1 <-BGLR(y=YNA[,j],ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
+    YHat1[,j] <- fm1$yHat
 }
 ```
 
-### 2. Across environment model (ignoring GxE) 
-Including all environments together but ignoring GxE interaction.
+### Multi environment models
+The environment as fixed effect and main effects of markers will be common to all multi-environment models.
+Eigen value decompostion (EVD) will be used instead of the whole matrix to make speed computational time.
 ```
 yNA <- as.vector(YNA)
 
-# Fixed effect (env-intercepts)
+# Fixed effect (environment-intercepts)
 envID <- factor(rep(colnames(Y),each=nrow(Y)),levels=colnames(Y))
-ETA1 <- list(list(~envID-1,model="FIXED"))
 
 # Main effects of markers
 GID <- factor(rep(rownames(Y),ncol(Y)),levels=rownames(Y))
 Zg <- model.matrix(~GID-1)
 G0 <- Zg%*%G%*%t(Zg)
-ETA1[[2]] <- list(K=G0,model='RKHS')
+eigen_G0 <- eigen(G0)
+```
+
+**2. Accros-environment**
+Including all environments together but ignoring GxE interaction
+
+```
+# Fixed effect and main effects of markers
+ETA <- list(list(~envID-1,model="FIXED"))
+ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
 # Model Fitting
-fm <- BGLR(y=yNA,ETA=ETA1,nIter=12000,burnIn=2000,saveAt="AcrossEnv_")
-YHat2 <- matrix(fm$yHat,ncol=nEnv)
+fm2 <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt="AcrossEnv_")
+YHat2 <- matrix(fm2$yHat,ncol=nEnv)
 ```
 
-### 3. MxE Interaction Model
+**3. MxE Interaction**
 Including all environments together and including an environment-specific effect that accounts for GxE.
+
 ```
-ETA2 <- ETA1
+# Fixed effect and main effects of markers
+ETA <- list(list(~envID-1,model="FIXED"))
+ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
 # Adding interaction terms
 for(j in 1:nEnv){
     tmp <- rep(0,nEnv) ; tmp[j] <- 1; G1 <- kronecker(diag(tmp),G)
-    ETA2[[(j+2)]] <- list(K=G1,model='RKHS')
+    eigen_G1 <- eigen(G1)
+    ETA[[(j+2)]] <- list(V=eigen_G1$vectors,d=eigen_G1$values,model='RKHS')
 }
 # Model Fitting
-fm1 <- BGLR(y=yNA,ETA=ETA2,nIter=12000,burnIn=2000,saveAt="MxE_")
-YHat3 <- matrix(fm1$yHat,ncol=nEnv)
+fm3 <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt="MxE_")
+YHat3 <- matrix(fm3$yHat,ncol=nEnv)
 ```
 
-### 4. Reaction norm model 
+**4. Reaction norm model**
 Including all environments together and modeling GxE using covariance structure.
+
 ```
-ETA3 <- ETA1
+# Fixed effect and main effects of markers
+ETA <- list(list(~envID-1,model="FIXED"))
+ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
 # Incidence matrix for the effects of environments
 ZE <- model.matrix(~envID-1)   
@@ -159,7 +175,7 @@ ZEZEt <- tcrossprod(ZE)
 # Adding GxE interaction term as Hadamart product
 GE <- G0*ZEZEt
 eigen_GE <- eigen(GE)
-ETA3[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
+ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
 
 # Model Fitting
 fm4 <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt="RNorm_")
@@ -169,14 +185,15 @@ YHat4 <- matrix(fm4$yHat,ncol=nEnv)
 ## Results
 Computing the within-environment correlation for all three models
 ```
-COR <- matrix(nrow=length(env),ncol=3,NA)
-colnames(COR) <- c('SingleEnv', 'AcrossEnv', 'MxE')
+COR <- matrix(nrow=length(env),ncol=4,NA)
+colnames(COR) <- c('SingleEnv', 'AcrossEnv', 'MxE','RNorm')
 rownames(COR) <- colnames(Y)
 for(j in 1:nEnv){
     tst <- which(is.na(YNA[,j]))
     COR[j,1] <- cor(Y[tst,j],YHat1[tst,j])
     COR[j,2] <- cor(Y[tst,j],YHat2[tst,j])
     COR[j,3] <- cor(Y[tst,j],YHat3[tst,j])
+    COR[j,4] <- cor(Y[tst,j],YHat4[tst,j])
 }
 COR
 ```
