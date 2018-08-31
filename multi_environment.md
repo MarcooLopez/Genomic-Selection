@@ -1,36 +1,19 @@
-# Data preparation
-```
-X <- wheat.X
-Y <- wheat.Y
 
-n <- nrow(Y)
-p <- ncol(X)
+# Multi-environment models
 
-# Genomic relationship matrix
-Z <- scale(X)
-G <- tcrossprod(Z)/p
-I <- diag(n)
-
-# Select only environments 2,4, and 5 to work with
-Y <- Y[,c(2,3,4)]
-```
-
-# MxE model
-Model GxE interaction using a marker x environment (MxE) approach that benefits of positively correlated environments. The bennefit is more remarkable depending of the prediction problem faced in breeding programs.
-
-MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
-
-Using a GBLUP approach, the prediction power of the multi-environment MxE model is compared with that that ignores GxE (across-environment) and with the GBLUP model fitted within environment. 
-
-Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
-
-
-# Reaction Norm model
+## Reaction Norm model
 Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
 The reaction norm model can model main and interaction effects of environmental covariates (EC) and markers.
 
 Reference: *[Jarquin et. al, 2014](https://link.springer.com/article/10.1007%2Fs00122-013-2243-1)*
 
+## MxE model
+Model GxE interaction using a marker x environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
+
+Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
+
+
+# Model assessment
 ## Training-Testing random partitions.
 The prediction power of the model will be assessed using the training-testing (TRN-TST) random partitions approach. 
 Data is randomly splitted into training and testing sets. Model parameters are estimated in training set and model is tested in TST set.  Two main estimations problems are addressed using the MxE interaction model. 
@@ -98,8 +81,10 @@ YNA <- Y
 for(j in 1:nEnv) YNA[indexNA[indexEnv==j],j] <- NA
 ```
 
-## Running models
-### Single environment models
+# Running models
+Using a GBLUP approach, the prediction power of the multi-environment models (MxE and Reaction Norm) will be compared with that that ignores GxE (across-environment) and with the GBLUP model fitted within environment. 
+
+## Single environment models
 1. **Within-environment model, ignoring GxE effect**
 
 ```
@@ -115,6 +100,7 @@ for(j in 1:nEnv){
 ### Multi environment models
 The environment as fixed effect and main effects of markers will be common to all multi-environment models.
 Eigen value decompostion (EVD) will be used instead of the whole matrix to make speed computational time.
+
 ```
 yNA <- as.vector(YNA)
 
@@ -129,7 +115,8 @@ eigen_G0 <- eigen(G0)
 ```
 
 **2. Accros-environment**
-Including all environments together but ignoring GxE interaction
+
+Including all environments together but ignoring GxE interaction (only main effect)
 
 ```
 # Fixed effect and main effects of markers
@@ -142,7 +129,7 @@ YHat2 <- matrix(fm2$yHat,ncol=nEnv)
 ```
 
 **3. MxE Interaction**
-Including all environments together and including an environment-specific effect that accounts for GxE.
+Including all environments together (main effect) and an environment-specific effect that accounts for GxE.
 
 ```
 # Fixed effect and main effects of markers
