@@ -24,6 +24,13 @@ Using a GBLUP approach, the prediction power of the multi-environment MxE model 
 
 Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
 
+
+# Reaction Norm model
+Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
+The reaction norm model can model main and interaction effects of environmental covariates (EC) and markers.
+
+Reference: *[Jarquin et. al, 2014](https://link.springer.com/article/10.1007%2Fs00122-013-2243-1)*
+
 ## Training-Testing random partitions.
 The prediction power of the model will be assessed using the training-testing (TRN-TST) random partitions approach. 
 Data is randomly splitted into training and testing sets. Model parameters are estimated in training set and model is tested in TST set.  Two main estimations problems are addressed using the MxE interaction model. 
@@ -111,31 +118,52 @@ Including all environments together but ignoring GxE interaction.
 yNA <- as.vector(YNA)
 
 # Fixed effect (env-intercepts)
-envID <- rep(env,each=nrow(Y))
-ETA <- list(list(~factor(envID)-1,model="FIXED"))
+envID <- factor(rep(colnames(Y),each=nrow(Y)),levels=colnames(Y))
+ETA1 <- list(list(~envID-1,model="FIXED"))
 
 # Main effects of markers
-G0 <- kronecker(matrix(nrow=nEnv,ncol=nEnv,1),G)
-ETA[[2]] <- list(K=G0,model='RKHS')
+GID <- factor(rep(rownames(Y),ncol(Y)),levels=rownames(Y))
+Zg <- model.matrix(~GID-1)
+G0 <- Zg%*%G%*%t(Zg)
+ETA1[[2]] <- list(K=G0,model='RKHS')
 
 # Model Fitting
-prefix <- paste(c('Across',colnames(Y),''),collapse='_')
-fm <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
+fm <- BGLR(y=yNA,ETA=ETA1,nIter=12000,burnIn=2000,saveAt="AcrossEnv_")
 YHat2 <- matrix(fm$yHat,ncol=nEnv)
 ```
 
 ### 3. MxE Interaction Model
 Including all environments together and including an environment-specific effect that accounts for GxE.
 ```
+ETA2 <- ETA1
+
 # Adding interaction terms
 for(j in 1:nEnv){
     tmp <- rep(0,nEnv) ; tmp[j] <- 1; G1 <- kronecker(diag(tmp),G)
-    ETA[[(j+2)]] <- list(K=G1,model='RKHS')
+    ETA2[[(j+2)]] <- list(K=G1,model='RKHS')
 }
 # Model Fitting
-prefix <- paste(c('MxE',colnames(Y),''),collapse='_')
-fm <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
-YHat3 <- matrix(fm$yHat,ncol=nEnv)
+fm1 <- BGLR(y=yNA,ETA=ETA2,nIter=12000,burnIn=2000,saveAt="MxE_")
+YHat3 <- matrix(fm1$yHat,ncol=nEnv)
+```
+
+### 4. Reaction norm model 
+Including all environments together and modeling GxE using covariance structure.
+```
+ETA3 <- ETA1
+
+# Incidence matrix for the effects of environments
+ZE <- model.matrix(~envID-1)   
+ZEZEt <- tcrossprod(ZE)
+
+# Adding GxE interaction term as Hadamart product
+GE <- G0*ZEZEt
+eigen_GE <- eigen(GE)
+ETA3[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
+
+# Model Fitting
+fm4 <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt="RNorm_")
+YHat4 <- matrix(fm4$yHat,ncol=nEnv)
 ```
 
 ## Results
@@ -155,20 +183,20 @@ COR
 
 CV1. One TRN-TST partition
 
-|       |Single-Env |Across-Env | MxE  |
-|-------|-------|--------|------|
-|Env 2  | 0.41  | 0.33  | 0.38 |
-|Env 4  | 0.29  | 0.32  | 0.32 |
-|Env 5  | 0.47  | 0.49  | 0.51 |
+|       |Single-Env |Across-Env | MxE  | RNorm |
+|-------|-------|--------|------|------|
+|Env 2  | 0.41  | 0.33  | 0.38 |     |
+|Env 4  | 0.29  | 0.32  | 0.32 |     |
+|Env 5  | 0.47  | 0.49  | 0.51 |     |
 
 ##
 CV2. One TRN-TST partition
 
-|       |Single-Env |Across-Env | MxE  |
-|-------|-------|--------|------|
-|Env 2  | 0.41  | 0.62  | 0.64 |
-|Env 4  | 0.38  | 0.61  | 0.59 |
-|Env 5  | 0.43  | 0.41  | 0.46 |
+|       |Single-Env |Across-Env | MxE  | RNorm |
+|-------|-------|--------|------|-----|
+|Env 2  | 0.41  | 0.62  | 0.64 |     |
+|Env 4  | 0.38  | 0.61  | 0.59 |     |
+|Env 5  | 0.43  | 0.41  | 0.46 |     |
 
 
 #
