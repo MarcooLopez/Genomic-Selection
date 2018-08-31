@@ -20,6 +20,7 @@ Data is randomly splitted into training and testing sets. Model parameters are e
 
 **1. Cross Validation 1 (CV1)**. Represent a scheme of prediction of lines that have not been evaluated in any field
 trials.
+
 **2. Cross Validation 2 (CV2)**. Represent a scheme of prediction of lines that have been evaluated in some but all target environments. Thus, prediction of non-evaluated lines benefits from borrowing of information from lines that were evaluated in other environments.
 
 <img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="450">
@@ -105,7 +106,7 @@ for(j in 1:nEnv) YNA[indexNA[indexEnv==j],j] <- NA
 # Running models
 Using a GBLUP approach, the prediction power of the multi-environment models (MxE and Reaction Norm) will be compared with that that ignores GxE (across-environment) and with the GBLUP model fitted within environment. 
 
-## Single environment models
+### Single environment models
 **1. Within-environment model, ignoring GxE effect**
 
 ```
