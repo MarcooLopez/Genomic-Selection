@@ -209,7 +209,7 @@ for(j in 1:nEnv){
 COR
 ```
 
-CV1. One TRN-TST partition
+**CV1. One TRN-TST partition**
 
 |       |Single-Env |Across-Env | MxE  | RNorm |
 |-------|-------|--------|------|------|
@@ -218,7 +218,7 @@ CV1. One TRN-TST partition
 |Env 5  | 0.47  | 0.49  | 0.51 | 0.51 |
 
 ##
-CV2. One TRN-TST partition
+**CV2. One TRN-TST partition**
 
 |       |Single-Env |Across-Env | MxE  | RNorm |
 |-------|-------|--------|------|-----|
