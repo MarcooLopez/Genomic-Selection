@@ -3,14 +3,11 @@
 Genomic Selection uses genetic markers covering the whole genome and potentially explaining all the genetic variance. These markers are asumed to be in Linkage Disequilibrium (LD) with the QTL thus models including all markers can estimate breeding values as linear combinatons of these QTL's.
 
 ## Model
-Response variable ***y*** is regressed on allelic content dictated by molecular markers *M*. Breeding values are estimated using information from markers through the model
+Response variable *y* for the *i*-th individual is regressed on allelic content dictated by whole-genome markers *x* through the model
 
-![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D%3DX%5Cmathbf%7B%5Cbeta%7D&plus;Z%5Cmathbf%7Bu%7D&plus;%5Cmathbf%7B%5Cvarepsilon%7D)  
+![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j&plus;%5Cmathbf%7B%5Cvarepsilon%7D_i)  
 
-where *X* is a full-rank desig matrix for the fixed effects ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cbeta%7D), *Z* is the 
-design matrix for the random effects ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7Bu%7D), and the residuals ![](https://latex.codecogs.com/gif.latex?%5Cmathbold%7B%5Cvarepsilon%7D) are distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2CI%5Csigma%5E2_%5Cvarepsilon%29). 
-
-In this case, we will suppose that the only fixed effect is the overall mean. Thus, for the *i*th individual, the model above becomes 
+where ![](https://latex.codecogs.com/gif.latex?%5Cmu) is the population mean, ![](https://latex.codecogs.com/gif.latex?x_%7Bij%7D) is the genotype of the *i*-th individual at the *j*-th marker, ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bj%7D) is the corresponding marker effect, and ![](https://latex.codecogs.com/gif.latex?%5Cmathbold%7B%5Cvarepsilon%7D) are the residuals which are assumed to be distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2CI%5Csigma%5E2_%5Cvarepsilon%29).
 
 
 ### 1. G-BLUP model
