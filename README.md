@@ -16,11 +16,15 @@ Is a penalization regression that assumes that the regression coefficients follo
 This prior induces shrinkage of estimates toward zero.
 
 ### 2. Bayesian LASSO.
-It assumes that the regression coefficients have a prior distribution double-exponential (or Laplace)
+It assumes that the regression coefficients have a prior distribution double-exponential (or Laplace) which is a thick-tailed prior that can be represented as 
 
+![](https://latex.codecogs.com/gif.latex?%5Cbeta_j%5Csim%20DE%28%5Clambda%5E2%2C%5Csigma%5E2_%5Cvarepsilon%29%3D%5Cint%20N%28%5Cbeta_j%7C0%2C%5Csigma%5E2_%5Cvarepsilon%5Ctau%5E2_j%29Exp%28%5Ctau%5E2_j%7C%5Clambda%5E2/2%29)
 
-### 1. G-BLUP model
-The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;u_i&plus;%5Cvarepsilon_i), whose solution is equivalent to that of the BRR model arised when in the model above we make the sustitution 
+### 3. Bayes A
+It assumes another thick-tailed prior for the regression effects, the scaled *t* distribution
+
+### 3. G-BLUP model (RR-BLUP)
+The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;u_i&plus;%5Cvarepsilon_i) and its solution is equivalent to that of the BRR model arised when in the model above we make the sustitution 
 
 ![](https://latex.codecogs.com/gif.latex?u_i%3D%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j)
 
