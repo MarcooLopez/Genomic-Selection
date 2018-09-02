@@ -21,7 +21,9 @@ It assumes that the regression coefficients have a prior distribution double-exp
 ![](https://latex.codecogs.com/gif.latex?%5Cbeta_j%5Csim%20DE%28%5Clambda%5E2%2C%5Csigma%5E2_%5Cvarepsilon%29%3D%5Cint%20N%28%5Cbeta_j%7C0%2C%5Csigma%5E2_%5Cvarepsilon%5Ctau%5E2_j%29Exp%28%5Ctau%5E2_j%7C%5Clambda%5E2/2%29)
 
 ### 3. Bayes A
-It assumes another thick-tailed prior for the regression effects, the scaled *t* distribution
+The regression effects are assumed another thick-tailed prior, a scaled *t* distribution with degree of freedom ![](https://latex.codecogs.com/gif.latex?df_%5Cbeta) and scale ![](https://latex.codecogs.com/gif.latex?S_%5Cbeta) parameters. Similar as for doble-exponential, the scaled *t* distribution is represented as mixture of normal densities scaled with a scaled-inverse Chi-squared (![](https://latex.codecogs.com/gif.latex?%5Cchi%5E%7B-1%7D)) density, this is
+
+![](https://latex.codecogs.com/gif.latex?%5Cbeta_j%5Csim%20t%28df_%5Cbeta%2CS_%5Cbeta%29%3D%5Cint%20N%28%5Cbeta_j%7C0%2C%5Csigma%5E2_%7B%5Cbeta_j%7D%29%5Cchi%5E%7B-1%7D%28%5Csigma%5E2_%7B%5Cbeta_j%7D%7Cdf_%5Cbeta%2CS_%5Cbeta%29%5Cpartial%20%5Csigma%5E2_%7B%5Cbeta_j%7D)
 
 ### 3. G-BLUP model (RR-BLUP)
 The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;u_i&plus;%5Cvarepsilon_i) and its solution is equivalent to that of the BRR model arised when in the model above we make the sustitution 
