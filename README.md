@@ -11,7 +11,7 @@ where ![](https://latex.codecogs.com/gif.latex?%5Cmu) is the intercept, ![](http
 
 Model above presents some estimation difficulties when *p* is much bigger than *n* so penalization ans regularization aproaches are used to overcome this problem. Penalization and regularization solutions can be seen as posterior solutions in the Bayesian context.
 
-### 1. Bayesian Ridge Regression.
+### 1. Bayesian Ridge Regression (BRR).
 Is a penalization regression that assumes that the regression coefficients follow a Gaussian (Normal) prior distribution, this is ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bj%7D%5Csim%20N%280%2C%5Csigma%5E2_%5Cbeta%29).
 This prior induces shrinkage of estimates toward zero.
 
@@ -20,7 +20,7 @@ It assumes that the regression coefficients have a prior distribution double-exp
 
 
 ### 1. G-BLUP model
-It is equivalent to the solution of the BRR model when in the model above we make the sustitution 
+The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;u_i&plus;%5Cvarepsilon_i), whose solution is equivalent to that of the BRR model arised when in the model above we make the sustitution 
 
 ![](https://latex.codecogs.com/gif.latex?u_i%3D%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j)
 
