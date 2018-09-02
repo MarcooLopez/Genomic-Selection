@@ -1,5 +1,7 @@
 # Genomic Selection Demo
 
+Genomic Selection uses genetic markers covering the whole genome and potentially explaining all the genetic variance. These markers are asumed to be in Linkage Disequilibrium (LD) with the QTL thus models including all markers can estimate breeding values as linear combinatons of these QTL's.
+
 ## Model
 Response variable 'y' is regressed on allelic content dictated by molecular markers 'X'. Breeding values are estimated using information from markers through the model
 
