@@ -3,11 +3,16 @@
 Genomic Selection uses genetic markers covering the whole genome and potentially explaining all the genetic variance. These markers are asumed to be in Linkage Disequilibrium (LD) with the QTL thus models including all markers can estimate breeding values as linear combinatons of these QTL's.
 
 ## Model
-Response variable *y* for the *i*-th individual is regressed on allelic content dictated by whole-genome markers *x* through the model
+Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on allelic content dictated by whole-genome markers *x* through the model
 
 ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j&plus;%5Cmathbf%7B%5Cvarepsilon%7D_i)  
 
 where ![](https://latex.codecogs.com/gif.latex?%5Cmu) is the population mean, ![](https://latex.codecogs.com/gif.latex?x_%7Bij%7D) is the genotype of the *i*-th individual at the *j*-th marker, ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bj%7D) is the corresponding marker effect, and ![](https://latex.codecogs.com/gif.latex?%5Cmathbold%7B%5Cvarepsilon%7D) are the residuals which are assumed to be distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2CI%5Csigma%5E2_%5Cvarepsilon%29).
+
+Model above presents some estimation difficulties when $p$ is much bigger than *n* so penalization ans regularization aproaches are used to overcome this problem. Penalization and regularization solutions can be seen as posterior solutions in the Bayesian context.
+
+### 1. Ridge Regression.
+Is a penalization regression that 
 
 
 ### 1. G-BLUP model
