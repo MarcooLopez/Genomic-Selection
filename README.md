@@ -20,7 +20,8 @@ It assumes that the regression coefficients have a prior distribution double-exp
 
 
 ### 1. G-BLUP model
-It is equivalent to the solution of the BRR model when in the model above we make the sustitution ![](https://latex.codecogs.com/gif.latex?u_i%3D%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j). It can be shown that the random vector ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D%3D%5Bu_1%2C...%2Cu_n%5D%27) follows a Normal distribution 
+It is equivalent to the solution of the BRR model when in the model above we make the sustitution 
+![](https://latex.codecogs.com/gif.latex?u_i%3D%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j). It can be shown that the random vector ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D%3D%5Bu_1%2C...%2Cu_n%5D%27) follows a Normal distribution 
 
 
 
