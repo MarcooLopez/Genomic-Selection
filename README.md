@@ -16,7 +16,7 @@ Is a penalization regression that assumes that the regression coefficients follo
 This prior induces shrinkage of estimates toward zero.
 
 ### 2. Bayesian LASSO.
-It assumes that the regression coefficients have a prior distribution double-exponential (or Laplace) which is a thick-tailed prior that can be represented as 
+It assumes that the regression coefficients have a prior distribution double-exponential (or Laplace) which is a thick-tailed prior that can be represented as a infinite mixture of normal densities scaled by exponential densities, this is
 
 ![](https://latex.codecogs.com/gif.latex?%5Cbeta_j%5Csim%20DE%28%5Clambda%5E2%2C%5Csigma%5E2_%5Cvarepsilon%29%3D%5Cint%20N%28%5Cbeta_j%7C0%2C%5Csigma%5E2_%5Cvarepsilon%5Ctau%5E2_j%29Exp%28%5Ctau%5E2_j%7C%5Clambda%5E2/2%29)
 
