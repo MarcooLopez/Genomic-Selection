@@ -9,10 +9,10 @@ Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on al
 
 where ![](https://latex.codecogs.com/gif.latex?%5Cmu) is the population mean, ![](https://latex.codecogs.com/gif.latex?x_%7Bij%7D) is the genotype of the *i*-th individual at the *j*-th marker, ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bj%7D) is the corresponding marker effect, and ![](https://latex.codecogs.com/gif.latex?%5Cmathbold%7B%5Cvarepsilon%7D) are the residuals which are assumed to be distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2CI%5Csigma%5E2_%5Cvarepsilon%29).
 
-Model above presents some estimation difficulties when $p$ is much bigger than *n* so penalization ans regularization aproaches are used to overcome this problem. Penalization and regularization solutions can be seen as posterior solutions in the Bayesian context.
+Model above presents some estimation difficulties when *p* is much bigger than *n* so penalization ans regularization aproaches are used to overcome this problem. Penalization and regularization solutions can be seen as posterior solutions in the Bayesian context.
 
-### 1. Ridge Regression.
-Is a penalization regression that 
+### 1. Bayesian Ridge Regression.
+Is a penalization regression that assumes that the regression coefficients follow a Gaussian (Normal) distribution, this is ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bj%7D%5Csim%20N%280%2C%5Csigma%5E2_%5Cbeta%29) 
 
 
 ### 1. G-BLUP model
