@@ -1,6 +1,6 @@
 # Genomic Selection Demo
 
-The standard genetic model assumes that phenotype is the sum of a genetic component (breeding value) and a non-genetic component (residual), ![](https://latex.codecogs.com/gif.latex?y_i%3Dg_i&plus;%5Cvarepsilon_i). Genomic Selection uses genetic markers covering the whole genome and potentially explaining all the genetic variance. These markers are asumed to be in Linkage Disequilibrium (LD) with the QTL thus models including all markers can estimate breeding values ![](https://latex.codecogs.com/gif.latex?g_i) as combinatons of these QTL's.
+The standard genetic model assumes that phenotype is the sum of a genetic component and a non-genetic component (residual), ![](https://latex.codecogs.com/gif.latex?y_i%3Dg_i&plus;%5Cvarepsilon_i). Genomic Selection uses genetic markers covering the whole genome and potentially explaining all the genetic variance. These markers are asumed to be in Linkage Disequilibrium (LD) with the QTL thus models including all markers can estimate breeding values ![](https://latex.codecogs.com/gif.latex?g_i) as combinatons of these QTL's.
 
 ## Model
 Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a function of *p* marker genotypes ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bx%7D_i%3D%5Bx_%7Bi1%7D%2C...%2Cx_%7Bip%7D%5D%27) that seeks to aproximate to the true genetic value of the individual, this is
@@ -11,7 +11,7 @@ where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%2
 
 
 ## Parametric regression
-Is the especial case where the functions is a **linear model** of the marker genotypes, that is
+The genotypic value of an individual is estimated using a **linear model** in which a linear combination of the marker genotypes are used, that is
 
 ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29%3D%5Cmu&plus;%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j) 
 
@@ -46,6 +46,11 @@ The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&
 
 It can be shown that the random vector ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D%3D%5Bu_1%2C...%2Cu_n%5D%27) follows a Normal distribution ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Ctextbf%7BG%7D%5Csigma%5E2_u%29), where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D%3D%5Ctextbf%7BX%7D%5Ctextbf%7BX%7D%27/p) with ***X*** is the matrix of centered and standardized marker genotypes and it is called genomic relationship matrix.
 
+
+## Semi-parametric regression
+
+#### 7. RKHS regression.
+The genomic function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) is expressed as a linear combination of some positive semi-definite basis functions called Reproducing Kernels (RK), ![](https://latex.codecogs.com/gif.latex?K%28%5Ctextbf%7Bx%7D_i%2C%5Ctextbf%7Bx%7D_%7Bi%27%7D%29), as follows
 
 
 ## Data
