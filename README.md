@@ -9,7 +9,6 @@ Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a 
 
 where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) can be a parametric or non-parametric and ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%5Cvarepsilon%3D%5B%5Cvarepsilon_1%2C...%2C%5Cvarepsilon_n%5D%27) are the residuals which are usually assumed to be distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2CI%5Csigma%5E2_%5Cvarepsilon%29).
 
-
 ### Parametric regression
 The genotypic value of an individual is estimated using a **linear model** in which a linear combination of the marker genotypes are used, that is
 
@@ -60,7 +59,7 @@ This problem can be solved in a Bayesian fashion by assuming a prior ![](https:/
 
 
 ## Implementation of models
-Models previously above described will be implemented in R software using R-packages 'BGLR' and 'rrBLUP'. Using public data, it will be shown how to run the models for the single-environment case and then, how to extend the G-BLUP model for the multi-environment case using the marker-by-environment (MxE) and Reaction Norm models that account for GxE interaction.
+Models previously above described will be implemented in R software using R-packages 'BGLR' and 'rrBLUP'. Using public data, it will be shown how to run the models for the single-environment case and then how to perform a multi-environment analysis with the G-BLUP model using a marker-by-environment (MxE) and a Reaction Norm approaches that account for GxE interaction.
 
 ### Data
 Data from CIMMYT’s Global Wheat Program. It contains information on 599 wheat lines whose grain
@@ -93,6 +92,7 @@ X[1:10,1:5]
 * **[Single-environment](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/single_environment.md)**
 * **[Multi-environment](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/multi_environment.md)**
 
+##
 
 # References
 * de los Campos, G., Gianola, D., Rosa, G. J. M., Weigel, K. A., & Crossa, J. (2010). **Semi-parametric genomic-enabled prediction of genetic values using reproducing kernel Hilbert spaces methods**. Genetics Research, 92(4), 295–308. 
@@ -104,5 +104,6 @@ X[1:10,1:5]
 * Lopez-Cruz, M., Crossa, J., Bonnett, D., Dreisigacker, S., Poland, J., Jannink, J.-L., … de los Campos, G. (2015). **Increased prediction accuracy in wheat breeding trials using a marker × environment interaction genomic selection model**. G3: Genes, Genomes, Genetics, 5(4), 569–582.
 * Meuwissen, T. H. E., Hayes, B. J., & Goddard, M. E. (2001). **Prediction of total genetic value using genome-wide dense marker maps**. Genetics, 157(4), 1819–1829.
 * Park, T., & Casella, G. (2008). **The Bayesian Lasso**. Journal of the American Statistical Association, 103(482), 681–686.
+R Development Core Team. (2015). **R: A Language and Environment for Statistical Computing**. Vienna, Austria: R Foundation for Statistical Computing.
 
 
