@@ -66,7 +66,7 @@ Data from CIMMYT’s Global Wheat Program. It contains information on 599 wheat 
 yield was evaluated in four environments (E1, low rainfall and
 irrigated; E2, high rainfall; E3, low rainfall and high temperature;
 and E4, low humidity and hot). 
-Data is available for download in R-package 'BGLR' (Perez and de los Campos, 2014).
+Data is available for download in R-package 'BGLR'.
 
 ### R-packages installation
 ```
@@ -104,6 +104,7 @@ X[1:10,1:5]
 * Lopez-Cruz, M., Crossa, J., Bonnett, D., Dreisigacker, S., Poland, J., Jannink, J.-L., … de los Campos, G. (2015). **Increased prediction accuracy in wheat breeding trials using a marker × environment interaction genomic selection model**. G3: Genes, Genomes, Genetics, 5(4), 569–582.
 * Meuwissen, T. H. E., Hayes, B. J., & Goddard, M. E. (2001). **Prediction of total genetic value using genome-wide dense marker maps**. Genetics, 157(4), 1819–1829.
 * Park, T., & Casella, G. (2008). **The Bayesian Lasso**. Journal of the American Statistical Association, 103(482), 681–686.
+* Perez, P., & de los Campos, G. (2014). **Genome-wide regression and prediction with the BGLR statistical package**. Genetics, 198(2), 483–495. 
 R Development Core Team. (2015). **R: A Language and Environment for Statistical Computing**. Vienna, Austria: R Foundation for Statistical Computing.
 
 
