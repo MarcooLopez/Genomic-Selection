@@ -28,6 +28,9 @@ The regression effects are assumed another thick-tailed prior, a scaled *t* dist
 ### 4. Bayes B
 Markers effects are asummed to be equal to zero with probability ![](https://latex.codecogs.com/gif.latex?%5Cpi) and with probability 1-![](https://latex.codecogs.com/gif.latex?%5Cpi) are assumed to follow a scaled *t* distribution as in Bayes A model.
 
+#### 5. Bayes C
+Similar to Bayes B, markers effects are asummed to be equal to zero with probability ![](https://latex.codecogs.com/gif.latex?%5Cpi) and with probability 1-![](https://latex.codecogs.com/gif.latex?%5Cpi) are assumed to follow a Gaussian distribution as in BRR model.
+
 ### 4. G-BLUP model (RR-BLUP)
 The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;u_i&plus;%5Cvarepsilon_i) and its solution is equivalent to that of the BRR model arised when in the model above we make the sustitution 
 
