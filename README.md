@@ -72,11 +72,12 @@ X[1:10,1:5]
 * **[Multi-environment](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/multi_environment.md)**
 
 # References
-* de los Campos, G., Hickey, J. M., Pong-Wong, R., Daetwyler, H. D., & Calus, M. P. L. (2013). **Whole-genome regression and prediction methods applied to plant and animal breeding**. Genetics, 193(2), 327–345. https://doi.org/10.1534/genetics.112.143313
-de los Campos, G., & Perez-Rodriguez, P. (2015). BGLR: Bayesian Generalized Linear Regression.
-* Jarquín, D., Crossa, J., Lacaze, X., Du Cheyron, P., Daucourt, J., Lorgeou, J., … de los Campos, G. (2014). **A reaction norm model for genomic selection using high-dimensional genomic and environmental data**. Theoretical and Applied Genetics, 127(3), 595–607. https://doi.org/10.1007/s00122-013-2243-1
-* Lopez-Cruz, M., Crossa, J., Bonnett, D., Dreisigacker, S., Poland, J., Jannink, J.-L., … de los Campos, G. (2015). **Increased prediction accuracy in wheat breeding trials using a marker × environment interaction genomic selection model**. G3: Genes, Genomes, Genetics, 5(4). https://doi.org/10.1534/g3.114.016097
-* Meuwissen, T. H. E., Hayes, B. J., & Goddard, M. E. (2001). **Prediction of total genetic value using genome-wide dense marker maps**. Genetics, 157(4), 1819–1829. https://doi.org/11290733
-* Park, T., & Casella, G. (2008). **The Bayesian Lasso**. Journal of the American Statistical Association, 103(482), 681–686. https://doi.org/10.1198/016214508000000337
+* de los Campos, G., Hickey, J. M., Pong-Wong, R., Daetwyler, H. D., & Calus, M. P. L. (2013). **Whole-genome regression and prediction methods applied to plant and animal breeding**. Genetics, 193(2), 327–345
+* de los Campos, G., & Perez-Rodriguez, P. (2015). **BGLR: Bayesian Generalized Linear Regression**.
+* Habier, D., Fernando, R. L., Kizilkaya, K., & Garrick, D. J. (2011). **Extension of the bayesian alphabet for genomic selection**. BMC Bioinformatics, 12(186)
+* Jarquín, D., Crossa, J., Lacaze, X., Du Cheyron, P., Daucourt, J., Lorgeou, J., … de los Campos, G. (2014). **A reaction norm model for genomic selection using high-dimensional genomic and environmental data**. Theoretical and Applied Genetics, 127(3), 595–607
+* Lopez-Cruz, M., Crossa, J., Bonnett, D., Dreisigacker, S., Poland, J., Jannink, J.-L., … de los Campos, G. (2015). **Increased prediction accuracy in wheat breeding trials using a marker × environment interaction genomic selection model**. G3: Genes, Genomes, Genetics, 5(4), 569–582
+* Meuwissen, T. H. E., Hayes, B. J., & Goddard, M. E. (2001). **Prediction of total genetic value using genome-wide dense marker maps**. Genetics, 157(4), 1819–1829
+* Park, T., & Casella, G. (2008). **The Bayesian Lasso**. Journal of the American Statistical Association, 103(482), 681–686
 
 
