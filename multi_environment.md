@@ -49,7 +49,7 @@ I <- diag(n)
 ### Training-Testing partitions
 User can choose either to perform CV1 or CV2 aproaches
 
-**Cross Validation 1 (CV1)**
+**1. Cross Validation 1 (CV1)**
 
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. 
 
@@ -66,7 +66,7 @@ YNA <- Y
 YNA[tst,]<-NA
 ```
 
-**Cross Validation 2 (CV2)**
+**2. Cross Validation 2 (CV2)**
 
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. 
 
@@ -227,3 +227,11 @@ COR
 
 #
 * **[back](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/README.md)**
+
+#
+# References
+* Jarquín, D., Crossa, J., Lacaze, X., Du Cheyron, P., Daucourt, J., Lorgeou, J., … de los Campos, G. (2014). **A reaction norm model for genomic selection using high-dimensional genomic and environmental data**. Theoretical and Applied Genetics, 127(3), 595–607. 
+* Lopez-Cruz, M., Crossa, J., Bonnett, D., Dreisigacker, S., Poland, J., Jannink, J.-L., … de los Campos, G. (2015). **Increased Prediction Accuracy in Wheat Breeding Trials Using a Marker × Environment Interaction Genomic Selection Model**. G3: Genes, Genomes, Genetics, 5(4), 569–582. 
+
+
+
