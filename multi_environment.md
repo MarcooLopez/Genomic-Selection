@@ -1,16 +1,13 @@
 
 # Multi-environment models
 
-## Reaction Norm model
+## 1. Reaction Norm model
 Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
 The reaction norm model can model main and interaction effects of environmental covariates (EC) and markers.
 
-Reference: *[Jarquin et. al, 2014](https://link.springer.com/article/10.1007%2Fs00122-013-2243-1)*
 
-## MxE model
-Model GxE interaction using a marker x environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
-
-Reference: *[Lopez-Cruz et. al, 2015](https://www.ncbi.nlm.nih.gov/pubmed/25660166)*
+## 2. MxE model
+It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
 
 
 # Model assessment
