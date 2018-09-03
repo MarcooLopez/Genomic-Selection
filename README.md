@@ -54,6 +54,8 @@ The genomic function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%
 
 ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29%3D%5Csum_%7Bi%27%3D1%7D%5EnK%28%5Ctextbf%7Bx%7D_i%2C%5Ctextbf%7Bx%7D_%7Bi%27%7D%29%5Calpha_%7Bi%27%7D)
 
+In the Bayesian point of view, this model can be rewritten as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D%3D%5Ctextbf%7BK%7D%5Cmathbf%7B%5Calpha%7D&plus;%5Cmathbf%7B%5Cvarepsilon%7D) where the coefficients ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Calpha%7D%3D%5B%5Calpha_1%2C...%2C%5Calpha_n%5D%27) are assumed ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Calpha%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Ctextbf%7BK%7D%5E%7B-1%7D%5Csigma%5E2_%5Calpha%29)
+
 
 ## Data
 Data from CIMMYT’s Global Wheat Program. It contains information on 599 wheat lines whose grain
