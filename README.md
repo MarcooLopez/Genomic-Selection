@@ -3,13 +3,14 @@
 Genomic Selection uses genetic markers covering the whole genome and potentially explaining all the genetic variance. These markers are asumed to be in Linkage Disequilibrium (LD) with the QTL thus models including all markers can estimate breeding values as combinatons of these QTL's.
 
 ## Model
-Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a function of *p* marker genotypes ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bx%7D_i%3D%5Bx_%7Bi1%7D%2C...%2Cx_%7Bip%7D%5D%27) through the model
+Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a function of *p* marker genotypes ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bx%7D_i%3D%5Bx_%7Bi1%7D%2C...%2Cx_%7Bip%7D%5D%27) that seeks to aproximate to the true genetic value of the individual, this is
 
 ![](https://latex.codecogs.com/gif.latex?y_i%3Df%28%5Ctextbf%7Bx%7D_i%29&plus;%5Cvarepsilon_i),
 
-where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) can be a parametric or non-parametric function can be seen as an aproximation to the true genetic value of the individual
+where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) can be a parametric or non-parametric.
 
-
+## Linear models
+Is the especial case where the functions is a linear combination of the marker genotypes, that is
 ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j&plus;%5Cmathbf%7B%5Cvarepsilon%7D_i) 
 
 where ![](https://latex.codecogs.com/gif.latex?%5Cmu) is the intercept, ![](https://latex.codecogs.com/gif.latex?x_%7Bij%7D) is the genotype of the *i*-th individual at the *j*-th marker, ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bj%7D) is the corresponding marker effect, and ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%5Cvarepsilon%3D%5B%5Cvarepsilon_1%2C...%2C%5Cvarepsilon_n%5D%27) are the residuals which are assumed to be distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2CI%5Csigma%5E2_%5Cvarepsilon%29).
