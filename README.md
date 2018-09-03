@@ -3,9 +3,11 @@
 Genomic Selection uses genetic markers covering the whole genome and potentially explaining all the genetic variance. These markers are asumed to be in Linkage Disequilibrium (LD) with the QTL thus models including all markers can estimate breeding values as combinatons of these QTL's.
 
 ## Model
-Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a function of the marker genotypes *x* through the model
+Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a function of *p* marker genotypes ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bx%7D_i%3D%5Bx_%7Bi1%7D%2C...%2Cx_%7Bip%7D%5D%27) through the model
 
-![](https://latex.codecogs.com/gif.latex?y_i%3Df%28%5Ctextbf%7Bx%7D_i%29&plus;%5Cvarepsilon_i)
+![](https://latex.codecogs.com/gif.latex?y_i%3Df%28%5Ctextbf%7Bx%7D_i%29&plus;%5Cvarepsilon_i),
+
+where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) can be a parametric or non-parametric function can be seen as an aproximation to the true genetic value of the individual
 
 
 ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j&plus;%5Cmathbf%7B%5Cvarepsilon%7D_i) 
