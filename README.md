@@ -10,7 +10,7 @@ Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a 
 where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) can be a parametric or non-parametric and ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%5Cvarepsilon%3D%5B%5Cvarepsilon_1%2C...%2C%5Cvarepsilon_n%5D%27) are the residuals which are usually assumed to be distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2CI%5Csigma%5E2_%5Cvarepsilon%29).
 
 
-## Parametric regression
+### Parametric regression
 The genotypic value of an individual is estimated using a **linear model** in which a linear combination of the marker genotypes are used, that is
 
 ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29%3D%5Cmu&plus;%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j) 
@@ -47,7 +47,7 @@ The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&
 It can be shown that the random vector ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D%3D%5Bu_1%2C...%2Cu_n%5D%27) follows a Normal distribution ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Ctextbf%7BG%7D%5Csigma%5E2_u%29), where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D%3D%5Ctextbf%7BX%7D%5Ctextbf%7BX%7D%27/p) with ***X*** is the matrix of centered and standardized marker genotypes and it is called genomic relationship matrix.
 
 
-## Semi-parametric regression
+### Semi-parametric regression
 
 #### 7. RKHS regression.
 The genomic function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) is expressed as a linear combination of some positive semi-definite basis functions called Reproducing Kernels (RK), ![](https://latex.codecogs.com/gif.latex?K%28%5Ctextbf%7Bx%7D_i%2C%5Ctextbf%7Bx%7D_%7Bi%27%7D%29), as follows
@@ -59,14 +59,17 @@ This model can be rewritten as ![](https://latex.codecogs.com/gif.latex?%5Ctextb
 This problem can be solved in a Bayesian fashion by assuming a prior ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Calpha%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Ctextbf%7BK%7D%5E%7B-1%7D%5Csigma%5E2_%5Calpha%29).
 
 
-## Data
+## Implementation of models
+Models previously above described will be implemented in R software using R-packages 'BGLR' and 'rrBLUP'. Using public data, it will be shown how to run the models for the single-environment case and then, how to extend the G-BLUP model for the multi-environment case using the marker-by-environment (MxE) and Reaction Norm models that account for GxE interaction.
+
+### Data
 Data from CIMMYT’s Global Wheat Program. It contains information on 599 wheat lines whose grain
 yield was evaluated in four environments (E1, low rainfall and
 irrigated; E2, high rainfall; E3, low rainfall and high temperature;
 and E4, low humidity and hot). 
 Data is available for download in R-package 'BGLR' (Perez and de los Campos, 2014).
 
-## R-packages installation
+### R-packages installation
 ```
 if(!"BGLR"%in%rownames(installed.packages()))  install.packages("BGLR")
 if(!"rrBLUP"%in%rownames(installed.packages())) install.packages("rrBLUP")
@@ -74,7 +77,7 @@ library(BGLR)
 library(rrBLUP)
 ```
 
-## Download data
+### Download data
 ```
 data(wheat)
 X <- wheat.X
@@ -86,17 +89,20 @@ head(Y)
 X[1:10,1:5]
 ```
 
-## Analyses
+### Type of analyses
 * **[Single-environment](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/single_environment.md)**
 * **[Multi-environment](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/multi_environment.md)**
 
+
 # References
-* de los Campos, G., Hickey, J. M., Pong-Wong, R., Daetwyler, H. D., & Calus, M. P. L. (2013). **Whole-genome regression and prediction methods applied to plant and animal breeding**. Genetics, 193(2), 327–345
+* de los Campos, G., Gianola, D., Rosa, G. J. M., Weigel, K. A., & Crossa, J. (2010). **Semi-parametric genomic-enabled prediction of genetic values using reproducing kernel Hilbert spaces methods**. Genetics Research, 92(4), 295–308. 
+* de los Campos, G., Hickey, J. M., Pong-Wong, R., Daetwyler, H. D., & Calus, M. P. L. (2013). **Whole-genome regression and prediction methods applied to plant and animal breeding**. Genetics, 193(2), 327–345.
 * de los Campos, G., & Perez-Rodriguez, P. (2015). **BGLR: Bayesian Generalized Linear Regression**.
-* Habier, D., Fernando, R. L., Kizilkaya, K., & Garrick, D. J. (2011). **Extension of the bayesian alphabet for genomic selection**. BMC Bioinformatics, 12(186)
-* Jarquín, D., Crossa, J., Lacaze, X., Du Cheyron, P., Daucourt, J., Lorgeou, J., … de los Campos, G. (2014). **A reaction norm model for genomic selection using high-dimensional genomic and environmental data**. Theoretical and Applied Genetics, 127(3), 595–607
-* Lopez-Cruz, M., Crossa, J., Bonnett, D., Dreisigacker, S., Poland, J., Jannink, J.-L., … de los Campos, G. (2015). **Increased prediction accuracy in wheat breeding trials using a marker × environment interaction genomic selection model**. G3: Genes, Genomes, Genetics, 5(4), 569–582
-* Meuwissen, T. H. E., Hayes, B. J., & Goddard, M. E. (2001). **Prediction of total genetic value using genome-wide dense marker maps**. Genetics, 157(4), 1819–1829
-* Park, T., & Casella, G. (2008). **The Bayesian Lasso**. Journal of the American Statistical Association, 103(482), 681–686
+* Endelman, J. B. (2011). **Ridge Regression and Other Kernels for Genomic Selection with R Package rrBLUP**. The Plant Genome Journal, 4(3), 250–255. 
+* Habier, D., Fernando, R. L., Kizilkaya, K., & Garrick, D. J. (2011). **Extension of the bayesian alphabet for genomic selection**. BMC Bioinformatics, 12(186), 1-12.
+* Jarquín, D., Crossa, J., Lacaze, X., Du Cheyron, P., Daucourt, J., Lorgeou, J., … de los Campos, G. (2014). **A reaction norm model for genomic selection using high-dimensional genomic and environmental data**. Theoretical and Applied Genetics, 127(3), 595–607.
+* Lopez-Cruz, M., Crossa, J., Bonnett, D., Dreisigacker, S., Poland, J., Jannink, J.-L., … de los Campos, G. (2015). **Increased prediction accuracy in wheat breeding trials using a marker × environment interaction genomic selection model**. G3: Genes, Genomes, Genetics, 5(4), 569–582.
+* Meuwissen, T. H. E., Hayes, B. J., & Goddard, M. E. (2001). **Prediction of total genetic value using genome-wide dense marker maps**. Genetics, 157(4), 1819–1829.
+* Park, T., & Casella, G. (2008). **The Bayesian Lasso**. Journal of the American Statistical Association, 103(482), 681–686.
 
 
