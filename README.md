@@ -97,7 +97,6 @@ X[1:10,1:5]
 # References
 * de los Campos, G., Gianola, D., Rosa, G. J. M., Weigel, K. A., & Crossa, J. (2010). **Semi-parametric genomic-enabled prediction of genetic values using reproducing kernel Hilbert spaces methods**. Genetics Research, 92(4), 295–308. 
 * de los Campos, G., Hickey, J. M., Pong-Wong, R., Daetwyler, H. D., & Calus, M. P. L. (2013). **Whole-genome regression and prediction methods applied to plant and animal breeding**. Genetics, 193(2), 327–345.
-* de los Campos, G., & Perez-Rodriguez, P. (2015). **BGLR: Bayesian Generalized Linear Regression**.
 * Endelman, J. B. (2011). **Ridge Regression and Other Kernels for Genomic Selection with R Package rrBLUP**. The Plant Genome Journal, 4(3), 250–255. 
 * Habier, D., Fernando, R. L., Kizilkaya, K., & Garrick, D. J. (2011). **Extension of the bayesian alphabet for genomic selection**. BMC Bioinformatics, 12(186), 1-12.
 * Jarquín, D., Crossa, J., Lacaze, X., Du Cheyron, P., Daucourt, J., Lorgeou, J., … de los Campos, G. (2014). **A reaction norm model for genomic selection using high-dimensional genomic and environmental data**. Theoretical and Applied Genetics, 127(3), 595–607.
