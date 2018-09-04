@@ -1,8 +1,7 @@
 
 # Model assessment
-## Cross validation with 5-folds.
-To mimic prediction of GEBV of new untested breeding material, data is randomly splitted into 5 sets where training set is comprised of any 4 folds and testing set will consist of the remaining fold. This means that the model is
-trained using 80% of the data and tested in the other 20%. This procedure is repeated for all the 5 folds.
+## Training-Testing random partitions
+The prediction power of the model will be assessed using the training-testing (TRN-TST) random partitions approach. Data is randomly splitted into training and testing sets. Model parameters are estimated in training set and model is tested in TST set. 
 
 # Data preparation
 ### Load data, generate G-matrix and create objects to store results
