@@ -62,10 +62,7 @@ This problem can be solved in a Bayesian fashion by assuming a prior ![](https:/
 Models previously above described will be implemented in R software using R-packages 'BGLR' and 'rrBLUP'. Using public data, it will be shown how to run the models for the single-environment case and then how to perform a multi-environment analysis with the G-BLUP model using a marker-by-environment (MxE) and a Reaction Norm approaches that account for GxE interaction.
 
 ### Data
-Data from CIMMYT’s Global Wheat Program. It contains information on 599 wheat lines whose grain
-yield was evaluated in four environments (E1, low rainfall and
-irrigated; E2, high rainfall; E3, low rainfall and high temperature;
-and E4, low humidity and hot). 
+Data from CIMMYT’s Global Wheat Program. Lines were evaluated for grain yield (each entry corresponds to an average of two plot records) at four different environments; phenotypes (wheat.Y) were centered and standardized to a unit variance within environment. Each of the lines were genotyped for 1279 diversity array technology (DArT) markers. At each marker two homozygous genotypes were possible and these were coded as 0/1. Marker genotypes are given in the object wheat.X. Finally a matrix wheat.A provides the pedigree relationships between lines computed from the pedigree.
 Data is available for download in R-package 'BGLR'.
 
 ### R-packages installation
