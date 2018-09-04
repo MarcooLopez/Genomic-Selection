@@ -9,6 +9,7 @@ The reaction norm model can model main and interaction effects of environmental 
 ### * MxE model
 It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
 
+Performance of the *Reaction Norm* and *MxE model* will be compared with that of the *across-environments* model that ignores GxE modeling and the *single-environment* model which is fitted within each environment.
 
 ## Model assessment
 ### Training-Testing random partitions.
@@ -59,6 +60,7 @@ ZEZEt <- tcrossprod(ZE)
 ## Running models
 
 ### 1. Variance components estimation 
+Code below can be used after 'data preparation' part to fit all the models and to extract variance components.
 
 ```
 set.seed(123)
@@ -135,7 +137,7 @@ outVAR[(1:nEnv)+4,4] <- fm$varE
 ```
 
 #### Results
-<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/varComp.png" width="350">
+<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/varComp.png" width="360">
 
 ##
 ### 2. Replicates of partitions to obtain standard deviations of predictions
