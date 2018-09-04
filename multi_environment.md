@@ -135,6 +135,7 @@ outVAR[(1:nEnv)+4,4] <- fm$varE
 ```
 
 #### Results
+<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/varComp.png" width="350">
 
 ##
 ### 2. Replicates of partitions to obtain standard deviations of predictions
