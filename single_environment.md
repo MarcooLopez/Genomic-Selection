@@ -18,12 +18,59 @@ y <- Y[,2]
 # Genomic relationship matrix
 Z <- scale(X)
 G <- tcrossprod(Z)/p
-I <- diag(n)
+
+# Z matrix for individuals. In this case is a diagonal since there are no replicates
+GID <- factor(rownames(Y),levels=rownames(Y))
+Z <- model.matrix(~GID-1)
 ```
 
 # Running models
 
-## 1. Replicates of partitions to obtain standard deviations of predictions
+## 1. Variance components estoimation
+```
+# Models
+models <- c("GBLUP","BRR","LASSO","BayesB")
+
+# Creation of seed for repeated randomizations
+set.seed(123)
+
+# Matrix to store results. It will save the corelation for each partition
+outVAR <- matrix(NA,nrow=3,ncol=5)
+colnames(outCOR) <- models
+
+# Number of iterations and burn-in for Bayesian models
+nIter <- 3000
+burnIn <- 500
+
+# G-BLUP model using 'rrBLUP' package
+fm <- mixed.solve(y=y,Z=Z,K=G) 
+outVAR[1,1] <- fm$Vu
+outVAR[2,1] <- fm$Ve
+
+# G-BLUP model using 'BGLR' package. Model RKHS with K=G
+fm <- BGLR(y,ETA=list(list(K=G,model="RKHS")),nIter=nIter,burnIn=burnIn)
+outVAR[1,2] <- fm$ETA[[1]]$varU
+outVAR[2,2] <- fm$varE
+
+# Bayesian Ridge Regression (BRR) using 'BGLR' package
+fm <- BGLR(y,ETA=list(list(X=X,model="BRR")),nIter=nIter,burnIn=burnIn)
+outVAR[1,3] <- fm$ETA[[1]]$varB
+outVAR[2,3] <- fm$varE
+
+# Bayesian LASSO model using 'BGLR' package
+fm <- BGLR(y,ETA=list(list(X=X,model="BL")),nIter=nIter,burnIn=burnIn)
+outVAR[1,3] <- fm$ETA[[1]]$lambda
+outVAR[2,3] <- fm$varE
+
+# Bayes B model using 'BGLR' package
+fm <- BGLR(y,ETA=list(list(X=X,model="BayesB")),nIter=nIter,burnIn=burnIn)
+outVAR[1,3] <- fm$ETA[[1]]$varB
+outVAR[1,3] <- fm$ETA[[1]]$probIn
+outVAR[2,3] <- fm$varE
+
+```
+
+## 2. Replicates of partitions to obtain standard deviations of predictions
 The code below runs repeated partitions to obtain mean and standard deviations of accuracies for a single model.
 
 All the models will be run using 'BGLR' package.
