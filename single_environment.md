@@ -20,18 +20,6 @@ y <- Y[,2]
 Z <- scale(X)
 G <- tcrossprod(Z)/p
 I <- diag(n)
-
-# Matrix to store results
-out <- matrix(NA,ncol=5,nrow=6)
-dimnames(out) <- list(c(paste0("fold_",1:5),"mean"),c("GBLUP","BGBLUP","BRR","LASSO","BayesB"))
-```
-
-### Folds creation
-```
-set.seed(123)
-folds <- rep(1:5,ceiling(n/5))
-folds <- folds[sample(1:length(folds))]
-folds <- folds[1:n]
 ```
 
 # Running models
@@ -40,6 +28,16 @@ folds <- folds[1:n]
 The following code runs a single 5-folds partition for each model
 
 ```
+# Creation of folds
+set.seed(123)
+folds <- rep(1:5,ceiling(n/5))
+folds <- folds[sample(1:length(folds))]
+folds <- folds[1:n]
+
+# Matrix to store results
+out <- matrix(NA,ncol=5,nrow=6)
+dimnames(out) <- list(c(paste0("fold_",1:5),"mean"),c("GBLUP","BGBLUP","BRR","LASSO","BayesB"))
+
 # Number of iterations and burn-in for Bayesian models
 nIter <- 2000
 burnIn <- 500
@@ -89,37 +87,57 @@ print(out)
 
 #
 ## 2. Replicates of partitions to obtain standard deviations of predictions
+The code below runs repeated partitions to obtain mean and standard deviations of accuracies for a single model.
+
+All the models will be run using 'BGLR' package.
 
 ```
-# Number of iterations and burn-in for Bayesian models
-nIter <- 2000
-burnIn <- 500
+# Models
+models <- c("GBLUP","BRR","LASSO","BayesB")
 
-for(i in 1:5)   # Loop for the 5 folds
+mod <- 1    # Choose one model from the above list. 1:GBLUP, 2:BRR, 3:LASSO, 4:BayesB
+
+# Number of replicates
+m <- 100
+
+# Creation of seed for repeated randomizations
+set.seed(123)
+seeds <- round(seq(1E3,1E6,length=m))
+
+# Matrix to store results. It will save the corelation for each partition
+out <- rep(NA,m)
+
+# Number of iterations and burn-in for Bayesian models
+nIter <- 200
+burnIn <- 50
+
+model <- models[mod]
+ 
+if(model=="GBLUP")  ETA <- list(list(K=G,model="RKHS"))
+if(model=="BRR")    ETA <- list(list(X=X,model="BRR"))
+if(model=="LASSO")  ETA <- list(list(X=X,model="BL"))
+if(model=="BayesB") ETA <- list(list(X=X,model="BayesB"))
+
+for(k in 1:m)   # Loop for the replicates
 {
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
+    set.seed(seeds[k])
+    folds <- rep(1:5,ceiling(n/5))
+    folds <- folds[sample(1:length(folds))]
+    folds <- folds[1:n]
+
+    yHatCV <- rep(NA,length(y))
+    for(i in 1:5)   # Loop for the 5 folds
+    {
+        indexTST <- which(folds==i)
+        yNA <- y
+        yNA[indexTST] <- NA
+        
+        fm <- BGLR(yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
+        yHatCV[indexTST] <- fm$yHat[indexTST]
+    }
     
-    # G-BLUP model using rrBLUP package
-    fm <- mixed.solve(y=yNA,Z=I,K=G)
-    out[i,1] <- cor(fm$u[indexTST],y[indexTST])
-    
-    # G-BLUP (Bayesian) model using BGLR package. RKHS model with K=G
-    fm <- BGLR(yNA,ETA=list(list(K=G,model="RKHS")),nIter=nIter,burnIn=burnIn)
-    out[i,2] <- cor(fm$yHat[indexTST],y[indexTST])
-    
-    # Bayesian Ridge Regression using BGLR package.
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BRR")),nIter=nIter,burnIn=burnIn)
-    out[i,3] <- cor(fm$yHat[indexTST],y[indexTST])
-    
-    # Bayesian LASSO model using BGLR package.
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BL")),nIter=nIter,burnIn=burnIn)
-    out[i,4] <- cor(fm$yHat[indexTST],y[indexTST])
-    
-    # Bayes B model using BGLR package.
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BayesB")),nIter=nIter,burnIn=burnIn)
-    out[i,5] <- cor(fm$yHat[indexTST],y[indexTST])
+    # Correlation across all folds
+    out[k] <- cor(yHatCV,y)
 }
 ```
 
