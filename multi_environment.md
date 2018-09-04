@@ -41,12 +41,12 @@ data(wheat)
 X <- wheat.X
 Y <- wheat.Y
 
-n <- nrow(Y)
-p <- ncol(X)
-
 # Select environments. For instance, environments 2,4, and 5
 Y <- Y[,c(2,3,4)]
 
+n <- nrow(Y)
+p <- ncol(X)
+nEnv <- ncol(Y)
 y <- as.vector(Y)
 
 # Genomic relationship matrix
@@ -169,11 +169,9 @@ percTST <- 0.3
 set.seed(123)
 seeds <- round(seq(1E3,1E6,length=m))
 
-nEnv <- ncol(Y)
-n <- nrow(Y)
 nTST <- round(percTST*n)
-
 YNA <- vector("list",m)
+
 for(k in 1:m)
 {
     set.seed(seeds[k])
@@ -199,12 +197,10 @@ percTST <- 0.3
 set.seed(123)
 seeds <- round(seq(1E3,1E6,length=m))
 
-nEnv <- ncol(Y)
-n <- nrow(Y)
 nTST <- round(percTST*n)
-
-nNA <- nEnv*nTST
 YNA <- vector("list",m)
+nNA <- nEnv*nTST
+
 for(k in 1:m)
 {
     set.seed(seeds[k])
