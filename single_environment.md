@@ -37,81 +37,43 @@ folds <- folds[1:n]
 # Running models
 
 ## 1. One single instance of 5-folds partition
-
-#### - G-BLUP
-'rrBLUP' package
+The following code runs a single 5-folds partition for each model
 
 ```
-for(i in 1:5)
+# Number of iterations and burn-in for Bayesian models
+nIter <- 2000
+burnIn <- 500
+
+for(i in 1:5)   # Loop for the 5 folds
 {
     indexTST <- which(folds==i)
     yNA <- y
     yNA[indexTST] <- NA
+    
+    # G-BLUP model using rrBLUP package
     fm <- mixed.solve(y=yNA,Z=I,K=G)
     out[i,1] <- cor(fm$u[indexTST],y[indexTST])
-}
-out[6,1] <- mean(out[1:5,1])
-out[,1]
-```
-
-#### - Bayesian G-BLUP
-'BGLR' package using RKHS model with kernel evaluations **K**=**G**
-```
-for(i in 1:5)
-{
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(K=G,model="RKHS")),nIter=12000,burnIn=2000)
+    
+    # G-BLUP (Bayesian) model using BGLR package. RKHS model with K=G
+    fm <- BGLR(yNA,ETA=list(list(K=G,model="RKHS")),nIter=nIter,burnIn=2000)
     out[i,2] <- cor(fm$yHat[indexTST],y[indexTST])
-}
-out[6,2] <- mean(out[1:5,2])
-out[,2]
-```
-
-#### 3. Bayesian Ridge Regression
-'BGLR' package using keyword 'BRR'
-```
-for(i in 1:5)
-{
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BRR")),nIter=12000,burnIn=2000)
+    
+    # Bayesian Ridge Regression using BGLR package.
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BRR")),nIter=nIter,burnIn=nIter)
     out[i,3] <- cor(fm$yHat[indexTST],y[indexTST])
-}
-out[6,3] <- mean(out[1:5,3])
-out[,3]
-```
-
-#### 4. Bayesian LASSO
-'BGLR' package using keyword 'BL'
-```
-for(i in 1:5)
-{
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BL")),nIter=12000,burnIn=2000)
+    
+    # Bayesian LASSO model using BGLR package.
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BL")),nIter=nIter,burnIn=nIter)
     out[i,4] <- cor(fm$yHat[indexTST],y[indexTST])
-}
-out[6,4] <- mean(out[1:5,4])
-out[,4]
-```
-
-#### 5. Bayes B
-'BGLR' package using keyword 'BayesB'
-```
-for(i in 1:5)
-{
-    indexTST <- which(folds==i)
-    yNA <- y
-    yNA[indexTST] <- NA
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BayesB")),nIter=12000,burnIn=2000)
+    
+    # Bayes B model using BGLR package.
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BayesB")),nIter=nIter,burnIn=nIter)
     out[i,5] <- cor(fm$yHat[indexTST],y[indexTST])
 }
-out[6,5] <- mean(out[1:5,5])
-out[,5]
+
+# Take the average across folds for each model
+out[6,] <- apply(out[1:5,],2,mean)
+print(out)
 ```
 
 ## Results
