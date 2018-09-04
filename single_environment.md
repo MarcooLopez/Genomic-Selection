@@ -55,19 +55,19 @@ for(i in 1:5)   # Loop for the 5 folds
     out[i,1] <- cor(fm$u[indexTST],y[indexTST])
     
     # G-BLUP (Bayesian) model using BGLR package. RKHS model with K=G
-    fm <- BGLR(yNA,ETA=list(list(K=G,model="RKHS")),nIter=nIter,burnIn=2000)
+    fm <- BGLR(yNA,ETA=list(list(K=G,model="RKHS")),nIter=nIter,burnIn=burnIn)
     out[i,2] <- cor(fm$yHat[indexTST],y[indexTST])
     
     # Bayesian Ridge Regression using BGLR package.
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BRR")),nIter=nIter,burnIn=nIter)
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BRR")),nIter=nIter,burnIn=burnIn)
     out[i,3] <- cor(fm$yHat[indexTST],y[indexTST])
     
     # Bayesian LASSO model using BGLR package.
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BL")),nIter=nIter,burnIn=nIter)
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BL")),nIter=nIter,burnIn=burnIn)
     out[i,4] <- cor(fm$yHat[indexTST],y[indexTST])
     
     # Bayes B model using BGLR package.
-    fm <- BGLR(yNA,ETA=list(list(X=X,model="BayesB")),nIter=nIter,burnIn=nIter)
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BayesB")),nIter=nIter,burnIn=burnIn)
     out[i,5] <- cor(fm$yHat[indexTST],y[indexTST])
 }
 
