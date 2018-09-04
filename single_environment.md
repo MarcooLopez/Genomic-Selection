@@ -142,5 +142,8 @@ rbind(mean=apply(outCOR,2,mean),sd=apply(outCOR,2,sd))
 boxplot(outCOR,ylab="Accuracy",xlab="Model")
 ```
 
+Boxplot of distribution of the accuracies by model
+<img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/boxplot1.pdf" width="450">
+
 #
 * **[back](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/README.md)**
