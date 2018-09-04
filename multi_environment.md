@@ -32,6 +32,12 @@ This procedure of TRN-TST can be repeated many times to allow for estimation of 
 ## Data preparation
 ### Load data, generate G-matrix
 ```
+# Load libraries
+library(BGLR)
+library(rrBLUP)
+
+# Load data
+data(wheat)
 X <- wheat.X
 Y <- wheat.Y
 
@@ -54,6 +60,9 @@ Zg <- model.matrix(~GID-1)
 # Design matrix for environments. Used in the multi-environment R-Norm model
 envID <- factor(rep(colnames(Y),each=nrow(Y)),levels=colnames(Y))
 ZE <- model.matrix(~envID-1)   
+
+#  Covariance structure for genetic and environmental effects
+ZgGZgt <- Zg%*%G%*%t(Zg)  
 ZEZEt <- tcrossprod(ZE)
 ```
 
@@ -66,16 +75,15 @@ Code below can be used after 'data preparation' part to fit all the models and t
 set.seed(123)
 nEnv <- ncol(Y)
 
-# Main effects of markers
-G0 <- Zg%*%G%*%t(Zg)
-eigen_G0 <- eigen(G0)
+# Eigen decomposition (to speed computational time) of main effects of markers, ZgGZgt'
+eigen_G0 <- eigen(ZgGZgt)
 
 # Matrix to store results. It will save variance components for each model
 outVAR <- matrix(NA,ncol=4,nrow=1+2*ncol(Y))
 dimnames(outVAR) <- list(c("Main",rep(paste0("Env ",colnames(Y)),2)),c("Single","Across","MxE","R-Norm"))
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 1000; burnIn <- 200
+nIter <- 30000; burnIn <- 2000
 
 #==============================================================
 # 1. Single environment (within-environment) model, ignoring GxE effect
@@ -124,7 +132,7 @@ ETA <- list(list(~envID-1,model="FIXED"))
 ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
 # Adding GxE interaction term as Hadamart product
-GE <- G0*ZEZEt
+GE <- ZgGZgt*ZEZEt
 eigen_GE <- eigen(GE)
 ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
 
@@ -144,145 +152,186 @@ outVAR[(1:nEnv)+4,4] <- fm$varE
 Using a GBLUP approach, the prediction power of the multi-environment models (MxE and Reaction Norm) will be compared with that that ignores GxE (across-environment) and with the GBLUP model fitted within environment. 
 
 #### 2.1. Training-Testing partitions
-User can choose either to perform CV1 or CV2 aproaches
+After running the 'data preparation' part, it can be chosen either to perform CV1 or CV2 aproaches
 
 * **Cross Validation 1 (CV1)**
 
-Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. 
+Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
 ```
-set.seed(123)
-env <- c(1,2,3) # choose any set of environments from 1:ncol(Y)
-nEnv <- length(env)
-Y <- Y[,env]
-n <- nrow(Y)
+# Number of replicates
+m <- 100
+
+# Percentage of the data assigned to Testing set
 percTST <- 0.3
+
+# Creation of seed for repeated randomizations
+set.seed(123)
+seeds <- round(seq(1E3,1E6,length=m))
+
+nEnv <- ncol(Y)
+n <- nrow(Y)
 nTST <- round(percTST*n)
-tst <- sample(1:n,size=nTST,replace=FALSE)
-YNA <- Y
-YNA[tst,]<-NA
+
+YNA <- vector("list",m)
+for(k in 1:m)
+{
+    set.seed(seeds[k])
+    indexTST <- sample(1:n,size=nTST,replace=FALSE)
+    YNA0 <- Y
+    YNA0[indexTST,] <- NA
+    YNA[[k]] <- YNA0
+}
 ```
 
 * **Cross Validation 2 (CV2)**
 
-Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. 
+Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
 ```
-set.seed(123)
+# Number of replicates
+m <- 100
 
-env <- c(1,2,3) # choose any set of environments from 1:ncol(Y)
-nEnv <- length(env)
-Y <- Y[,env]
-n <- nrow(Y)
-
+# Percentage of the data assigned to Testing set
 percTST <- 0.3
+
+# Creation of seed for repeated randomizations
+set.seed(123)
+seeds <- round(seq(1E3,1E6,length=m))
+
+nEnv <- ncol(Y)
+n <- nrow(Y)
 nTST <- round(percTST*n)
+
 nNA <- nEnv*nTST
-if(nNA<n){ indexNA <- sample(1:n,nNA,replace=FALSE) }
-if(nNA>=n){
-  nRep <- floor(nNA/n)
-  remain <- sample(1:n,nNA%%n,replace=FALSE)
-  a0 <- sample(1:n,n,replace=FALSE)
-  indexNA <- rep(a0,nRep)
-  if(length(remain)>0){
-         a1 <- floor(length(indexNA)/nTST)*nTST
-         a2 <- nNA - a1 - length(remain)
-         bb <- sample(a0[!a0%in%remain],a2,replace=FALSE)
-         noInIndexNA <- c(rep(a0,nRep-1),a0[!a0%in%bb])
-         indexNA <- c(noInIndexNA,bb,remain)
-  }
-}
-indexEnv <- rep(1:nEnv,each=nTST)
-YNA <- Y
-for(j in 1:nEnv) YNA[indexNA[indexEnv==j],j] <- NA
-```
-
-#### Single environment models
-**1. Within-environment model, ignoring GxE effect**
-
-```
-YHat1 <- matrix(nrow=nrow(Y),ncol=ncol(Y),NA)
-ETA <- list(G=list(K=G,model='RKHS'))
-for(j in 1:nEnv){
-    prefix <- paste(colnames(Y)[j],"_",sep="")
-    fm1 <-BGLR(y=YNA[,j],ETA=ETA,nIter=12000,burnIn=2000,saveAt=prefix)
-    YHat1[,j] <- fm1$yHat
+YNA <- vector("list",m)
+for(k in 1:m)
+{
+    set.seed(seeds[k])
+    YNA0 <- Y
+    
+    if(nNA<n){ indexNA <- sample(1:n,nNA,replace=FALSE) }
+    if(nNA>=n){
+        nRep <- floor(nNA/n)
+        remain <- sample(1:n,nNA%%n,replace=FALSE)
+        a0 <- sample(1:n,n,replace=FALSE)
+        indexNA <- rep(a0,nRep)
+        if(length(remain)>0){
+            a1 <- floor(length(indexNA)/nTST)*nTST
+            a2 <- nNA - a1 - length(remain)
+            bb <- sample(a0[!a0%in%remain],a2,replace=FALSE)
+            noInIndexNA <- c(rep(a0,nRep-1),a0[!a0%in%bb])
+            indexNA <- c(noInIndexNA,bb,remain)
+        }
+    }
+    indexEnv <- rep(1:nEnv,each=nTST)
+    for(j in 1:nEnv) YNA0[indexNA[indexEnv==j],j] <- NA
+    YNA[[k]] <- YNA0
 }
 ```
 
-#### Multi environment models
-The environment as fixed effect and main effects of markers will be common to all multi-environment models.
-Eigen value decompostion (EVD) will be used instead of the whole matrix to make speed computational time.
+After running the code to generate partitions for either CV1 or CV2 scenarios, the following code can be run to fit the models repeatealy for all partitions.
 
 ```
-yNA <- as.vector(YNA)
+# Models
+models <- c("single","across","MxE","R-Norm")
 
-# Fixed effect (environment-intercepts)
-envID <- factor(rep(colnames(Y),each=nrow(Y)),levels=colnames(Y))
+# Choose one model. 1: single; 2:across; 3:MxE; 4:R-Norm
+mod <- 2
 
-# Main effects of markers
-GID <- factor(rep(rownames(Y),ncol(Y)),levels=rownames(Y))
-Zg <- model.matrix(~GID-1)
-G0 <- Zg%*%G%*%t(Zg)
-eigen_G0 <- eigen(G0)
-```
+# Matrix to store results. It will save the accuracy for each partition
+outCOR <- matrix(NA,nrow=m,ncol=nEnv)
+colnames(outCOR) <- colnames(Y)
 
-**2. Accros-environment**
+# Eigen decomposition (to speed computational time) of main effects of markers, ZgGtZg'
+eigen_G0 <- eigen(ZgGZgt)
 
-Including only main effect that is common to all environments but ignoring GxE interaction.
+# Number of iterations and burn-in for Bayesian models
+nIter <- 1200
+burnIn <- 200
 
-```
-# Fixed effect and main effects of markers
-ETA <- list(list(~envID-1,model="FIXED"))
-ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
+model <- models[mod]
+for(k in 1:10)   # Loop for the replicates
+{
+    YNA0 <- YNA[[k]]
+    yNA <- as.vector(YNA0)
+    
+    #==============================================================
+    # 1. Single environment (within-environment) model, ignoring GxE effect
+    #==============================================================
+    if(model=="single")
+    {
+        ETA <- list(G=list(K=G,model='RKHS'))
+        for(env in 1:nEnv){
+            fm <-BGLR(y=YNA0[,env],ETA=ETA,nIter=nIter,burnIn=burnIn)
+            indexTST <- which(is.na(YNA0[,env]))
+            outCOR[k,env] <- cor(Y[indexTST,env],fm$yHat[indexTST])
+        }
+    }
 
-# Model Fitting
-fm2 <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt="AcrossEnv_")
-YHat2 <- matrix(fm2$yHat,ncol=nEnv)
-```
+    #==============================================================
+    # 2. Across-environments model. Factor 'environment' as fixed effect
+    #==============================================================
+    if(model=="across")
+    {
+        ETA <- list(list(~envID-1,model="FIXED"))
+        ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
-**3. MxE Interaction**
+        # Model Fitting
+        fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
+        YHat <- matrix(fm$yHat,ncol=nEnv)
+        for(env in 1:nEnv){
+            indexTST <- which(is.na(YNA0[,env]))
+            outCOR[k,env] <- cor(Y[indexTST,env],YHat[indexTST,env])
+        }
+    }
+    
+    #==============================================================
+    # 3. MxE interaction model. Factor 'environment' as fixed effect
+    #==============================================================
+    if(model=="MxE")
+    {
+        ETA <- list(list(~envID-1,model="FIXED"))
+        ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
-Including main effect that is common to all environments and an environment-specific effect (interaction) that accounts for GxE.
+        # Adding interaction terms
+        for(env in 1:nEnv){
+            tmp <- rep(0,nEnv) ; tmp[env] <- 1; G1 <- kronecker(diag(tmp),G)
+            eigen_G1 <- eigen(G1)
+            ETA[[(env+2)]] <- list(V=eigen_G1$vectors,d=eigen_G1$values,model='RKHS')
+        }
 
-```
-# Fixed effect and main effects of markers
-ETA <- list(list(~envID-1,model="FIXED"))
-ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
+        # Model Fitting
+        fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
+        YHat <- matrix(fm$yHat,ncol=nEnv)
+        for(env in 1:nEnv){
+            indexTST <- which(is.na(YNA0[,env]))
+            outCOR[k,env] <- cor(Y[indexTST,env],YHat[indexTST,env])
+        }
+    }
 
-# Adding interaction terms
-for(j in 1:nEnv){
-    tmp <- rep(0,nEnv) ; tmp[j] <- 1; G1 <- kronecker(diag(tmp),G)
-    eigen_G1 <- eigen(G1)
-    ETA[[(j+2)]] <- list(V=eigen_G1$vectors,d=eigen_G1$values,model='RKHS')
+    #==============================================================
+    # 4. Reaction-Norm model. Factor 'environment' as fixed effect
+    #==============================================================
+    if(model=="R-Norm")
+        ETA <- list(list(~envID-1,model="FIXED"))
+        ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
+
+        # Adding GxE interaction term as Hadamart product
+        GE <- ZgGZgt*ZEZEt
+        eigen_GE <- eigen(GE)
+        ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
+
+        # Model Fitting
+        fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
+        YHat <- matrix(fm$yHat,ncol=nEnv)
+        for(env in 1:nEnv){
+            indexTST <- which(is.na(YNA0[,env]))
+            outCOR[k,env] <- cor(Y[indexTST,env],YHat[indexTST,env])
+        }
+    }
 }
 
-# Model Fitting
-fm3 <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt="MxE_")
-YHat3 <- matrix(fm3$yHat,ncol=nEnv)
-```
-
-**4. Reaction norm model**
-
-Including main effect that is common to all environments and modeling GxE using a covariance structure.
-
-```
-# Fixed effect and main effects of markers
-ETA <- list(list(~envID-1,model="FIXED"))
-ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
-
-# Incidence matrix for the effects of environments
-ZE <- model.matrix(~envID-1)   
-ZEZEt <- tcrossprod(ZE)
-
-# Adding GxE interaction term as Hadamart product
-GE <- G0*ZEZEt
-eigen_GE <- eigen(GE)
-ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
-
-# Model Fitting
-fm4 <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt="RNorm_")
-YHat4 <- matrix(fm4$yHat,ncol=nEnv)
 ```
 
 ### Results
