@@ -79,7 +79,7 @@ outVAR[2,3] <- fm$varE
 
 1: using 'rrBLUP'; 2: using 'BGLR' package
 
-
+#
 ## 2. Replicates of partitions to obtain standard deviations of predictions
 The code below runs repeated partitions to obtain mean and standard deviations of accuracies for a single model.
 
