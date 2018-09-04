@@ -99,24 +99,32 @@ After running the 'data preparation' part, the code below runs repeated partitio
 # Models
 models <- c("GBLUP","BRR","LASSO","BayesB")
 
+#==================================================
+# User specifications
+#==================================================
+# Choose one model. 1:GBLUP; 2:BRR; 3:LASSO; 4:BayesB
+mod <- 1
+
 # Percentage of the data assigned to Testing set
 percTST <- 0.3
 
 # Number of replicates
-m <- 100
+m <- 10
+#==================================================
 
 # Creation of seed for repeated randomizations
 set.seed(123)
 seeds <- round(seq(1E3,1E6,length=m))
 
 # Matrix to store results. It will save the corelation for each partition
-outCOR <- matrix(NA,nrow=m,ncol=length(models))
-colnames(outCOR) <- models
+outCOR <- matrix(NA,nrow=m,ncol=1)
+colnames(outCOR) <- models[mod]
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 12000
-burnIn <- 2000
+nIter <- 1200
+burnIn <- 200
 
+model <- models[mod]
 nTST <- round(percTST*n)
 
 for(k in 1:m)   # Loop for the replicates
@@ -125,25 +133,37 @@ for(k in 1:m)   # Loop for the replicates
     indexTST <- sample(1:n,size=nTST,replace=FALSE)
     yNA <- y
     yNA[indexTST] <- NA
-
-    for(mod in 1:length(models))   # Loop for the models
-    {
-        model <- models[mod]
         
-        if(model=="GBLUP")  ETA <- list(list(K=G,model="RKHS"))
-        if(model=="BRR")    ETA <- list(list(X=M,model="BRR"))
-        if(model=="LASSO")  ETA <- list(list(X=M,model="BL"))
-        if(model=="BayesB") ETA <- list(list(X=M,model="BayesB"))
+    if(model=="GBLUP")  ETA <- list(list(K=G,model="RKHS"))
+    if(model=="BRR")    ETA <- list(list(X=M,model="BRR"))
+    if(model=="LASSO")  ETA <- list(list(X=M,model="BL"))
+    if(model=="BayesB") ETA <- list(list(X=M,model="BayesB"))
 
-        fm <- BGLR(yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
-        outCOR[k,mod] <- cor(fm$yHat[indexTST],y[indexTST])
-    }
+    fm <- BGLR(yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
+    outCOR[k,1] <- cor(fm$yHat[indexTST],y[indexTST])
 }
+
+# Save results
+save(outCOR,file=paste0("outCOR_",model,".RData"))
 ```
 
-#### Results
+#### 2.1 Results
+The code below will retrieve results for all models fitted previously
+
 ```
-round(rbind(Mean=apply(outCOR,2,mean),SD=apply(outCOR,2,sd)),4)
+models <- c("GBLUP","BRR","LASSO","BayesB")
+
+OUT <- c()
+for(mod in seq_along(models))
+{
+    filename <- paste0("outCOR_",models[mod],".RData")    
+    if(file.exists(filename)){
+        load(filename,verbose=T)
+        OUT <- cbind(OUT,outCOR)
+    }    
+}
+
+round(rbind(Mean=apply(OUT,2,mean),SD=apply(OUT,2,sd)),4)
 boxplot(outCOR,ylab="Accuracy",xlab="Model")
 ```
 
