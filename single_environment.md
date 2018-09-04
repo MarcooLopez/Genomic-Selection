@@ -26,7 +26,7 @@ Z <- model.matrix(~GID-1)
 
 # Running models
 
-## 1. Variance components estoimation
+## 1. Variance components estimation
 ```
 # Models
 models <- c("GBLUP","BRR","LASSO","BayesB")
@@ -72,10 +72,10 @@ outVAR[2,3] <- fm$varE
 
 ### Results
 
-|       |GBLUP  | BRR  | LASSO | Bayes B |
-|-------|-------|--------|------|-------|
-|![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_u) | 0.475  | 0.476  | 0.474 | 0.465 |
-|![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%5Cvarepsilon)  | 0.049 | 0.050 | 0.049 | 0.048 |
+|       |GBLUP <sup>1</sup>  | GBLUP <sup>2</sup>  | BRR  | LASSO | Bayes B |
+|-------|------|------|------|------|------|
+|![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_u) | 0.475  | 0.476  | 0.474 | 0.465 |  |
+|![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%5Cvarepsilon)  | 0.049 | 0.050 | 0.049 | 0.048 | |
 
 ## 2. Replicates of partitions to obtain standard deviations of predictions
 The code below runs repeated partitions to obtain mean and standard deviations of accuracies for a single model.
