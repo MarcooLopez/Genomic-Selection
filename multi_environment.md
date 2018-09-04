@@ -1,12 +1,12 @@
 
 # Multi-environment models
 
-### 1. Reaction Norm model
+### * Reaction Norm model
 Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
 The reaction norm model can model main and interaction effects of environmental covariates (EC) and markers.
 
 
-### 2. MxE model
+### * MxE model
 It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
 
 
@@ -50,14 +50,17 @@ Z <- model.matrix(~GID-1)
 ```
 
 ## Running models
-### 1. Variance Components estimation 
+### 1. Variance components estimation 
 ```
 ```
 
-### Training-Testing partitions
+### 2. Replicates of partitions to obtain standard deviations of predictions
+Using a GBLUP approach, the prediction power of the multi-environment models (MxE and Reaction Norm) will be compared with that that ignores GxE (across-environment) and with the GBLUP model fitted within environment. 
+
+#### 2.1. Training-Testing partitions
 User can choose either to perform CV1 or CV2 aproaches
 
-**1. Cross Validation 1 (CV1)**
+* **Cross Validation 1 (CV1)**
 
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. 
 
@@ -74,7 +77,7 @@ YNA <- Y
 YNA[tst,]<-NA
 ```
 
-**2. Cross Validation 2 (CV2)**
+* **Cross Validation 2 (CV2)**
 
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. 
 
@@ -108,10 +111,7 @@ YNA <- Y
 for(j in 1:nEnv) YNA[indexNA[indexEnv==j],j] <- NA
 ```
 
-# Running models
-Using a GBLUP approach, the prediction power of the multi-environment models (MxE and Reaction Norm) will be compared with that that ignores GxE (across-environment) and with the GBLUP model fitted within environment. 
-
-### Single environment models
+#### Single environment models
 **1. Within-environment model, ignoring GxE effect**
 
 ```
@@ -124,7 +124,7 @@ for(j in 1:nEnv){
 }
 ```
 
-### Multi environment models
+#### Multi environment models
 The environment as fixed effect and main effects of markers will be common to all multi-environment models.
 Eigen value decompostion (EVD) will be used instead of the whole matrix to make speed computational time.
 
@@ -199,7 +199,7 @@ fm4 <- BGLR(y=yNA,ETA=ETA,nIter=12000,burnIn=2000,saveAt="RNorm_")
 YHat4 <- matrix(fm4$yHat,ncol=nEnv)
 ```
 
-## Results
+### Results
 Computing the within-environment correlation for all three models
 ```
 COR <- matrix(nrow=length(env),ncol=4,NA)
