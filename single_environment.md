@@ -138,9 +138,14 @@ for(k in 1:m)   # Loop for the replicates
 
 ### Results
 ```
-rbind(mean=apply(outCOR,2,mean),sd=apply(outCOR,2,sd))
+round(rbind(mean=apply(outCOR,2,mean),sd=apply(outCOR,2,sd)),4)
 boxplot(outCOR,ylab="Accuracy",xlab="Model")
 ```
+
+|       |GBLUP  | BRR  | LASSO | Bayes B |
+|-------|-------|--------|------|-------|
+|Mean | 0.475  | 0.476  | 0.474 | 0.465 |
+|SD  | 0.049 | 0.050 | 0.049 | 0.048 |
 
 Boxplot of distribution of the accuracies by model
 
