@@ -57,6 +57,8 @@ This model can be rewritten as ![](https://latex.codecogs.com/gif.latex?%5Ctextb
 
 This problem can be solved in a Bayesian fashion by assuming a prior ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Calpha%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Ctextbf%7BK%7D%5E%7B-1%7D%5Csigma%5E2_%5Calpha%29).
 
+Note: The Ridge Regression (and consequently, G-BLUP) can be represented as a RKHS model by setting **K**=**G**.  
+
 
 ## Implementation of models
 Models previously above described will be implemented in R software using R-packages 'BGLR' and 'rrBLUP'. Using public data, it will be shown how to run the models for the single-environment case and then how to perform a multi-environment analysis with the G-BLUP model using a marker-by-environment (MxE) and a Reaction Norm approaches that account for GxE interaction.
