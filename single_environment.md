@@ -15,11 +15,11 @@ data(wheat)
 X <- wheat.X
 Y <- wheat.Y
 
+# Select a single environment. For instance, environment 2
+y <- Y[,2]
+
 n <- nrow(Y)
 p <- ncol(X)
-
-# Select environment 2
-y <- Y[,2]
 
 # Genomic relationship matrix
 M <- scale(X)
