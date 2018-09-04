@@ -95,7 +95,8 @@ All the models will be run using 'BGLR' package.
 # Models
 models <- c("GBLUP","BRR","LASSO","BayesB")
 
-mod <- 1    # Choose one model from the above list. 1:GBLUP, 2:BRR, 3:LASSO, 4:BayesB
+# Percentage of the data assigned to Testing set
+percTST <- 0.3
 
 # Number of replicates
 m <- 100
@@ -105,40 +106,41 @@ set.seed(123)
 seeds <- round(seq(1E3,1E6,length=m))
 
 # Matrix to store results. It will save the corelation for each partition
-out <- rep(NA,m)
+outCOR <- matrix(NA,nrow=m,ncol=length(models))
+colnames(outCOR) <- models
 
 # Number of iterations and burn-in for Bayesian models
 nIter <- 200
 burnIn <- 50
 
-model <- models[mod]
- 
-if(model=="GBLUP")  ETA <- list(list(K=G,model="RKHS"))
-if(model=="BRR")    ETA <- list(list(X=X,model="BRR"))
-if(model=="LASSO")  ETA <- list(list(X=X,model="BL"))
-if(model=="BayesB") ETA <- list(list(X=X,model="BayesB"))
+nTST <- round(percTST*n)
 
 for(k in 1:m)   # Loop for the replicates
 {
     set.seed(seeds[k])
-    folds <- rep(1:5,ceiling(n/5))
-    folds <- folds[sample(1:length(folds))]
-    folds <- folds[1:n]
+    indexTST <- sample(1:n,size=nTST,replace=FALSE)
+    yNA <- y
+    yNA[indexTST] <- NA
 
-    yHatCV <- rep(NA,length(y))
-    for(i in 1:5)   # Loop for the 5 folds
+    for(mod in 1:length(models))   # Loop for the models
     {
-        indexTST <- which(folds==i)
-        yNA <- y
-        yNA[indexTST] <- NA
+        model <- models[mod]
         
+        if(model=="GBLUP")  ETA <- list(list(K=G,model="RKHS"))
+        if(model=="BRR")    ETA <- list(list(X=X,model="BRR"))
+        if(model=="LASSO")  ETA <- list(list(X=X,model="BL"))
+        if(model=="BayesB") ETA <- list(list(X=X,model="BayesB"))
+
         fm <- BGLR(yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
-        yHatCV[indexTST] <- fm$yHat[indexTST]
+        outCOR[k,mod] <- cor(fm$yHat[indexTST],y[indexTST])
     }
-    
-    # Correlation across all folds
-    out[k] <- cor(yHatCV,y)
 }
+```
+
+### Results
+```
+rbind(mean=apply(outCOR,2,mean),sd=apply(outCOR,2,sd))
+boxplot(outCOR,ylab="Accuracy",xlab="Model")
 ```
 
 #
