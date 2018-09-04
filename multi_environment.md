@@ -41,17 +41,53 @@ p <- ncol(X)
 Y <- Y[,c(2,3,4)]
 
 # Genomic relationship matrix
-Z <- scale(X)
+M <- scale(M)
 G <- tcrossprod(Z)/p
 
-# Z matrix for individuals. In this case it is a diagonal since there are no replicates
+# Design matrix for individuals. In this case it is a diagonal since there are no replicates
 GID <- factor(rownames(Y),levels=rownames(Y))
-Z <- model.matrix(~GID-1)
+Zg <- model.matrix(~GID-1)
+
+# Design matrix for environments
+envID <- factor(rep(colnames(Y),each=nrow(Y)),levels=colnames(Y))
+ZE <- model.matrix(~envID-1)   
+ZEZEt <- tcrossprod(ZE)
 ```
 
 ## Running models
+
 ### 1. Variance components estimation 
+
 ```
+set.seed(123)
+nEnv <- ncol(Y)
+
+# Fixed effect (environment-intercepts)
+envID <- factor(rep(colnames(Y),each=nrow(Y)),levels=colnames(Y))
+
+# Main effects of markers
+GID <- factor(rep(rownames(Y),ncol(Y)),levels=rownames(Y))
+Zg <- model.matrix(~GID-1)
+G0 <- Zg%*%G%*%t(Zg)
+eigen_G0 <- eigen(G0)
+
+# Matrix to store results. It will save variance components for each model
+outVAR <- matrix(NA,ncol=4,nrow=2*ncol(Y))
+dimnames(outVAR) <- list(rep(paste0("Env ",colnames(Y)),2),c("Single","Across","MxE","R-Norm"))
+
+# Number of iterations and burn-in for Bayesian models
+nIter <- 2000; burnIn <- 200
+
+# Single environment (within-environment) model, ignoring GxE effect
+ETA <- list(G=list(K=G,model='RKHS'))
+for(env in 1:nEnv){
+    fm1 <-BGLR(y=Y[,env],ETA=ETA,nIter=nIter,burnIn=burnIn)
+    outVAR[env,1] <- fm1$ETA[[1]]$varU
+    outVAR[env+3,1] <- fm1$varE
+}
+
+
+
 ```
 
 ### 2. Replicates of partitions to obtain standard deviations of predictions
