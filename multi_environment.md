@@ -35,6 +35,8 @@ This procedure of TRN-TST can be repeated many times to allow for estimation of 
 # Load libraries
 library(BGLR)
 library(rrBLUP)
+library(ggplot2)
+library(reshape)
 
 # Load data
 data(wheat)
@@ -61,9 +63,22 @@ Zg <- model.matrix(~GID-1)
 envID <- factor(rep(colnames(Y),each=nrow(Y)),levels=colnames(Y))
 ZE <- model.matrix(~envID-1)   
 
-#  Covariance structure for genetic and environmental effects
-ZgGZgt <- Zg%*%G%*%t(Zg)  
-ZEZEt <- tcrossprod(ZE)
+#  Covariance structure for effects
+ZgGZgt <- Zg%*%G%*%t(Zg)    # Genetic effect  
+ZEZEt <- tcrossprod(ZE)     # Environmental effect
+GE <- ZgGZgt*ZEZEt          # GxE interaction term (R-Norm model)
+
+# Eigen decomposition (to speed computational time)
+eigen_G <- eigen(G)
+eigen_G0 <- eigen(ZgGZgt)
+eigen_GE <- eigen(GE)
+
+# Interaction terms (MxE model)
+MxE_eigen <- vector("list",nEnv)
+for(env in 1:nEnv){ 
+    tmp <- rep(0,nEnv) ; tmp[env] <- 1; G1 <- kronecker(diag(tmp),G)
+    MxE_eigen[[env]] <- eigen(G1)
+}
 ```
 
 ## Running models
@@ -73,10 +88,6 @@ Code below can be used after 'data preparation' part to fit all the models and t
 
 ```
 set.seed(123)
-nEnv <- ncol(Y)
-
-# Eigen decomposition (to speed computational time) of main effects of markers, ZgGZgt'
-eigen_G0 <- eigen(ZgGZgt)
 
 # Matrix to store results. It will save variance components for each model
 outVAR <- matrix(NA,ncol=4,nrow=1+2*ncol(Y))
@@ -88,7 +99,7 @@ nIter <- 30000; burnIn <- 2000
 #==============================================================
 # 1. Single environment (within-environment) model, ignoring GxE effect
 #==============================================================
-ETA <- list(G=list(K=G,model='RKHS'))
+ETA <- list(G=list(V=eigen_G$vectors,d=eigen_G$values,model='RKHS'))
 for(env in 1:nEnv){
     fm <-BGLR(y=Y[,env],ETA=ETA,nIter=nIter,burnIn=burnIn)
     outVAR[env+1,1] <- fm$ETA[[1]]$varU
@@ -114,8 +125,7 @@ ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
 # Adding interaction terms
 for(env in 1:nEnv){
-    tmp <- rep(0,nEnv) ; tmp[env] <- 1; G1 <- kronecker(diag(tmp),G)
-    eigen_G1 <- eigen(G1)
+    eigen_G1 <- MxE_eigen[[env]]
     ETA[[(env+2)]] <- list(V=eigen_G1$vectors,d=eigen_G1$values,model='RKHS')
 }
 
@@ -130,10 +140,6 @@ outVAR[(1:nEnv)+4,3] <- fm$varE
 #==============================================================
 ETA <- list(list(~envID-1,model="FIXED"))
 ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
-
-# Adding GxE interaction term as Hadamart product
-GE <- ZgGZgt*ZEZEt
-eigen_GE <- eigen(GE)
 ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
 
 # Model Fitting
@@ -159,11 +165,15 @@ After running the 'data preparation' part, it can be chosen either to perform CV
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
 ```
+#==================================================
+# User specifications
+#==================================================
 # Number of replicates
 m <- 100
 
 # Percentage of the data assigned to Testing set
 percTST <- 0.3
+#==================================================
 
 # Creation of seed for repeated randomizations
 set.seed(123)
@@ -180,6 +190,9 @@ for(k in 1:m)
     YNA0[indexTST,] <- NA
     YNA[[k]] <- YNA0
 }
+
+# Save YNA matrix
+save(YNA,file="YNA_CV1_multiEnv.RData")
 ```
 
 * **Cross Validation 2 (CV2)**
@@ -187,11 +200,15 @@ for(k in 1:m)
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
 ```
+#==================================================
+# User specifications
+#==================================================
 # Number of replicates
 m <- 100
 
 # Percentage of the data assigned to Testing set
 percTST <- 0.3
+#==================================================
 
 # Creation of seed for repeated randomizations
 set.seed(123)
@@ -224,30 +241,40 @@ for(k in 1:m)
     for(j in 1:nEnv) YNA0[indexNA[indexEnv==j],j] <- NA
     YNA[[k]] <- YNA0
 }
+
+# Save YNA matrix
+save(YNA,file="YNA_CV2_multiEnv.RData")
 ```
 
 After running the code to generate partitions for either CV1 or CV2 scenarios, the following code can be run to fit the models repeatealy for all partitions.
 
 ```
 # Models
-models <- c("single","across","MxE","R-Norm")
+models <- c("Single","Across","MxE","R-Norm")
 
+#==================================================
+# User specifications
+#==================================================
 # Choose one model. 1: single; 2:across; 3:MxE; 4:R-Norm
-mod <- 2
+mod <- 4
 
-# Matrix to store results. It will save the accuracy for each partition
-outCOR <- matrix(NA,nrow=m,ncol=nEnv)
-colnames(outCOR) <- colnames(Y)
+# Type of CV. 1:CV1; 2:CV2
+CV <- 1
+#==================================================
 
-# Eigen decomposition (to speed computational time) of main effects of markers, ZgGtZg'
-eigen_G0 <- eigen(ZgGZgt)
+load(paste0("YNA_CV",CV,"_multiEnv.RData"))
+
+m <- length(YNA)
+model <- models[mod]
+
+# List to store results. Each element will save the predictions for each partition
+YHat <- list("list",m)
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 1200
-burnIn <- 200
+nIter <- 50
+burnIn <- 20
 
-model <- models[mod]
-for(k in 1:10)   # Loop for the replicates
+for(k in 1:m)   # Loop for the replicates
 {
     YNA0 <- YNA[[k]]
     yNA <- as.vector(YNA0)
@@ -255,31 +282,27 @@ for(k in 1:10)   # Loop for the replicates
     #==============================================================
     # 1. Single environment (within-environment) model, ignoring GxE effect
     #==============================================================
-    if(model=="single")
+    if(model=="Single")
     {
-        ETA <- list(G=list(K=G,model='RKHS'))
+        YHat0 <- matrix(NA,nrow=nrow(Y),ncol=ncol(Y))
+        ETA <- list(G=list(V=eigen_G$vectors,d=eigen_G$values,model='RKHS'))
         for(env in 1:nEnv){
             fm <-BGLR(y=YNA0[,env],ETA=ETA,nIter=nIter,burnIn=burnIn)
-            indexTST <- which(is.na(YNA0[,env]))
-            outCOR[k,env] <- cor(Y[indexTST,env],fm$yHat[indexTST])
+            YHat0[,env] <- fm$yHat
         }
     }
 
     #==============================================================
     # 2. Across-environments model. Factor 'environment' as fixed effect
     #==============================================================
-    if(model=="across")
+    if(model=="Across")
     {
         ETA <- list(list(~envID-1,model="FIXED"))
         ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
         # Model Fitting
         fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
-        YHat <- matrix(fm$yHat,ncol=nEnv)
-        for(env in 1:nEnv){
-            indexTST <- which(is.na(YNA0[,env]))
-            outCOR[k,env] <- cor(Y[indexTST,env],YHat[indexTST,env])
-        }
+        YHat0 <- matrix(fm$yHat,ncol=nEnv)
     }
     
     #==============================================================
@@ -292,44 +315,33 @@ for(k in 1:10)   # Loop for the replicates
 
         # Adding interaction terms
         for(env in 1:nEnv){
-            tmp <- rep(0,nEnv) ; tmp[env] <- 1; G1 <- kronecker(diag(tmp),G)
-            eigen_G1 <- eigen(G1)
+            eigen_G1 <- MxE_eigen[[env]]
             ETA[[(env+2)]] <- list(V=eigen_G1$vectors,d=eigen_G1$values,model='RKHS')
         }
 
         # Model Fitting
         fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
-        YHat <- matrix(fm$yHat,ncol=nEnv)
-        for(env in 1:nEnv){
-            indexTST <- which(is.na(YNA0[,env]))
-            outCOR[k,env] <- cor(Y[indexTST,env],YHat[indexTST,env])
-        }
+        YHat0 <- matrix(fm$yHat,ncol=nEnv)
     }
 
     #==============================================================
     # 4. Reaction-Norm model. Factor 'environment' as fixed effect
     #==============================================================
     if(model=="R-Norm")
+    {
         ETA <- list(list(~envID-1,model="FIXED"))
         ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
-
-        # Adding GxE interaction term as Hadamart product
-        GE <- ZgGZgt*ZEZEt
-        eigen_GE <- eigen(GE)
         ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
 
         # Model Fitting
         fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
-        YHat <- matrix(fm$yHat,ncol=nEnv)
-        for(env in 1:nEnv){
-            indexTST <- which(is.na(YNA0[,env]))
-            outCOR[k,env] <- cor(Y[indexTST,env],YHat[indexTST,env])
-        }
+        YHat0 <- matrix(fm$yHat,ncol=nEnv)
     }
+    YHat[[k]] <- YHat0
 }
 
 # Save results
-save(outCOR,file=paste0("outCOR_multiEnv_",model,".RData"))
+save(YHat,file=paste0("outPRED_multiEnv_CV",CV,"_",model,".RData"))
 ```
 
 #### 2.2 Retrieving results
@@ -337,17 +349,46 @@ save(outCOR,file=paste0("outCOR_multiEnv_",model,".RData"))
 The code below will retrieve results for all models fitted previously showing the within-environment correlation for all fitted models
 
 ```
-models <- c("single","across","MxE","R-Norm")
+CV <- 1
+models <- c("Single","Across","MxE","R-Norm")
 
-OUT <- c()
+load(paste0("YNA_CV",CV,"_multiEnv.RData"))
+
+# Calculate within-environment correlation
+outCOR <- vector("list",length(models))
+names(outCOR) <- models
 for(mod in seq_along(models))
 {
-    filename <- paste0("outCOR_multiEnv_",models[mod],".RData")    
+    filename <- paste0("outPRED_multiEnv_CV",CV,"_",models[mod],".RData")
     if(file.exists(filename)){
         load(filename,verbose=T)
-        OUT <- cbind(OUT,outCOR)
+        outcor <- c()
+        for(k in 1:length(YHat))
+        {
+            YNA0 <- YNA[[k]]; YHat0 <- YHat[[k]]
+            tmp <- rep(NA,ncol(YNA0))
+            for(env in 1:ncol(YNA0)){
+                indexTST <- which(is.na(YNA0[,env]))
+                tmp[env] <- cor(Y[indexTST,env],YHat0[indexTST,env])
+            }
+            outcor <- rbind(outcor,tmp)
+        }
+        colnames(outcor) <- paste0("Env ",colnames(YNA0))
+        rownames(outcor) <- NULL
+        outcor <- data.frame(model=models[mod],outcor)
+        outCOR[[mod]] <- outcor
     }    
 }
+outCOR <- outCOR[!sapply(outCOR,is.null)]
+
+# Calculate means and SD's
+t(do.call("rbind",lapply(outCOR,function(x)apply(x[,-1],2,mean))))
+t(do.call("rbind",lapply(outCOR,function(x)apply(x[,-1],2,sd))))
+
+toplot <- do.call("rbind",lapply(outCOR,function(x)melt(x,id="model")))
+png(paste0("Accuacy_distn_CV",CV,".png"),height=350)
+ggplot(toplot,aes(x=model,y=value,fill=variable)) + geom_boxplot()+labs(fill="Env",y="Accuracy")
+dev.off()
 
 ```
 
@@ -367,6 +408,10 @@ for(mod in seq_along(models))
 |Env 2  | 0.41  | 0.62  | 0.64 | 0.63 |
 |Env 4  | 0.38  | 0.61  | 0.59 | 0.59 |
 |Env 5  | 0.43  | 0.41  | 0.46 | 0.45 |
+
+
+Distribution of accuracy over 100 partitions by model
+<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuacy_distn_CV1.png" width="350">
 
 
 #
