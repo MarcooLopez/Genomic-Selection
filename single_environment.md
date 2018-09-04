@@ -1,9 +1,9 @@
 
-# Model assessment
-## Training-Testing random partitions
+## Model assessment
+### Training-Testing random partitions
 The prediction power of the model will be assessed using the training-testing (TRN-TST) random partitions approach. Data is randomly splitted into training and testing sets. Model parameters are estimated in training set and model is tested in TST set. 
 
-# Data preparation
+## Data preparation
 ### Load data, generate G-matrix and create objects to store results
 ```
 X <- wheat.X
@@ -24,9 +24,9 @@ GID <- factor(rownames(Y),levels=rownames(Y))
 Z <- model.matrix(~GID-1)
 ```
 
-# Running models
+## Running models
 
-## 1. Variance components estimation
+### 1. Variance components estimation
 ```
 set.seed(123)
 
@@ -70,7 +70,7 @@ outVAR[5,5] <- fm$ETA[[1]]$S0
 print(outVAR)
 ```
 
-### Results
+#### Results
 
 |       |GBLUP <sup>1</sup>  | GBLUP <sup>2</sup>  | BRR | LASSO | Bayes B |
 |-------|------|------|------|------|------|
@@ -84,7 +84,7 @@ print(outVAR)
 1: using 'rrBLUP'; 2: using 'BGLR' package
 
 #
-## 2. Replicates of partitions to obtain standard deviations of predictions
+### 2. Replicates of partitions to obtain standard deviations of predictions
 The code below runs repeated partitions to obtain mean and standard deviations of accuracies for a single model.
 
 All the models will be run using 'BGLR' package.
@@ -135,7 +135,7 @@ for(k in 1:m)   # Loop for the replicates
 }
 ```
 
-### Results
+#### Results
 ```
 round(rbind(Mean=apply(outCOR,2,mean),SD=apply(outCOR,2,sd)),4)
 boxplot(outCOR,ylab="Accuracy",xlab="Model")
