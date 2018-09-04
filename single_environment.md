@@ -19,9 +19,9 @@ y <- Y[,2]
 M <- scale(X)
 G <- tcrossprod(M)/p
 
-# Z matrix for individuals. In this case is a diagonal since there are no replicates
+# Design matrix for individuals. In this case is a diagonal since there are no replicates
 GID <- factor(rownames(Y),levels=rownames(Y))
-Z <- model.matrix(~GID-1)
+Zg <- model.matrix(~GID-1)
 ```
 
 ## Running models
@@ -39,7 +39,7 @@ nIter <- 30000
 burnIn <- 5000
 
 # G-BLUP model using 'rrBLUP' package
-fm <- mixed.solve(y=y,Z=Z,K=G) 
+fm <- mixed.solve(y=y,Z=Zg,K=G) 
 outVAR[1,1] <- fm$Vu
 outVAR[2,1] <- fm$Ve
 outVAR[6,1] <- fm$Vu/(fm$Vu+fm$Ve)    # Heritability
@@ -62,7 +62,7 @@ outVAR[2,4] <- fm$varE
 outVAR[3,4] <- fm$ETA[[1]]$lambda
 
 # Bayes B model using 'BGLR' package
-fm <- BGLR(y,ETA=list(list(X=X,model="BayesB")),nIter=nIter,burnIn=burnIn)
+fm <- BGLR(y,ETA=list(list(X=M,model="BayesB")),nIter=nIter,burnIn=burnIn)
 outVAR[2,5] <- fm$varE
 outVAR[4,5] <- fm$ETA[[1]]$df0
 outVAR[5,5] <- fm$ETA[[1]]$S0
@@ -125,9 +125,9 @@ for(k in 1:m)   # Loop for the replicates
         model <- models[mod]
         
         if(model=="GBLUP")  ETA <- list(list(K=G,model="RKHS"))
-        if(model=="BRR")    ETA <- list(list(X=X,model="BRR"))
-        if(model=="LASSO")  ETA <- list(list(X=X,model="BL"))
-        if(model=="BayesB") ETA <- list(list(X=X,model="BayesB"))
+        if(model=="BRR")    ETA <- list(list(X=M,model="BRR"))
+        if(model=="LASSO")  ETA <- list(list(X=M,model="BL"))
+        if(model=="BayesB") ETA <- list(list(X=M,model="BayesB"))
 
         fm <- BGLR(yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
         outCOR[k,mod] <- cor(fm$yHat[indexTST],y[indexTST])
