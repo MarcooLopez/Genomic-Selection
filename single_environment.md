@@ -76,6 +76,7 @@ outVAR[2,3] <- fm$varE
 |-------|------|------|------|------|------|
 |![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_u) | 0.475  | 0.476  | 0.474 | 0.465 |  |
 |![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%5Cvarepsilon)  | 0.049 | 0.050 | 0.049 | 0.048 | |
+1: using 'rrBLUP'; 2: using 'BGLR' package
 
 ## 2. Replicates of partitions to obtain standard deviations of predictions
 The code below runs repeated partitions to obtain mean and standard deviations of accuracies for a single model.
@@ -130,7 +131,7 @@ for(k in 1:m)   # Loop for the replicates
 
 ### Results
 ```
-round(rbind(mean=apply(outCOR,2,mean),sd=apply(outCOR,2,sd)),4)
+round(rbind(Mean=apply(outCOR,2,mean),SD=apply(outCOR,2,sd)),4)
 boxplot(outCOR,ylab="Accuracy",xlab="Model")
 ```
 
