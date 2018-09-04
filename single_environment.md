@@ -6,6 +6,12 @@ The prediction power of the model will be assessed using the training-testing (T
 ## Data preparation
 ### Load data, generate G-matrix and create objects to store results
 ```
+# Load libraries
+library(BGLR)
+library(rrBLUP)
+
+# Load data
+data(wheat)
 X <- wheat.X
 Y <- wheat.Y
 
@@ -27,6 +33,8 @@ Zg <- model.matrix(~GID-1)
 ## Running models
 
 ### 1. Variance components estimation
+After running the 'data preparation' part, the code following code can be used to fit all models and to extract variance components and other parameters.
+
 ```
 set.seed(123)
 
@@ -85,9 +93,7 @@ print(outVAR)
 
 #
 ### 2. Replicates of partitions to obtain standard deviations of predictions
-The code below runs repeated partitions to obtain mean and standard deviations of accuracies for a single model.
-
-All the models will be run using 'BGLR' package.
+After running the 'data preparation' part, the code below runs repeated partitions to obtain mean and standard deviations of accuracies for all models. All the models will be run using 'BGLR' package.
 
 ```
 # Models
