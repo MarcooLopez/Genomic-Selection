@@ -43,8 +43,8 @@ Y <- Y[,c(2,3,4)]
 y <- as.vector(Y)
 
 # Genomic relationship matrix
-M <- scale(M)
-G <- tcrossprod(Z)/p
+M <- scale(X)
+G <- tcrossprod(M)/p
 
 # Design matrix for individuals. It connects individuals with environments
 GID <- factor(rep(rownames(Y),ncol(Y)),levels=rownames(Y))
