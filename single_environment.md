@@ -76,7 +76,7 @@ out[6,] <- apply(out[1:5,],2,mean)
 print(out)
 ```
 
-## Results
+### Results
 
 |       |GBLUP  |B-GBLUP | BRR  | LASSO | Bayes B |
 |-------|-------|--------|------|-------|-------|
@@ -86,6 +86,42 @@ print(out)
 |Fold 4  | 0.49  | 0.49  | 0.49 | 0.48 | 0.49 |
 |Fold 5  | 0.53  | 0.53  | 0.54 | 0.54 | 0.53 |
 |Mean    | 0.52  | 0.52  | 0.52 | 0.52 | 0.52 |
+
+#
+## 2. Replicates of partitions to obtain standard deviations of predictions
+
+```
+# Number of iterations and burn-in for Bayesian models
+nIter <- 2000
+burnIn <- 500
+
+for(i in 1:5)   # Loop for the 5 folds
+{
+    indexTST <- which(folds==i)
+    yNA <- y
+    yNA[indexTST] <- NA
+    
+    # G-BLUP model using rrBLUP package
+    fm <- mixed.solve(y=yNA,Z=I,K=G)
+    out[i,1] <- cor(fm$u[indexTST],y[indexTST])
+    
+    # G-BLUP (Bayesian) model using BGLR package. RKHS model with K=G
+    fm <- BGLR(yNA,ETA=list(list(K=G,model="RKHS")),nIter=nIter,burnIn=burnIn)
+    out[i,2] <- cor(fm$yHat[indexTST],y[indexTST])
+    
+    # Bayesian Ridge Regression using BGLR package.
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BRR")),nIter=nIter,burnIn=burnIn)
+    out[i,3] <- cor(fm$yHat[indexTST],y[indexTST])
+    
+    # Bayesian LASSO model using BGLR package.
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BL")),nIter=nIter,burnIn=burnIn)
+    out[i,4] <- cor(fm$yHat[indexTST],y[indexTST])
+    
+    # Bayes B model using BGLR package.
+    fm <- BGLR(yNA,ETA=list(list(X=X,model="BayesB")),nIter=nIter,burnIn=burnIn)
+    out[i,5] <- cor(fm$yHat[indexTST],y[indexTST])
+}
+```
 
 #
 * **[back](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/README.md)**
