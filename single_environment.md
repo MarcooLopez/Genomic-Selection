@@ -35,7 +35,10 @@ folds <- folds[1:n]
 ```
 
 # Running models
-### 1. G-BLUP
+
+## 1. One single instance of 5-folds partition
+
+#### - G-BLUP
 'rrBLUP' package
 
 ```
@@ -51,7 +54,7 @@ out[6,1] <- mean(out[1:5,1])
 out[,1]
 ```
 
-### 2. Bayesian G-BLUP
+#### - Bayesian G-BLUP
 'BGLR' package using RKHS model with kernel evaluations **K**=**G**
 ```
 for(i in 1:5)
@@ -66,7 +69,7 @@ out[6,2] <- mean(out[1:5,2])
 out[,2]
 ```
 
-### 3. Bayesian Ridge Regression
+#### 3. Bayesian Ridge Regression
 'BGLR' package using keyword 'BRR'
 ```
 for(i in 1:5)
@@ -81,7 +84,7 @@ out[6,3] <- mean(out[1:5,3])
 out[,3]
 ```
 
-### 4. Bayesian LASSO
+#### 4. Bayesian LASSO
 'BGLR' package using keyword 'BL'
 ```
 for(i in 1:5)
@@ -96,7 +99,7 @@ out[6,4] <- mean(out[1:5,4])
 out[,4]
 ```
 
-### 5. Bayes B
+#### 5. Bayes B
 'BGLR' package using keyword 'BayesB'
 ```
 for(i in 1:5)
