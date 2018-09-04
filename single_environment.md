@@ -16,8 +16,8 @@ p <- ncol(X)
 y <- Y[,2]
 
 # Genomic relationship matrix
-Z <- scale(X)
-G <- tcrossprod(Z)/p
+M <- scale(X)
+G <- tcrossprod(M)/p
 
 # Z matrix for individuals. In this case is a diagonal since there are no replicates
 GID <- factor(rownames(Y),levels=rownames(Y))
@@ -35,49 +35,56 @@ models <- c("GBLUP","BRR","LASSO","BayesB")
 set.seed(123)
 
 # Matrix to store results. It will save the corelation for each partition
-outVAR <- matrix(NA,nrow=3,ncol=5)
-colnames(outCOR) <- models
+outVAR <- matrix(NA,nrow=6,ncol=5)
+dimnames(outVAR) <- list(c("varU","varE","lambda","dfb","Sb","H2"),c("GBLUP1","GBLUP2","BRR","LASSO","BayesB"))
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 3000
-burnIn <- 500
+nIter <- 30000
+burnIn <- 5000
 
 # G-BLUP model using 'rrBLUP' package
 fm <- mixed.solve(y=y,Z=Z,K=G) 
 outVAR[1,1] <- fm$Vu
 outVAR[2,1] <- fm$Ve
+outVAR[6,1] <- fm$Vu/(fm$Vu+fm$Ve)    # Heritability
 
 # G-BLUP model using 'BGLR' package. Model RKHS with K=G
 fm <- BGLR(y,ETA=list(list(K=G,model="RKHS")),nIter=nIter,burnIn=burnIn)
 outVAR[1,2] <- fm$ETA[[1]]$varU
 outVAR[2,2] <- fm$varE
+outVAR[6,2] <- outVAR[1,2]/(outVAR[1,2] + outVAR[2,2])  # Heritability
 
 # Bayesian Ridge Regression (BRR) using 'BGLR' package
-fm <- BGLR(y,ETA=list(list(X=X,model="BRR")),nIter=nIter,burnIn=burnIn)
-outVAR[1,3] <- fm$ETA[[1]]$varB
+fm <- BGLR(y,ETA=list(list(X=M,model="BRR")),nIter=nIter,burnIn=burnIn)
+outVAR[1,3] <- fm$ETA[[1]]$varB*p    # Multiply by p to obtain the right varU as in G-BLUP
 outVAR[2,3] <- fm$varE
+outVAR[6,3] <- outVAR[1,3]/(outVAR[1,3] + outVAR[2,3])  # Heritability
 
 # Bayesian LASSO model using 'BGLR' package
-fm <- BGLR(y,ETA=list(list(X=X,model="BL")),nIter=nIter,burnIn=burnIn)
-outVAR[1,3] <- fm$ETA[[1]]$lambda
-outVAR[2,3] <- fm$varE
+fm <- BGLR(y,ETA=list(list(X=M,model="BL")),nIter=nIter,burnIn=burnIn)
+outVAR[2,4] <- fm$varE
+outVAR[3,4] <- fm$ETA[[1]]$lambda
 
 # Bayes B model using 'BGLR' package
 fm <- BGLR(y,ETA=list(list(X=X,model="BayesB")),nIter=nIter,burnIn=burnIn)
-outVAR[1,3] <- fm$ETA[[1]]$varB
-outVAR[1,3] <- fm$ETA[[1]]$probIn
-outVAR[2,3] <- fm$varE
+outVAR[2,5] <- fm$varE
+outVAR[4,5] <- fm$ETA[[1]]$df0
+outVAR[5,5] <- fm$ETA[[1]]$S0
 
 ```
 
 ### Results
 
-|       |GBLUP <sup>1</sup>  | GBLUP <sup>2</sup>  | BRR  | LASSO | Bayes B |
+|       |GBLUP <sup>1</sup>  | GBLUP <sup>2</sup>  | BRR | LASSO | Bayes B |
 |-------|------|------|------|------|------|
-|![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_u) | 0.475  | 0.476  | 0.474 | 0.465 |  |
-|![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%5Cvarepsilon)  | 0.049 | 0.050 | 0.049 | 0.048 | |
+|![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_u) |0.468 |0.490|0.491|  -  |  -  |
+|![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%5Cvarepsilon)  |0.574|0.576|0.575|0.589|0.572|
+|![](https://latex.codecogs.com/gif.latex?%5Clambda)  |  -  |  -  |  -  |58.805|  -  |
+|![](https://latex.codecogs.com/gif.latex?df_%5Cbeta)  |  -  |  -  |  -  |  -  |  5  |
+|![](https://latex.codecogs.com/gif.latex?S_%5Cbeta)  |  -  |  -  |  -  |  -  |0.033|
+|![](https://latex.codecogs.com/gif.latex?H%5E2_g)<sup>a</sup>  |0.449|0.460|0.461|  -  |  -  |
 
-1: using 'rrBLUP'; 2: using 'BGLR' package
+1: using 'rrBLUP'; 2: using 'BGLR' package; a: genomic heritability
 
 #
 ## 2. Replicates of partitions to obtain standard deviations of predictions
