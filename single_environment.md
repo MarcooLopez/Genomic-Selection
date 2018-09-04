@@ -28,13 +28,9 @@ Z <- model.matrix(~GID-1)
 
 ## 1. Variance components estimation
 ```
-# Models
-models <- c("GBLUP","BRR","LASSO","BayesB")
-
-# Creation of seed for repeated randomizations
 set.seed(123)
 
-# Matrix to store results. It will save the corelation for each partition
+# Matrix to store results. It will save the main parameters for each model
 outVAR <- matrix(NA,nrow=6,ncol=5)
 dimnames(outVAR) <- list(c("varU","varE","lambda","dfb","Sb","H2"),c("GBLUP1","GBLUP2","BRR","LASSO","BayesB"))
 
@@ -71,6 +67,7 @@ outVAR[2,5] <- fm$varE
 outVAR[4,5] <- fm$ETA[[1]]$df0
 outVAR[5,5] <- fm$ETA[[1]]$S0
 
+print(outVAR)
 ```
 
 ### Results
@@ -82,9 +79,9 @@ outVAR[5,5] <- fm$ETA[[1]]$S0
 |![](https://latex.codecogs.com/gif.latex?%5Clambda)  |  -  |  -  |  -  |58.805|  -  |
 |![](https://latex.codecogs.com/gif.latex?df_%5Cbeta)  |  -  |  -  |  -  |  -  |  5  |
 |![](https://latex.codecogs.com/gif.latex?S_%5Cbeta)  |  -  |  -  |  -  |  -  |0.033|
-|![](https://latex.codecogs.com/gif.latex?H%5E2_g)<sup>a</sup>  |0.449|0.460|0.461|  -  |  -  |
+|![](https://latex.codecogs.com/gif.latex?H%5E2_g) |0.449|0.460|0.461|  -  |  -  |
 
-1: using 'rrBLUP'; 2: using 'BGLR' package; a: genomic heritability
+1: using 'rrBLUP'; 2: using 'BGLR' package
 
 #
 ## 2. Replicates of partitions to obtain standard deviations of predictions
