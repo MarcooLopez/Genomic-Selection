@@ -127,7 +127,7 @@ eigen_GE <- eigen(GE)
 ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
 
 # Model Fitting
-fm4 <- BGLR(y=y,ETA=ETA,nIter=nIter,burnIn=burnIn)
+fm <- BGLR(y=y,ETA=ETA,nIter=nIter,burnIn=burnIn)
 outVAR[1,4] <- fm$ETA[[2]]$varU
 outVAR[(1:nEnv)+1,4] <- fm$ETA[[3]]$varU
 outVAR[(1:nEnv)+4,4] <- fm$varE
