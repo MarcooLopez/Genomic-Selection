@@ -328,22 +328,27 @@ for(k in 1:10)   # Loop for the replicates
     }
 }
 
+# Save results
+save(outCOR,file=paste0("outCOR_multiEnv_",model,".RData"))
 ```
 
-### Results
-Computing the within-environment correlation for all three models
+#### 2.2 Retrieving results
+
+The code below will retrieve results for all models fitted previously showing the within-environment correlation for all fitted models
+
 ```
-COR <- matrix(nrow=length(env),ncol=4,NA)
-colnames(COR) <- c('SingleEnv', 'AcrossEnv', 'MxE','RNorm')
-rownames(COR) <- colnames(Y)
-for(j in 1:nEnv){
-    tst <- which(is.na(YNA[,j]))
-    COR[j,1] <- cor(Y[tst,j],YHat1[tst,j])
-    COR[j,2] <- cor(Y[tst,j],YHat2[tst,j])
-    COR[j,3] <- cor(Y[tst,j],YHat3[tst,j])
-    COR[j,4] <- cor(Y[tst,j],YHat4[tst,j])
+models <- c("single","across","MxE","R-Norm")
+
+OUT <- c()
+for(mod in seq_along(models))
+{
+    filename <- paste0("outCOR_multiEnv_",models[mod],".RData")    
+    if(file.exists(filename)){
+        load(filename,verbose=T)
+        OUT <- cbind(OUT,outCOR)
+    }    
 }
-COR
+
 ```
 
 **CV1. One TRN-TST partition**
