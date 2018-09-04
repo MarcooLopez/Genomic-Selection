@@ -40,15 +40,17 @@ p <- ncol(X)
 # Select environments. For instance, environments 2,4, and 5
 Y <- Y[,c(2,3,4)]
 
+y <- as.vector(Y)
+
 # Genomic relationship matrix
 M <- scale(M)
 G <- tcrossprod(Z)/p
 
-# Design matrix for individuals. In this case it is a diagonal since there are no replicates
-GID <- factor(rownames(Y),levels=rownames(Y))
+# Design matrix for individuals. It connects individuals with environments
+GID <- factor(rep(rownames(Y),ncol(Y)),levels=rownames(Y))
 Zg <- model.matrix(~GID-1)
 
-# Design matrix for environments
+# Design matrix for environments. Used in the multi-environment R-Norm model
 envID <- factor(rep(colnames(Y),each=nrow(Y)),levels=colnames(Y))
 ZE <- model.matrix(~envID-1)   
 ZEZEt <- tcrossprod(ZE)
@@ -62,34 +64,79 @@ ZEZEt <- tcrossprod(ZE)
 set.seed(123)
 nEnv <- ncol(Y)
 
-# Fixed effect (environment-intercepts)
-envID <- factor(rep(colnames(Y),each=nrow(Y)),levels=colnames(Y))
-
 # Main effects of markers
-GID <- factor(rep(rownames(Y),ncol(Y)),levels=rownames(Y))
-Zg <- model.matrix(~GID-1)
 G0 <- Zg%*%G%*%t(Zg)
 eigen_G0 <- eigen(G0)
 
 # Matrix to store results. It will save variance components for each model
-outVAR <- matrix(NA,ncol=4,nrow=2*ncol(Y))
-dimnames(outVAR) <- list(rep(paste0("Env ",colnames(Y)),2),c("Single","Across","MxE","R-Norm"))
+outVAR <- matrix(NA,ncol=4,nrow=1+2*ncol(Y))
+dimnames(outVAR) <- list(c("Main",rep(paste0("Env ",colnames(Y)),2)),c("Single","Across","MxE","R-Norm"))
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 2000; burnIn <- 200
+nIter <- 1000; burnIn <- 200
 
-# Single environment (within-environment) model, ignoring GxE effect
+#==============================================================
+# 1. Single environment (within-environment) model, ignoring GxE effect
+#==============================================================
 ETA <- list(G=list(K=G,model='RKHS'))
 for(env in 1:nEnv){
-    fm1 <-BGLR(y=Y[,env],ETA=ETA,nIter=nIter,burnIn=burnIn)
-    outVAR[env,1] <- fm1$ETA[[1]]$varU
-    outVAR[env+3,1] <- fm1$varE
+    fm <-BGLR(y=Y[,env],ETA=ETA,nIter=nIter,burnIn=burnIn)
+    outVAR[env+1,1] <- fm$ETA[[1]]$varU
+    outVAR[env+4,1] <- fm$varE
 }
 
+#==============================================================
+# 2. Across-environments model. Factor 'environment' as fixed effect
+#==============================================================
+ETA <- list(list(~envID-1,model="FIXED"))
+ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
+# Model Fitting
+fm <- BGLR(y=y,ETA=ETA,nIter=nIter,burnIn=burnIn)
+outVAR[1,2] <- fm$ETA[[2]]$varU
+outVAR[(1:nEnv)+4,2] <- fm$varE
+
+#==============================================================
+# 3. MxE interaction model. Factor 'environment' as fixed effect
+#==============================================================
+ETA <- list(list(~envID-1,model="FIXED"))
+ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
+
+# Adding interaction terms
+for(env in 1:nEnv){
+    tmp <- rep(0,nEnv) ; tmp[env] <- 1; G1 <- kronecker(diag(tmp),G)
+    eigen_G1 <- eigen(G1)
+    ETA[[(env+2)]] <- list(V=eigen_G1$vectors,d=eigen_G1$values,model='RKHS')
+}
+
+# Model Fitting
+fm <- BGLR(y=y,ETA=ETA,nIter=nIter,burnIn=burnIn)
+outVAR[1,3] <- fm$ETA[[2]]$varU
+for(env in 1:nEnv) outVAR[env+1,3] <- fm$ETA[[env+2]]$varU
+outVAR[(1:nEnv)+4,3] <- fm$varE
+
+#==============================================================
+# 4. Reaction-Norm model. Factor 'environment' as fixed effect
+#==============================================================
+ETA <- list(list(~envID-1,model="FIXED"))
+ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
+
+# Adding GxE interaction term as Hadamart product
+GE <- G0*ZEZEt
+eigen_GE <- eigen(GE)
+ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
+
+# Model Fitting
+fm4 <- BGLR(y=y,ETA=ETA,nIter=nIter,burnIn=burnIn)
+outVAR[1,4] <- fm$ETA[[2]]$varU
+outVAR[(1:nEnv)+1,4] <- fm$ETA[[3]]$varU
+outVAR[(1:nEnv)+4,4] <- fm$varE
 
 ```
 
+#### Results
+
+##
 ### 2. Replicates of partitions to obtain standard deviations of predictions
 Using a GBLUP approach, the prediction power of the multi-environment models (MxE and Reaction Norm) will be compared with that that ignores GxE (across-environment) and with the GBLUP model fitted within environment. 
 
