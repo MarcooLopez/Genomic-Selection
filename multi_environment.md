@@ -1,19 +1,19 @@
 
 # Multi-environment models
 
-## 1. Reaction Norm model
+### 1. Reaction Norm model
 Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
 The reaction norm model can model main and interaction effects of environmental covariates (EC) and markers.
 
 
-## 2. MxE model
+### 2. MxE model
 It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
 
 
-# Model assessment
-## Training-Testing random partitions.
+## Model assessment
+### Training-Testing random partitions.
 The prediction power of the model will be assessed using the training-testing (TRN-TST) random partitions approach. 
-Data is randomly splitted into training and testing sets. Model parameters are estimated in training set and model is tested in TST set.  Two main estimations problems are addressed using the MxE interaction model. 
+Data is randomly splitted into training and testing sets. Model parameters are estimated in training set and model is tested in TST set.  Two main estimations problems are addressed using the multi-environments models. 
 
 **1. Cross Validation 1 (CV1)**. Represent a scheme of prediction of lines that have not been evaluated in any field
 trials.
@@ -28,7 +28,7 @@ CV2 scheme is created by having 30% of the entries missing in one environment bu
 
 This procedure of TRN-TST can be repeated many times to allow for estimation of standard errors (SE).
 
-# Data preparation
+## Data preparation
 ### Load data, generate G-matrix
 ```
 X <- wheat.X
@@ -37,13 +37,21 @@ Y <- wheat.Y
 n <- nrow(Y)
 p <- ncol(X)
 
-# Select environments with good phenotypic correlations. Environments 2,4, and 5
+# Select environments. For instance, environments 2,4, and 5
 Y <- Y[,c(2,3,4)]
 
 # Genomic relationship matrix
 Z <- scale(X)
 G <- tcrossprod(Z)/p
-I <- diag(n)
+
+# Z matrix for individuals. In this case it is a diagonal since there are no replicates
+GID <- factor(rownames(Y),levels=rownames(Y))
+Z <- model.matrix(~GID-1)
+```
+
+## Running models
+### 1. Variance Components estimation 
+```
 ```
 
 ### Training-Testing partitions
