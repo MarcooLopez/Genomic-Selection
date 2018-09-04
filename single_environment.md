@@ -143,7 +143,8 @@ boxplot(outCOR,ylab="Accuracy",xlab="Model")
 ```
 
 Boxplot of distribution of the accuracies by model
-<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/boxplot1.png" width="400">
+
+![](https://github.com/MarcooLopez/Genomic-Selection/blob/master/boxplot1.png)
 
 #
 * **[back](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/README.md)**
