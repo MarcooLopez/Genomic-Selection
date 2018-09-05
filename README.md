@@ -1,6 +1,6 @@
 # Genomic Selection Demo
 
-The standard genetic model assumes that phenotype is the sum of a genetic component and a non-genetic component (residual), ![](https://latex.codecogs.com/gif.latex?y_i%3Dg_i&plus;%5Cvarepsilon_i). Genomic Selection uses genetic markers covering the whole genome and potentially explaining all the genetic variance. These markers are asumed to be in Linkage Disequilibrium (LD) with the QTL thus models including all markers can estimate breeding values ![](https://latex.codecogs.com/gif.latex?g_i) as combinatons of these QTL's. $A = \pi*r^{2}$
+The standard genetic model assumes that phenotype is the sum of a genetic component and a non-genetic component (residual), ![](https://latex.codecogs.com/gif.latex?y_i%3Dg_i&plus;%5Cvarepsilon_i). Genomic Selection uses genetic markers covering the whole genome and potentially explaining all the genetic variance. These markers are asumed to be in Linkage Disequilibrium (LD) with the QTL thus models including all markers can estimate breeding values ![](https://latex.codecogs.com/gif.latex?g_i) as combinatons of these QTL's.
 
 ## Model
 Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a function of *p* marker genotypes ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bx%7D_i%3D%5Bx_%7Bi1%7D%2C...%2Cx_%7Bip%7D%5D%27) that seeks to aproximate to the true genetic value of the individual, this is
