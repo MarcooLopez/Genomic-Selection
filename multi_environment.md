@@ -35,8 +35,6 @@ This procedure of TRN-TST can be repeated many times to allow for estimation of 
 # Load libraries
 library(BGLR)
 library(rrBLUP)
-library(ggplot2)
-library(reshape)
 
 # Load data
 data(wheat)
@@ -271,8 +269,8 @@ model <- models[mod]
 YHat <- list("list",m)
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 50
-burnIn <- 20
+nIter <- 12000
+burnIn <- 2000
 
 for(k in 1:m)   # Loop for the replicates
 {
@@ -349,6 +347,9 @@ save(YHat,file=paste0("outPRED_multiEnv_CV",CV,"_",model,".RData"))
 The code below will retrieve results for all models fitted previously showing the within-environment correlation for all fitted models
 
 ```
+library(ggplot2)
+library(reshape)
+
 CV <- 1
 models <- c("Single","Across","MxE","R-Norm")
 
@@ -411,6 +412,7 @@ dev.off()
 
 
 Distribution of accuracy over 100 partitions by model
+
 <img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuacy_distn_CV1.png" width="350">
 
 
