@@ -410,8 +410,8 @@ dev.off()
 |Env 4  | 0.38  | 0.61  | 0.59 | 0.59 |
 |Env 5  | 0.43  | 0.41  | 0.46 | 0.45 |
 
-
-Distribution of accuracy over 100 partitions by model
+##
+Distribution of accuracy over 100 partitions by model. CV1
 
 <img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuacy_distn_CV1.png" width="350">
 
