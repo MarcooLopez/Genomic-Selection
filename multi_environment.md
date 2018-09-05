@@ -1,12 +1,12 @@
 
 # Multi-environment models
 
-### * Reaction Norm model
+* **Reaction Norm model**
 Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
 The reaction norm model can model main and interaction effects of environmental covariates (EC) and markers.
 
 
-### * MxE model
+* **MxE model**
 It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
 
 Performance of the *Reaction Norm* and *MxE model* will be compared with that of the *across-environments* model that ignores GxE modeling and the *single-environment* model which is fitted within each environment.
@@ -16,10 +16,10 @@ Performance of the *Reaction Norm* and *MxE model* will be compared with that of
 The prediction power of the model will be assessed using the training-testing (TRN-TST) random partitions approach. 
 Data is randomly splitted into training and testing sets. Model parameters are estimated in training set and model is tested in TST set.  Two main estimations problems are addressed using the multi-environments models. 
 
-**1. Cross Validation 1 (CV1)**. Represent a scheme of prediction of lines that have not been evaluated in any field
+*   **Cross Validation 1 (CV1)**. Represent a scheme of prediction of lines that have not been evaluated in any field
 trials.
 
-**2. Cross Validation 2 (CV2)**. Represent a scheme of prediction of lines that have been evaluated in some but all target environments. Thus, prediction of non-evaluated lines benefits from borrowing of information from lines that were evaluated in other environments.
+*   **Cross Validation 2 (CV2)**. Represent a scheme of prediction of lines that have been evaluated in some but all target environments. Thus, prediction of non-evaluated lines benefits from borrowing of information from lines that were evaluated in other environments.
 
 <img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="450">
 
