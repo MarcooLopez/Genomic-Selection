@@ -1,6 +1,13 @@
 
 # Multi-environment models
 
+* **Single-environment model**
+Remember the G-BLUP model previously described. This model is obtained by regressing the phenotype vector containing the *n* records available in the *j*<sup>th</sup> environment, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_j%3D%5By_%7B1j%7D%2C...%2Cy_%7Bnj%7D%5D%27), where *i* indexes lines (individuals) and *j* indexes environments, in the form: 
+
+![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_j%3D%5Ctextbf%7B1%7D%5Cmu_j&plus;%5Ctextbf%7Bu%7D_j&plus;%5Cmathbf%7B%5Cvarepsilon%7D_j),
+
+where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_j%3D%5Bu_%7B1j%7D%2C...%2Cu_%7Bnj%7D%5D%27) is the random model assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_j%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Ctextbf%7BG%7D_j%5Csigma%5E2_%7Bu_j%7D%29) with genomic relationship matrix estimated using markers in environment *j* as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_j%3D%5Ctextbf%7BX%7D_j%5Ctextbf%7BX%7D_j%27/p).
+
 * **Across-environments model**
 This model assumes that effects of markers are the same across environments. This model can be represented as a G-BLUP model as: 
 
