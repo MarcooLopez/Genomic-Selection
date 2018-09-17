@@ -6,7 +6,7 @@
 Remember the G-BLUP model previously described. This model is obtained by regressing the phenotype vector containing the *n* records available in the *k*<sup>th</sup> environment, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5By_%7B1k%7D%2C...%2Cy_%7Bnk%7D%5D%27), where *i* indexes lines (individuals) and *k* indexes environments, using available markers in *k*<sup>th</sup> environment,  ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BX%7D_k%3D%5C%7Bx_%7Bijk%7D%5C%7D). As shown, this model can be represented as a G-BLUP model in the form: 
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Ctextbf%7B1%7D%5Cmu_k&plus;%5Ctextbf%7Bu%7D_k&plus;%5Cmathbf%7B%5Cvarepsilon%7D_k",
+<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Ctextbf%7B1%7D%5Cmu_k&plus;%5Ctextbf%7Bu%7D_k&plus;%5Cmathbf%7B%5Cvarepsilon%7D_k">,
 </p>
 
 where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7B1%7D%3D%5B1%2C...%2C1%5D%27) is a *n*-vector of ones, ![](https://latex.codecogs.com/gif.latex?%5Cmu_k) is the intercept, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%3D%5Bu_%7B1k%7D%2C...%2Cu_%7Bnk%7D%5D%27) is the random model assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bu_k%7D%5Ctextbf%7BG%7D_k%29) with genomic relationship matrix estimated using (centered and standardized) markers in environment *k* as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_k%3D%5Ctextbf%7BX%7D_k%5Ctextbf%7BX%7D_k%27/p); and ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cvarepsilon%7D_k%3D%5B%5Cvarepsilon_%7B1k%7D%2C...%2C%5Cvarepsilon_%7Bnk%7D%5D%27) is the vector of residuals.
@@ -15,12 +15,14 @@ where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7B1%7D%3D%5B1%2C...%2C1
 
 This model assumes that effects of markers are the same across environments. Similarly, it can be represented also as a G-BLUP model (assuming only 3 environments) as: 
 
-![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7B1%7D%5Cmu_1%5C%5C%20%5Ctextbf%7B1%7D%5Cmu_2%5C%5C%20%5Ctextbf%7B1%7D%5Cmu_3%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_1%5C%5C%20%5Ctextbf%7Bu%7D_2%5C%5C%20%5Ctextbf%7Bu%7D_3%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cmathbf%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cmathbf%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cmathbf%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D),
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7B1%7D%5Cmu_1%5C%5C%20%5Ctextbf%7B1%7D%5Cmu_2%5C%5C%20%5Ctextbf%7B1%7D%5Cmu_3%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_1%5C%5C%20%5Ctextbf%7Bu%7D_2%5C%5C%20%5Ctextbf%7Bu%7D_3%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cmathbf%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cmathbf%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cmathbf%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">,
+</p>
 
 where the random effect ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_0%3D%5B%5Ctextbf%7Bu%7D%27_1%2C%5Ctextbf%7Bu%7D%27_2%2C%5Ctextbf%7Bu%7D%27_3%5D%27) is assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_0%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bu_0%7D%5Ctextbf%7BG%7D_0%29) with ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_0) being the marker-derived genomic relationship calculated as
 
 <p align="center">
-![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_0%3D%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D%27_1%5Cquad%20%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D%27_2%5Cquad%20%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D%27_3%5C%5C%20%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D%27_1%5Cquad%20%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D%27_2%5Cquad%20%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D%27_3%5C%5C%20%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D%27_1%5Cquad%20%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D%27_2%5Cquad%20%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D%27_3%5C%5C%20%5Cend%7Bbmatrix%7D/p)
+<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_0%3D%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D%27_1%5Cquad%20%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D%27_2%5Cquad%20%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D%27_3%5C%5C%20%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D%27_1%5Cquad%20%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D%27_2%5Cquad%20%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D%27_3%5C%5C%20%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D%27_1%5Cquad%20%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D%27_2%5Cquad%20%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D%27_3%5C%5C%20%5Cend%7Bbmatrix%7D/p">.
 </p>
 
 
