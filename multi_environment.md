@@ -2,7 +2,8 @@
 # Multi-environment models
 
 * **Across-environments model**
-It considers
+This model assumes that effects of markers are the same across environments. This model can be represented as a G-BLUP model as: 
+
 ![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7B1%7D%5Cmu_1%5C%5C%20%5Ctextbf%7B1%7D%5Cmu_2%5C%5C%20%5Ctextbf%7B1%7D%5Cmu_3%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_1%5C%5C%20%5Ctextbf%7Bu%7D_2%5C%5C%20%5Ctextbf%7Bu%7D_3%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cmathbf%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cmathbf%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cmathbf%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D)
 
 
