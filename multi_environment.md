@@ -67,9 +67,13 @@ are assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_0%5Csim%20
 
 * **Reaction Norm model**
 
-The G-BLUP model presented in the across-environment approach can be extended to incorporate GxE by introducing covariance structures as a funcion of the marker information.
+The G-BLUP model presented in the across-environment approach can be extended to incorporate GxE by introducing covariance structures as a funcion of the marker information. This model, incorporates GxE as
 
-The multienvironmental model assumes that environment (**E**) can be modeled as a random effect as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BE%7D%3D%5BE_1%2C...%2CE_s%5D%27%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_E%5Ctextbf%7BI%7D%29)
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%20%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bg%7D_1%5C%5C%20%5Ctextbf%7Bg%7D_2%5C%5C%20%5Ctextbf%7Bg%7D_3%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bg%7D_1%5Ctextbf%7Be%7D_1%5C%5C%20%5Ctextbf%7Bg%7D_2%5Ctextbf%7Be%7D_2%5C%5C%20%5Ctextbf%7Bg%7D_3%5Ctextbf%7Be%7D_3%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
+</p>
+
+where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_k%5Ctextbf%7Be%7D_k) is the interaction term between environments (*e*<sub>ik</sub>) and the random effect of markers (*g*). The multienvironmental model assumes that environment (**E**) can be modeled as a random effect as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BE%7D%3D%5BE_1%2C...%2CE_s%5D%27%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_E%5Ctextbf%7BI%7D%29)
 
 
 Performance of the *Reaction Norm* and *MxE model* will be compared with that of the *across-environments* model that ignores GxE modeling and the *single-environment* model which is fitted within each environment.
