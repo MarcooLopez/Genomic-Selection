@@ -53,7 +53,16 @@ Likewise, by making ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_%7
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_%7B0%2C1%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B0%2C2%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B0%2C3%7D%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_%7B1%2C1%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B1%2C2%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B1%2C3%7D%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
 </p>
 
-where the random effects ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_0%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_%7B0%2C1%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B0%2C2%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B0%2C3%7D%20%5Cend%7Bbmatrix%7D) and ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_1%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_%7B1%2C1%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B1%2C2%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B1%2C3%7D%20%5Cend%7Bbmatrix%7D) are assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_0%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bu_0%7D%5Ctextbf%7BG%7D_0%29) and ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_1%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bu_1%7D%5Ctextbf%7BG%7D_1%29), respectively.
+where the random effects 
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_0%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_%7B0%2C1%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B0%2C2%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B0%2C3%7D%20%5Cend%7Bbmatrix%7D%20%5Cqquad%5Ctext%7Band%7D%5Cqquad%20%5Ctextbf%7Bu%7D_1%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_%7B1%2C1%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B1%2C2%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B1%2C3%7D%20%5Cend%7Bbmatrix%7D">
+</b>
+are assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_0%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bu_0%7D%5Ctextbf%7BG%7D_0%29) and ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_1%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Ctextbf%7BG%7D_1%29), respectively. Here, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_0) is described previously and
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_1%3D%5Cfrac%7B1%7D%7Bp%7D%20%5Cbegin%7Bbmatrix%7D%20%5Csigma%5E2_%7Bu_1%7D%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D_1%27%20%26%20%5Ctextbf%7B0%7D%20%26%20%5Ctextbf%7B0%7D%5C%5C%20%5Ctextbf%7B0%7D%20%26%20%5Csigma%5E2_%7Bu_2%7D%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D_2%27%20%26%20%5Ctextbf%7B0%7D%5C%5C%20%5Ctextbf%7B0%7D%20%26%20%5Ctextbf%7B0%7D%20%26%20%5Csigma%5E2_%7Bu_3%7D%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D_3%27%20%5Cend%7Bbmatrix%7D">
+<>
+
 
 * **Reaction Norm model**
 Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
@@ -71,9 +80,9 @@ Data is randomly splitted into training and testing sets. Model parameters are e
 trials.
 
 *   **Cross Validation 2 (CV2)**. Represent a scheme of prediction of lines that have been evaluated in some but all target environments. Thus, prediction of non-evaluated lines benefits from borrowing of information from lines that were evaluated in other environments.
-
+<p align="center">
 <img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="450">
-
+</b>
 In our case, we will use 70% of the data for training set and the remaining 30% for the testing set.
 For CV1, we will create a scheme in which 30% of the lines are missing in all environments. 
 CV2 scheme is created by having 30% of the entries missing in one environment but present in all the rest of environments.
