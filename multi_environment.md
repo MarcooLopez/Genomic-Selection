@@ -53,6 +53,8 @@ Likewise, by making ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_%7
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_%7B0%2C1%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B0%2C2%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B0%2C3%7D%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_%7B1%2C1%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B1%2C2%7D%5C%5C%20%5Ctextbf%7Bu%7D_%7B1%2C3%7D%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
 </p>
 
+where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_0%3D%5B%5Ctextbf%7Bu%7D%27_1%2C%5Ctextbf%7Bu%7D%27_2%2C%5Ctextbf%7Bu%7D%27_3%5D%27)
+
 * **Reaction Norm model**
 Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
 The reaction norm model can model main and interaction effects of environmental covariates (EC) and markers.
