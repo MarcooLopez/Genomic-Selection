@@ -41,9 +41,9 @@ Similar to Bayes B, markers effects are asummed to be equal to zero with probabi
 #### 6. G-BLUP model (RR-BLUP)
 The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;u_i&plus;%5Cvarepsilon_i) and its solution is equivalent to that of the BRR model arised when in the model above we make the sustitution 
 
-![](https://latex.codecogs.com/gif.latex?u_i%3D%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j)
+![](https://latex.codecogs.com/gif.latex?g_i%3D%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j)
 
-It can be shown that the random vector ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D%3D%5Bu_1%2C...%2Cu_n%5D%27) follows a Normal distribution ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Ctextbf%7BG%7D%5Csigma%5E2_u%29), where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D%3D%5Ctextbf%7BX%7D%5Ctextbf%7BX%7D%27/p) with ***X*** is the matrix of centered and standardized marker genotypes and it is called genomic relationship matrix.
+It can be shown that the random vector ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D%3D%5Bg_1%2C...%2Cg_n%5D%27) follows a Normal distribution ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Ctextbf%7BG%7D%5Csigma%5E2_g%29), where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D%3D%5Ctextbf%7BX%7D%5Ctextbf%7BX%7D%27/p) with ***X*** is the matrix of centered and standardized marker genotypes and it is called genomic relationship matrix.
 
 
 ### Semi-parametric regression
