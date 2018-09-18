@@ -61,7 +61,7 @@ are assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_0%5Csim%20
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_1%3D%5Cfrac%7B1%7D%7Bp%7D%20%5Cbegin%7Bbmatrix%7D%20%5Csigma%5E2_%7Bu_1%7D%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D_1%27%20%26%20%5Ctextbf%7B0%7D%20%26%20%5Ctextbf%7B0%7D%5C%5C%20%5Ctextbf%7B0%7D%20%26%20%5Csigma%5E2_%7Bu_2%7D%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D_2%27%20%26%20%5Ctextbf%7B0%7D%5C%5C%20%5Ctextbf%7B0%7D%20%26%20%5Ctextbf%7B0%7D%20%26%20%5Csigma%5E2_%7Bu_3%7D%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D_3%27%20%5Cend%7Bbmatrix%7D">
-<>
+</b>
 
 
 * **Reaction Norm model**
