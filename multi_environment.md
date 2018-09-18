@@ -27,7 +27,7 @@ This model assumes that effects of markers are the same across environments, thi
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5C%5C%20%5Ctextbf%7BX%7D_2%5C%5C%20%5Ctextbf%7BX%7D_3%20%5Cend%7Bbmatrix%7D%5Cboldsymbol%7B%5Cbeta%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
 </p>
 
-Similarly, it can be represented also as a G-BLUP model, by making ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%3D%5Ctextbf%7BX%7D_k%5Cboldsymbol%7B%5Cbeta), as: 
+Similarly, it can be represented also as a G-BLUP model, by making ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%3D%5Ctextbf%7BX%7D_k%5Cboldsymbol%7B%5Cbeta%7D), as: 
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_1%5C%5C%20%5Ctextbf%7Bu%7D_2%5C%5C%20%5Ctextbf%7Bu%7D_3%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">,
@@ -39,15 +39,13 @@ where the random effect ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_0%3D%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D%27_1%5Cquad%20%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D%27_2%5Cquad%20%5Ctextbf%7BX%7D_1%5Ctextbf%7BX%7D%27_3%5C%5C%20%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D%27_1%5Cquad%20%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D%27_2%5Cquad%20%5Ctextbf%7BX%7D_2%5Ctextbf%7BX%7D%27_3%5C%5C%20%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D%27_1%5Cquad%20%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D%27_2%5Cquad%20%5Ctextbf%7BX%7D_3%5Ctextbf%7BX%7D%27_3%5C%5C%20%5Cend%7Bbmatrix%7D/p">
 </p>
 
-
+* **MxE model**
+It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
 
 * **Reaction Norm model**
 Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
 The reaction norm model can model main and interaction effects of environmental covariates (EC) and markers.
 
-
-* **MxE model**
-It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
 
 Performance of the *Reaction Norm* and *MxE model* will be compared with that of the *across-environments* model that ignores GxE modeling and the *single-environment* model which is fitted within each environment.
 
