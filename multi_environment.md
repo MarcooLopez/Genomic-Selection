@@ -3,15 +3,15 @@
 
 * **Single-environment model**
 
-Remember the G-BLUP model previously described. This model is obtained by regressing the phenotype vector containing the *n* records available in the *k*<sup>th</sup> environment (*k=1,2,...,s* environments), ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5By_%7B1k%7D%2C...%2Cy_%7Bnk%7D%5D%27), where *i=1,2,...,n* indexes lines (individuals), on *p* markers using a linear model in the form
+This model is obtained by regressing the phenotype vector containing the *n* records available in the *k*<sup>th</sup> environment (*k=1,2,...,s* environments), ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5By_%7B1k%7D%2C...%2Cy_%7Bnk%7D%5D%27), where *i=1,2,...,n* indexes lines (individuals), on *p* markers using a linear model in the form
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Cmu_k%5Ctextbf%7B1%7D&plus;%5Ctextbf%7BX%7D_k%5Cboldsymbol%7B%5Cbeta%7D_k&plus;%5Cboldsymbol%7B%5Cvarepsilon%7D_k">
 </p>
 
-where ![](https://latex.codecogs.com/gif.latex?%5Cmu_k) is the intercept, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7B1%7D%3D%5B1%2C...%2C1%5D%27) is a *n*-vector of ones, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BX%7D_k%3D%5C%7Bx_%7Bijk%7D%5C%7D) is the matrix of centered and standardized markers available in *k*<sup>th</sup> environment, ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cbeta%7D_k%3D%5B%5Cbeta_%7B1k%7D%2C...%2C%5Cbeta_%7Bpk%7D%5D%27) is a *p*-vector of marker effects, and ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cvarepsilon%7D_k%3D%5B%5Cvarepsilon_%7Bik%7D%2C...%2C%5Cvarepsilon_%7Bnk%7D%5D%27) is the *n*-vector of residuals.
+where ![](https://latex.codecogs.com/gif.latex?%5Cmu_k) is the intercept, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7B1%7D%3D%5B1%2C...%2C1%5D%27) is a *n*-vector of ones, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BX%7D_k%3D%5C%7Bx_%7Bijk%7D%5C%7D) is the ![](https://latex.codecogs.com/gif.latex?n%5Ctimes%20p) matrix of centered and standardized markers available in the *k*<sup>th</sup> environment, ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cbeta%7D_k%3D%5B%5Cbeta_%7B1k%7D%2C...%2C%5Cbeta_%7Bpk%7D%5D%27) is a *p*-vector of marker effects, and ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cvarepsilon%7D_k%3D%5B%5Cvarepsilon_%7Bik%7D%2C...%2C%5Cvarepsilon_%7Bnk%7D%5D%27) is the *n*-vector of residuals.
 
-As shown, this model can be represented as a G-BLUP model by setting ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%3D%5Ctextbf%7BX%7D_k%5Cboldsymbol%7B%5Cbeta%7D_k), this is: 
+This model can be represented as a G-BLUP model by setting ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%3D%5Ctextbf%7BX%7D_k%5Cboldsymbol%7B%5Cbeta%7D_k), this is: 
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Cmu_k%5Ctextbf%7B1%7D&plus;%5Ctextbf%7Bu%7D_k&plus;%5Cboldsymbol%7B%5Cvarepsilon%7D_k">
@@ -27,7 +27,7 @@ This model assumes that effects of markers are the same across environments, thi
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5C%5C%20%5Ctextbf%7BX%7D_2%5C%5C%20%5Ctextbf%7BX%7D_3%20%5Cend%7Bbmatrix%7D%5Cboldsymbol%7B%5Cbeta%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
 </p>
 
-Similarly, it can be represented also as a G-BLUP model (assuming only 3 environments) as: 
+Similarly, it can be represented also as a G-BLUP model, by making ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%3D%5Ctextbf%7BX%7D_k%5Cboldsymbol%7B%5Cbeta%7D_k), as: 
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bu%7D_1%5C%5C%20%5Ctextbf%7Bu%7D_2%5C%5C%20%5Ctextbf%7Bu%7D_3%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">,
