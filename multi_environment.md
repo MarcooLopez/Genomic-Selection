@@ -9,9 +9,8 @@ Remember the G-BLUP model previously described. This model is obtained by regres
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Cmu_k%5Ctextbf%7B1%7D&plus;%5Ctextbf%7BX%7D_k%5Cboldsymbol%7B%5Cbeta%7D_k&plus;%5Cboldsymbol%7B%5Cvarepsilon%7D_j">
 </p>
 
-where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7B1%7D%3D%5B1%2C...%2C1%5D%27) is a *n*-vector of ones, ![](https://latex.codecogs.com/gif.latex?%5Cmu_k) is the intercept
-
-,  ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BX%7D_k%3D%5C%7Bx_%7Bijk%7D%5C%7D). As shown, this model can be represented as a G-BLUP model in the form: 
+where ![](https://latex.codecogs.com/gif.latex?%5Cmu_k) is the intercept, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7B1%7D%3D%5B1%2C...%2C1%5D%27) is a *n*-vector of ones, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BX%7D_k%3D%5C%7Bx_%7Bijk%7D%5C%7D) is the matrix of centered and standardized markers available in *k*<sup>th</sup> environment, ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cbeta%7D_k%3D%5B%5Cbeta_%7B1k%7D%2C...%2C%5Cbeta_%7Bpk%7D%5D%27) is a *p*-vector of marker effects, and ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cvarepsilon%7D_k%3D%5B%5Cvarepsilon_%7Bik%7D%2C...%2C%5Cvarepsilon_%7Bnk%7D%5D%27) is the *n*-vector of residuals.
+As shown, this model can be represented as a G-BLUP model in the form: 
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Ctextbf%7B1%7D%5Cmu_k&plus;%5Ctextbf%7Bu%7D_k&plus;%5Cmathbf%7B%5Cvarepsilon%7D_k">
