@@ -81,9 +81,11 @@ Data is randomly splitted into training and testing sets. Model parameters are e
 trials.
 
 *   **Cross Validation 2 (CV2)**. Represent a scheme of prediction of lines that have been evaluated in some but all target environments. Thus, prediction of non-evaluated lines benefits from borrowing of information from lines that were evaluated in other environments.
+
 <p align="center">
 <img src="https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/CV1_2_scheme.png" width="450">
 </b>
+
 In our case, we will use 70% of the data for training set and the remaining 30% for the testing set.
 For CV1, we will create a scheme in which 30% of the lines are missing in all environments. 
 CV2 scheme is created by having 30% of the entries missing in one environment but present in all the rest of environments.
