@@ -21,7 +21,7 @@ where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%3D%5Bu_%7B1k%7
 
 * **Across-environments model**
 
-This model assumes that effects of markers are the same across environments, this is ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cbeta%7D_1%3D%5Cboldsymbol%7B%5Cbeta%7D_2%3D...%3D%5Cboldsymbol%7B%5Cbeta%7D_s%3D%5Cboldsymbol%7B%5Cbeta%7D). The model above becomes (assume *s=3* environments)
+This model assumes that effects of markers are the same across environments, this is ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cbeta%7D_1%3D%5Cboldsymbol%7B%5Cbeta%7D_2%3D...%3D%5Cboldsymbol%7B%5Cbeta%7D_s%3D%5Cboldsymbol%7B%5Cbeta%7D). The model above can be simultaneously fitted for all environments as (assume *s=3* environments)
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5C%5C%20%5Ctextbf%7BX%7D_2%5C%5C%20%5Ctextbf%7BX%7D_3%20%5Cend%7Bbmatrix%7D%5Cboldsymbol%7B%5Cbeta%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
@@ -40,7 +40,11 @@ where the random effect ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7
 </p>
 
 * **MxE model**
-It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects into an effect that is common to all environments and an effect that is specific to each environment.
+It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE descomposes marker effects in the *k*<sup>th</sup> environment, ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cbeta%7D_k), into an effect that is common to all environments (*b*<sub>j0</sub>) and an effect that is specific to each environment (*b*<sub>jk</sub>), this is ![](https://latex.codecogs.com/gif.latex?%5Cbeta_k%3Db_%7Bj0%7D&plus;b_%7Bjk%7D). Thus, the multi-environmental model is
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5C%5C%20%5Ctextbf%7BX%7D_2%5C%5C%20%5Ctextbf%7BX%7D_3%20%5Cend%7Bbmatrix%7D%5Ctextbf%7Bb%7D_0&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5Cquad%5Ctextbf%7B0%7D%5Cquad%5Ctextbf%7B0%7D%5C%5C%20%5Ctextbf%7B0%7D%5Cquad%5Ctextbf%7BX%7D_2%5Cquad%5Ctextbf%7B0%7D%5C%5C%20%5Ctextbf%7B0%7D%5Cquad%5Ctextbf%7B0%7D%5Cquad%5Ctextbf%7BX%7D_3%20%5Cend%7Bbmatrix%7D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bb%7D_1%5C%5C%20%5Ctextbf%7Bb%7D_2%5C%5C%20%5Ctextbf%7Bb%7D_3%20%5Cend%7Bbmatrix%7D%20&plus;%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
+</p>
 
 * **Reaction Norm model**
 Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
