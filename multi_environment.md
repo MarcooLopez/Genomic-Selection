@@ -3,7 +3,7 @@
 
 * **Single-environment model**
 
-Remember the G-BLUP model previously described. This model is obtained by regressing the phenotype vector containing the *n* records available in the *k*<sup>th</sup> environment, ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5By_%7B1k%7D%2C...%2Cy_%7Bnk%7D%5D%27), where *i* indexes lines (individuals) and *k* indexes environments, on available markers in *k*<sup>th</sup> environment using a linear model in the form
+Remember the G-BLUP model previously described. This model is obtained by regressing the phenotype vector containing the *n* records available in the *k*<sup>th</sup> environment (*k=1,2,...,s* environments), ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5By_%7B1k%7D%2C...%2Cy_%7Bnk%7D%5D%27), where *i=1,2,...,n* indexes lines (individuals), on *p* markers using a linear model in the form
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Cmu_k%5Ctextbf%7B1%7D&plus;%5Ctextbf%7BX%7D_k%5Cboldsymbol%7B%5Cbeta%7D_k&plus;%5Cboldsymbol%7B%5Cvarepsilon%7D_k">
@@ -17,11 +17,11 @@ As shown, this model can be represented as a G-BLUP model by setting ![](https:/
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Cmu_k%5Ctextbf%7B1%7D&plus;%5Ctextbf%7Bu%7D_k&plus;%5Cboldsymbol%7B%5Cvarepsilon%7D_k">
 </p>
 
-where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%3D%5Bu_%7B1k%7D%2C...%2Cu_%7Bnk%7D%5D%27) is a random model assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bu_k%7D%5Ctextbf%7BG%7D_k%29) with the genomic relationship matrix estimated as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_k%3D%5Ctextbf%7BX%7D_k%5Ctextbf%7BX%7D_k%27/p).
+where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%3D%5Bu_%7B1k%7D%2C...%2Cu_%7Bnk%7D%5D%27) is a random effect assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bu%7D_k%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bu_k%7D%5Ctextbf%7BG%7D_k%29) with the genomic relationship matrix estimated as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_k%3D%5Ctextbf%7BX%7D_k%5Ctextbf%7BX%7D_k%27/p).
 
 * **Across-environments model**
 
-This model assumes that effects of markers are the same across environments, this is
+This model assumes that effects of markers are the same across environments, this is ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cbeta%7D_1%3D%5Cboldsymbol%7B%5Cbeta%7D_2%3D...%3D%5Cboldsymbol%7B%5Cbeta%7D_s%3D%5Cboldsymbol%7B%5Cbeta%7D). The model above becomes (assume *s=3* environments)
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5C%5C%20%5Ctextbf%7BX%7D_2%5C%5C%20%5Ctextbf%7BX%7D_3%20%5Cend%7Bbmatrix%7D%5Cboldsymbol%7B%5Cbeta%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
