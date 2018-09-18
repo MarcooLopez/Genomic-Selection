@@ -14,7 +14,7 @@ where ![](https://latex.codecogs.com/gif.latex?%5Cmu_k) is the intercept, ![](ht
 This model can be represented as a G-BLUP model by setting ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_k%3D%5Ctextbf%7BX%7D_k%5Cboldsymbol%7B%5Cbeta%7D_k), this is: 
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Cmu_k%5Ctextbf%7B1%7D&plus;%5Ctextbf%7Bg%7D_k&plus;%5Cboldsymbol%7B%5Cvarepsilon%7D_k">
+<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D_k%3D%5Cmu_k%5Ctextbf%7B1%7D&plus;%5Ctextbf%7Bu%7D_k&plus;%5Cboldsymbol%7B%5Cvarepsilon%7D_k">
 </p>
 
 where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_k%3D%5Bg_%7B1k%7D%2C...%2Cg_%7Bnk%7D%5D%27) is a random effect assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_k%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bg_k%7D%5Ctextbf%7BG%7D_k%29) with the genomic relationship matrix estimated as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_k%3D%5Ctextbf%7BX%7D_k%5Ctextbf%7BX%7D_k%27/p).
