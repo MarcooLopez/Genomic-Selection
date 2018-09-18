@@ -41,7 +41,7 @@ where the random effect ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7
 
 * **MxE model**
 
-It models GxE interaction using a marker-by-environment (MxE) approach that benefits of positively correlated environments. MxE model descomposes the effect of the *j*<sup>th</sup> marker on the *k*<sup>th</sup> environment, ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bjk%7D), into an effect that is common to all environments (*b*<sub>j0</sub>) and an effect that is specific to each environment (*b*<sub>jk</sub>), this is ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bjk%7D%3Db_%7Bj0%7D&plus;b_%7Bjk%7D). Thus, the multi-environmental model is
+It models GxE interaction using a marker-by-environment (MxE) approach in which the effect of the *j*<sup>th</sup> marker on the *k*<sup>th</sup> environment, ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bjk%7D), is descomposed into an effect that is common to all environments (*b*<sub>j0</sub>) and an effect that is specific to each environment (*b*<sub>jk</sub>), this is ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bjk%7D%3Db_%7Bj0%7D&plus;b_%7Bjk%7D). Thus, the multi-environmental model is
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%5C%5C%20%5Ctextbf%7BX%7D_2%5C%5C%20%5Ctextbf%7BX%7D_3%20%5Cend%7Bbmatrix%7D%5Ctextbf%7Bb%7D_0&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7BX%7D_1%20%26%20%5Ctextbf%7B0%7D%20%26%20%5Ctextbf%7B0%7D%5C%5C%20%5Ctextbf%7B0%7D%20%26%20%5Ctextbf%7BX%7D_2%20%26%20%5Ctextbf%7B0%7D%5C%5C%20%5Ctextbf%7B0%7D%20%26%20%5Ctextbf%7B0%7D%20%26%20%5Ctextbf%7BX%7D_3%20%5Cend%7Bbmatrix%7D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bb%7D_1%5C%5C%20%5Ctextbf%7Bb%7D_2%5C%5C%20%5Ctextbf%7Bb%7D_3%20%5Cend%7Bbmatrix%7D%20&plus;%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
@@ -67,8 +67,7 @@ are assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_0%5Csim%20
 
 * **Reaction Norm model**
 
-Is an extention of the G-BLUP model that incorporates GxE by introducing covariance structures as a funcion of the marker information.
-The reaction norm model can model main and interaction effects of environmental covariates (EC) and markers.
+The G-BLUP model presented in the across-environment approach can be extended to incorporate GxE by introducing covariance structures as a funcion of the marker information.
 
 The multienvironmental model assumes that environment (**E**) can be modeled as a random effect as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BE%7D%3D%5BE_1%2C...%2CE_s%5D%27%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_E%5Ctextbf%7BI%7D%29)
 
