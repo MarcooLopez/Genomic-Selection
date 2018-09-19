@@ -47,7 +47,6 @@ Similar to Bayes B, markers effects are asummed to be equal to zero with probabi
 
 #### 6. G-BLUP model (RR-BLUP)
 The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;g_i&plus;%5Cvarepsilon_i) and its solution is equivalent to that of the BRR model arised when in the model above we make the sustitution 
-
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?g_i%3D%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j">
 </b>
@@ -59,7 +58,6 @@ It can be shown that the random vector ![](https://latex.codecogs.com/gif.latex?
 
 #### 7. RKHS regression.
 The genomic function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) is expressed as a linear combination of some positive semi-definite basis functions called Reproducing Kernels (RK), ![](https://latex.codecogs.com/gif.latex?K%28%5Ctextbf%7Bx%7D_i%2C%5Ctextbf%7Bx%7D_%7Bi%27%7D%29), as follows
-
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29%3D%5Csum_%7Bi%27%3D1%7D%5EnK%28%5Ctextbf%7Bx%7D_i%2C%5Ctextbf%7Bx%7D_%7Bi%27%7D%29%5Calpha_%7Bi%27%7D">
 </b>
