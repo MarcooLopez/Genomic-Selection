@@ -5,14 +5,18 @@ The standard genetic model assumes that phenotype is the sum of a genetic compon
 ## Model
 Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a function of *p* marker genotypes ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bx%7D_i%3D%5Bx_%7Bi1%7D%2C...%2Cx_%7Bip%7D%5D%27) that seeks to aproximate to the true genetic value of the individual, this is
 
-![](https://latex.codecogs.com/gif.latex?y_i%3Df%28%5Ctextbf%7Bx%7D_i%29&plus;%5Cvarepsilon_i),
+<p align="center">
+<mg src="https://latex.codecogs.com/gif.latex?y_i%3Df%28%5Ctextbf%7Bx%7D_i%29&plus;%5Cvarepsilon_i">
+</b>
 
 where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) can be a parametric or non-parametric and ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cvarepsilon%7D%3D%5B%5Cvarepsilon_1%2C...%2C%5Cvarepsilon_n%5D%27) are the residuals which are usually assumed to be distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%5Cvarepsilon%5Ctextbf%7BI%7D%29).
 
 ### Parametric regression
 The genotypic value of an individual is estimated using a **linear model** in which a linear combination of the marker genotypes are used, that is
 
-![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29%3D%5Cmu&plus;%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j) 
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29%3D%5Cmu&plus;%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j">
+</b>
 
 where ![](https://latex.codecogs.com/gif.latex?%5Cmu) is the intercept, ![](https://latex.codecogs.com/gif.latex?x_%7Bij%7D) is the genotype of the *i*-th individual at the *j*-th marker, ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bj%7D) is the corresponding marker effect.
 
@@ -25,12 +29,16 @@ This prior induces shrinkage of estimates toward zero.
 #### 2. Bayesian LASSO.
 It assumes that the regression coefficients have a prior distribution double-exponential (*DE*, or Laplace) with parameters ![](https://latex.codecogs.com/gif.latex?%5Clambda%5E2) and ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%5Cvarepsilon). This prior is a thick-tailed prior that can be represented as a infinite mixture of normal densities scaled by exponential (![](https://latex.codecogs.com/gif.latex?Exp)) densities, this is
 
-![](https://latex.codecogs.com/gif.latex?%5Cbeta_j%5Csim%20DE%28%5Clambda%5E2%2C%5Csigma%5E2_%5Cvarepsilon%29%3D%5Cint%20N%28%5Cbeta_j%7C0%2C%5Csigma%5E2_%5Cvarepsilon%5Ctau%5E2_j%29Exp%28%5Ctau%5E2_j%7C%5Clambda%5E2/2%29%5Cpartial%20%5Csigma%5E2_%7B%5Cbeta_j%7D)
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?%5Cbeta_j%5Csim%20DE%28%5Clambda%5E2%2C%5Csigma%5E2_%5Cvarepsilon%29%3D%5Cint%20N%28%5Cbeta_j%7C0%2C%5Csigma%5E2_%5Cvarepsilon%5Ctau%5E2_j%29Exp%28%5Ctau%5E2_j%7C%5Clambda%5E2/2%29%5Cpartial%20%5Csigma%5E2_%7B%5Cbeta_j%7D">
+</b>
 
 #### 3. Bayes A
 The regression effects are assumed another thick-tailed prior, a scaled *t* distribution with degree of freedom ![](https://latex.codecogs.com/gif.latex?df_%5Cbeta) and scale ![](https://latex.codecogs.com/gif.latex?S_%5Cbeta) parameters. Similar as for doble-exponential, the scaled *t* distribution is represented as mixture of normal densities scaled with a scaled-inverse Chi-squared (![](https://latex.codecogs.com/gif.latex?%5Cchi%5E%7B-1%7D)) density, this is
 
-![](https://latex.codecogs.com/gif.latex?%5Cbeta_j%5Csim%20t%28df_%5Cbeta%2CS_%5Cbeta%29%3D%5Cint%20N%28%5Cbeta_j%7C0%2C%5Csigma%5E2_%7B%5Cbeta_j%7D%29%5Cchi%5E%7B-1%7D%28%5Csigma%5E2_%7B%5Cbeta_j%7D%7Cdf_%5Cbeta%2CS_%5Cbeta%29%5Cpartial%20%5Csigma%5E2_%7B%5Cbeta_j%7D)
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?%5Cbeta_j%5Csim%20t%28df_%5Cbeta%2CS_%5Cbeta%29%3D%5Cint%20N%28%5Cbeta_j%7C0%2C%5Csigma%5E2_%7B%5Cbeta_j%7D%29%5Cchi%5E%7B-1%7D%28%5Csigma%5E2_%7B%5Cbeta_j%7D%7Cdf_%5Cbeta%2CS_%5Cbeta%29%5Cpartial%20%5Csigma%5E2_%7B%5Cbeta_j%7D">
+</b>
 
 #### 4. Bayes B
 Markers effects are asummed to be equal to zero with probability ![](https://latex.codecogs.com/gif.latex?%5Cpi) and with probability 1-![](https://latex.codecogs.com/gif.latex?%5Cpi) are assumed to follow a scaled *t* distribution as in Bayes A model.
@@ -41,7 +49,9 @@ Similar to Bayes B, markers effects are asummed to be equal to zero with probabi
 #### 6. G-BLUP model (RR-BLUP)
 The response is modeled as ![](https://latex.codecogs.com/gif.latex?y_i%3D%5Cmu&plus;g_i&plus;%5Cvarepsilon_i) and its solution is equivalent to that of the BRR model arised when in the model above we make the sustitution 
 
-![](https://latex.codecogs.com/gif.latex?g_i%3D%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j)
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?g_i%3D%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j">
+</b>
 
 It can be shown that the random vector ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D%3D%5Bg_1%2C...%2Cg_n%5D%27) follows a Normal distribution ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_g%5Ctextbf%7BG%7D%29), where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D%3D%5Ctextbf%7BX%7D%5Ctextbf%7BX%7D%27/p) with ***X*** is the matrix of centered and standardized marker genotypes and it is called genomic relationship matrix.
 
@@ -51,7 +61,9 @@ It can be shown that the random vector ![](https://latex.codecogs.com/gif.latex?
 #### 7. RKHS regression.
 The genomic function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) is expressed as a linear combination of some positive semi-definite basis functions called Reproducing Kernels (RK), ![](https://latex.codecogs.com/gif.latex?K%28%5Ctextbf%7Bx%7D_i%2C%5Ctextbf%7Bx%7D_%7Bi%27%7D%29), as follows
 
-![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29%3D%5Csum_%7Bi%27%3D1%7D%5EnK%28%5Ctextbf%7Bx%7D_i%2C%5Ctextbf%7Bx%7D_%7Bi%27%7D%29%5Calpha_%7Bi%27%7D)
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29%3D%5Csum_%7Bi%27%3D1%7D%5EnK%28%5Ctextbf%7Bx%7D_i%2C%5Ctextbf%7Bx%7D_%7Bi%27%7D%29%5Calpha_%7Bi%27%7D">
+</b>
 
 This model can be rewritten as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7By%7D%3D%5Ctextbf%7BK%7D%5Cboldsymbol%7B%5Calpha%7D%20&plus;%5Cboldsymbol%7B%5Cvarepsilon%7D) where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BK%7D%3D%5C%7BK%28%5Ctextbf%7Bx%7D_i%2C%5Ctextbf%7Bx%7D_%7Bi%27%7D%29%5C%7D) is a ![](https://latex.codecogs.com/gif.latex?n%5Ctimes%20n) matrix containing all the evaluations of the RK function at the point (*i*,*i'*) and ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Calpha%7D%20%3D%5B%5Calpha_1%2C...%2C%5Calpha_n%5D%27).
 
