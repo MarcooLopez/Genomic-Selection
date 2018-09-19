@@ -85,7 +85,7 @@ where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_k%5Ctextbf%7Be%7
 
 where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_0) was described above and ![](https://latex.codecogs.com/gif.latex?%5Ccirc) denotes the element by element product (known as Hadamard product).
 
-**Note**. The Hadamard product above will yield a matrix similar to ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_1) above described but with ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%7Bg_1%7D%3D%5Csigma%5E2_%7Bg_2%7D%3D%5Csigma%5E2_%7Bg_3%7D%3D1). This is, reaction norm model estimates environment-specific effects with constant variance ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%7Bge%7D) in contrast wth MxE that accomodates environment-specific variance, ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%7Bg_k%7D), *k=1,...,s*.
+**Note**. The Hadamard product above will yield a matrix similar to ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_1) above described but with ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%7Bg_1%7D%3D%5Csigma%5E2_%7Bg_2%7D%3D%5Csigma%5E2_%7Bg_3%7D%3D1). This is, reaction norm model estimates environment-specific effects with constant variance ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%7Bge%7D) in contrast wth MxE model that accomodates environment-specific variance, ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%7Bg_k%7D), *k=1,...,s*.
 
 ## Model assessment
 Performance of the *Reaction Norm* and *MxE model* will be compared with that of the *across-environments* model that ignores GxE modeling and the *single-environment* model which is fitted within each environment.
