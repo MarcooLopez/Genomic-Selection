@@ -163,6 +163,7 @@ save(Y,envID,eigen_G,eigen_G0,eigen_GE,MxE_eigen,file="../multiEnvironment/prepD
 Code below can be used after 'data preparation' part to fit all the models and to extract variance components.
 
 ```
+rm(list=ls())
 library(BGLR)
 load("../multiEnvironment/prepData_multi.RData")
 n <- nrow(Y)
@@ -177,7 +178,7 @@ outVAR <- matrix(NA,ncol=4,nrow=1+2*nEnv)
 dimnames(outVAR) <- list(c("Main",rep(paste0("Env ",colnames(Y)),2)),c("Single","Across","MxE","R-Norm"))
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 300; burnIn <- 20
+nIter <- 30000; burnIn <- 2000
 
 #==============================================================
 # 1. Single environment (within-environment) model, ignoring GxE effect
@@ -234,7 +235,7 @@ outVAR
 ```
 
 #### Results
-The following table is the output of the code above for `niter=30000` and `burnIn=2000`.
+The following table is the output of the code above for `nIter=30000` and `burnIn=2000`.
 <img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/varComp.png" width="360">
 
 ##
@@ -249,6 +250,7 @@ After running the 'data preparation' part, it can be chosen either to perform CV
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
 ```
+rm(list=ls())
 #==================================================
 # User specifications
 #==================================================
@@ -258,6 +260,10 @@ m <- 100
 # Percentage of the data assigned to Testing set
 percTST <- 0.3
 #==================================================
+
+# Load data
+load("../multiEnvironment/prepData_multi.RData")
+n <- nrow(Y)
 
 # Creation of seed for repeated randomizations
 set.seed(123)
@@ -276,7 +282,7 @@ for(k in 1:m)
 }
 
 # Save YNA matrix
-save(YNA,file="YNA_CV1_multiEnv.RData")
+save(YNA,file="../multiEnvironment/YNA_CV1_multiEnv.RData")
 ```
 
 * **Cross Validation 2 (CV2)**
@@ -284,6 +290,7 @@ save(YNA,file="YNA_CV1_multiEnv.RData")
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
 ```
+rm(list=ls())
 #==================================================
 # User specifications
 #==================================================
@@ -293,6 +300,11 @@ m <- 100
 # Percentage of the data assigned to Testing set
 percTST <- 0.3
 #==================================================
+
+# Load data
+load("../multiEnvironment/prepData_multi.RData")
+n <- nrow(Y)
+nEnv <- ncol(Y)
 
 # Creation of seed for repeated randomizations
 set.seed(123)
@@ -327,15 +339,13 @@ for(k in 1:m)
 }
 
 # Save YNA matrix
-save(YNA,file="YNA_CV2_multiEnv.RData")
+save(YNA,file="../multiEnvironment/YNA_CV2_multiEnv.RData")
 ```
 
 After running the code to generate partitions for either CV1 or CV2 scenarios, the following code can be run to fit the models repeatealy for all partitions.
 
 ```
-# Models
-models <- c("Single","Across","MxE","R-Norm")
-
+rm(list=ls())
 #==================================================
 # User specifications
 #==================================================
@@ -344,88 +354,88 @@ mod <- 4
 
 # Type of CV. 1:CV1; 2:CV2
 CV <- 1
+
+# Partition number
+part <- 1
 #==================================================
+
+# Models
+models <- c("Single","Across","MxE","R-Norm")
 
 load(paste0("YNA_CV",CV,"_multiEnv.RData"))
 
-m <- length(YNA)
 model <- models[mod]
-
-# List to store results. Each element will save the predictions for each partition
-YHat <- list("list",m)
 
 # Number of iterations and burn-in for Bayesian models
 nIter <- 12000
 burnIn <- 2000
 
-for(k in 1:m)   # Loop for the replicates
+for(k in 1:m)   # Loop for the partitions
 {
-    YNA0 <- YNA[[k]]
-    yNA <- as.vector(YNA0)
+YNA0 <- YNA[[part]]
+yNA <- as.vector(YNA0)
     
-    #==============================================================
-    # 1. Single environment (within-environment) model, ignoring GxE effect
-    #==============================================================
-    if(model=="Single")
-    {
-        YHat0 <- matrix(NA,nrow=nrow(Y),ncol=ncol(Y))
-        ETA <- list(G=list(V=eigen_G$vectors,d=eigen_G$values,model='RKHS'))
-        for(env in 1:nEnv){
-            fm <-BGLR(y=YNA0[,env],ETA=ETA,nIter=nIter,burnIn=burnIn)
-            YHat0[,env] <- fm$yHat
-        }
+#==============================================================
+# 1. Single environment (within-environment) model, ignoring GxE effect
+#==============================================================
+if(model=="Single")
+{
+    YHat <- matrix(NA,nrow=nrow(Y),ncol=ncol(Y))
+    ETA <- list(G=list(V=eigen_G$vectors,d=eigen_G$values,model='RKHS'))
+    for(env in 1:nEnv){
+        fm <-BGLR(y=YNA0[,env],ETA=ETA,nIter=nIter,burnIn=burnIn)
+        YHat[,env] <- fm$yHat
     }
+}
 
-    #==============================================================
-    # 2. Across-environments model. Factor 'environment' as fixed effect
-    #==============================================================
-    if(model=="Across")
-    {
-        ETA <- list(list(~envID-1,model="FIXED"))
-        ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
+#==============================================================
+# 2. Across-environments model. Factor 'environment' as fixed effect
+#==============================================================
+if(model=="Across")
+{
+    ETA <- list(list(~envID-1,model="FIXED"))
+    ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
-        # Model Fitting
-        fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
-        YHat0 <- matrix(fm$yHat,ncol=nEnv)
-    }
+    # Model Fitting
+    fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
+    YHat <- matrix(fm$yHat,ncol=nEnv)
+}
     
-    #==============================================================
-    # 3. MxE interaction model. Factor 'environment' as fixed effect
-    #==============================================================
-    if(model=="MxE")
-    {
-        ETA <- list(list(~envID-1,model="FIXED"))
-        ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
+#==============================================================
+# 3. MxE interaction model. Factor 'environment' as fixed effect
+#==============================================================
+if(model=="MxE")
+{
+    ETA <- list(list(~envID-1,model="FIXED"))
+    ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
-        # Adding interaction terms
-        for(env in 1:nEnv){
-            eigen_G1 <- MxE_eigen[[env]]
-            ETA[[(env+2)]] <- list(V=eigen_G1$vectors,d=eigen_G1$values,model='RKHS')
-        }
-
-        # Model Fitting
-        fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
-        YHat0 <- matrix(fm$yHat,ncol=nEnv)
+    # Adding interaction terms
+    for(env in 1:nEnv){
+        eigen_G1 <- MxE_eigen[[env]]
+        ETA[[(env+2)]] <- list(V=eigen_G1$vectors,d=eigen_G1$values,model='RKHS')
     }
 
-    #==============================================================
-    # 4. Reaction-Norm model. Factor 'environment' as fixed effect
-    #==============================================================
-    if(model=="R-Norm")
-    {
-        ETA <- list(list(~envID-1,model="FIXED"))
-        ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
-        ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
+    # Model Fitting
+    fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
+    YHat <- matrix(fm$yHat,ncol=nEnv)
+}
 
-        # Model Fitting
-        fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
-        YHat0 <- matrix(fm$yHat,ncol=nEnv)
-    }
-    YHat[[k]] <- YHat0
+#==============================================================
+# 4. Reaction-Norm model. Factor 'environment' as fixed effect
+#==============================================================
+if(model=="R-Norm")
+{
+    ETA <- list(list(~envID-1,model="FIXED"))
+    ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
+    ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
+
+    # Model Fitting
+    fm <- BGLR(y=yNA,ETA=ETA,nIter=nIter,burnIn=burnIn)
+    YHat <- matrix(fm$yHat,ncol=nEnv)
 }
 
 # Save results
-save(YHat,file=paste0("outPRED_multiEnv_CV",CV,"_",model,".RData"))
+save(YHat,file=paste0("outPRED_multiEnv_CV",CV,"_",model,"_partition_",part,".RData"))
 ```
 
 #### 2.2 Retrieving results
