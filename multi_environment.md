@@ -67,7 +67,7 @@ are assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_0%5Csim%20
 
 * **Reaction Norm model**
 
-The G-BLUP model presented in the across-environment approach can be extended to incorporate GxE by introducing covariance structures as a funcion of the marker information. This model, assumes the environment (*E*<sub>k</sub>) as a random effect as **E** = [E<sub>1</sub>,...,E<sub>s</sub>]' ~ ![](https://latex.codecogs.com/gif.latex?N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_e%5Ctextbf%7BZ%7D_e%5Ctextbf%7BZ%7D_e%27%29). These random effects are conected with individuals through the design matrix **Z**<sub>e</sub>. Thus,  the main effect of environments, **e** = **Z**<sub>e</sub>**E**, is
+The G-BLUP model presented in the across-environment approach can be extended to incorporate GxE by introducing covariance structures as a funcion of the marker information. This model, assumes the environment (*E*<sub>k</sub>) as a random effect as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BE%7D%3D%5BE_1%2C...%2CE_s%5D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_e%5Ctextbf%7BI%7D%29). These random effects are conected with individuals through the design matrix **Z**<sub>e</sub>. Thus,  the main effect of environments, **e** = **Z**<sub>e</sub>**E**, is
 
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7Be%7D%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Be%7D_1%5C%5C%20%5Ctextbf%7Be%7D_2%5C%5C%20%5Ctextbf%7Be%7D_3%20%5Cend%7Bbmatrix%7D%3D%20%5Ctextbf%7BZ%7D_e%5Ctextbf%7BE%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_e%5Ctextbf%7BZ%7D_e%5Ctextbf%7BZ%7D_e%27%29">,
 
@@ -77,9 +77,11 @@ where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Be%7D_k%3D%5Be_%7B1k%7
 <img src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7By%7D_1%5C%5C%20%5Ctextbf%7By%7D_2%5C%5C%20%5Ctextbf%7By%7D_3%20%5Cend%7Bbmatrix%7D%3D%20%5Cbegin%7Bbmatrix%7D%20%5Cmu_1%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_2%5Ctextbf%7B1%7D%5C%5C%20%5Cmu_3%5Ctextbf%7B1%7D%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bg%7D_1%5C%5C%20%5Ctextbf%7Bg%7D_2%5C%5C%20%5Ctextbf%7Bg%7D_3%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bg%7D_1%5Ctextbf%7Be%7D_1%5C%5C%20%5Ctextbf%7Bg%7D_2%5Ctextbf%7Be%7D_2%5C%5C%20%5Ctextbf%7Bg%7D_3%5Ctextbf%7Be%7D_3%20%5Cend%7Bbmatrix%7D&plus;%20%5Cbegin%7Bbmatrix%7D%20%5Cboldsymbol%7B%5Cvarepsilon%7D_1%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_2%5C%5C%20%5Cboldsymbol%7B%5Cvarepsilon%7D_3%20%5Cend%7Bbmatrix%7D">
 </p>
 
-where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_k%5Ctextbf%7Be%7D_k) is the interaction term between the random effect of markers and environments. It can be proved that 
+where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_k%5Ctextbf%7Be%7D_k) is the interaction term between the random effect of markers and environments. It can be proved that, aproximately, 
 
-The multienvironmental model assumes that environment (**E**) can be modeled as a random effect as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BE%7D%3D%5BE_1%2C...%2CE_s%5D%27%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_E%5Ctextbf%7BI%7D%29)
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D%5Ctextbf%7Be%7D%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bg%7D_1%5Ctextbf%7Be%7D_1%5C%5C%20%5Ctextbf%7Bg%7D_2%5Ctextbf%7Be%7D_2%5C%5C%20%5Ctextbf%7Bg%7D_3%5Ctextbf%7Be%7D_3%20%5Cend%7Bbmatrix%7D%20%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bge%7D%5Ctextbf%7BG%7D_0%5Ccirc%20%5B%5Ctextbf%7BZ%7D_e%5Ctextbf%7BZ%7D_e%27%5D%20%29">
+</b>
 
 ## Model assessment
 Performance of the *Reaction Norm* and *MxE model* will be compared with that of the *across-environments* model that ignores GxE modeling and the *single-environment* model which is fitted within each environment.
