@@ -13,7 +13,6 @@ where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%2
 
 ### Parametric regression
 The genotypic value of an individual is estimated using a **linear model** in which a linear combination of the marker genotypes are used, that is
-
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29%3D%5Cmu&plus;%5Csum_%7Bj%3D1%7D%5Epx_%7Bij%7D%5Cbeta_j">
 </b>
