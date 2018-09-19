@@ -234,6 +234,7 @@ outVAR
 ```
 
 #### Results
+The following table is the output of the code above for `niter=30000` and `burnIn=2000`.
 <img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/varComp.png" width="360">
 
 ##
