@@ -69,7 +69,7 @@ are assumed ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_0%5Csim%20
 
 The G-BLUP model presented in the across-environment approach can be extended to incorporate GxE by introducing covariance structures as a funcion of the marker information. This model, assumes the environment (*E*<sub>k</sub>) as a random effect as ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BE%7D%3D%5BE_1%2C...%2CE_s%5D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_e%5Ctextbf%7BI%7D%29). These random effects are conected with individuals through the design matrix **Z**<sub>e</sub>. Thus,  the main effect of environments, **e** = **Z**<sub>e</sub>**E**, is
 
-<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7Be%7D%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Be%7D_1%5C%5C%20%5Ctextbf%7Be%7D_2%5C%5C%20%5Ctextbf%7Be%7D_3%20%5Cend%7Bbmatrix%7D%3D%20%5Ctextbf%7BZ%7D_e%5Ctextbf%7BE%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_e%5Ctextbf%7BZ%7D_e%5Ctextbf%7BZ%7D_e%27%29">,
+<img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7Be%7D%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Be%7D_1%5C%5C%20%5Ctextbf%7Be%7D_2%5C%5C%20%5Ctextbf%7Be%7D_3%20%5Cend%7Bbmatrix%7D%3D%20%5Ctextbf%7BZ%7D_e%5Ctextbf%7BE%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_e%5Ctextbf%7BZ%7D_e%5Ctextbf%7BZ%7D_e%27%29">
 
 where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Be%7D_k%3D%5Be_%7B1k%7D%2C...%2Ce_%7Bnk%7D%5D%27) are the effects of the environment *k* for the *i*<sup>th</sup> individual (*i=1,...,n*). The reaction norm model, incorporates GxE by introducing the interaction terms ![](https://latex.codecogs.com/gif.latex?g_%7Bik%7De_%7Bik%7D), as 
 
@@ -82,6 +82,10 @@ where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D_k%5Ctextbf%7Be%7
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?%5Ctextbf%7Bg%7D%5Ctextbf%7Be%7D%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ctextbf%7Bg%7D_1%5Ctextbf%7Be%7D_1%5C%5C%20%5Ctextbf%7Bg%7D_2%5Ctextbf%7Be%7D_2%5C%5C%20%5Ctextbf%7Bg%7D_3%5Ctextbf%7Be%7D_3%20%5Cend%7Bbmatrix%7D%20%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%7Bge%7D%5Ctextbf%7BG%7D_0%5Ccirc%20%5B%5Ctextbf%7BZ%7D_e%5Ctextbf%7BZ%7D_e%27%5D%20%29">
 </b>
+
+where ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_0) was described above and ![](https://latex.codecogs.com/gif.latex?%5Ccirc) denotes the element by element product (known as Hadamard product).
+
+**Note**. The Hadamard product above will yield a matrix similar to ![](https://latex.codecogs.com/gif.latex?%5Ctextbf%7BG%7D_1) above described but with ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%7Bg_1%7D%3D%5Csigma%5E2_%7Bg_2%7D%3D%5Csigma%5E2_%7Bg_3%7D%3D1). This is, reaction norm model estimates environment-specific effects with constant variance ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%7Bge%7D) in contrast wth MxE that accomodates environment-specific variance, ![](https://latex.codecogs.com/gif.latex?%5Csigma%5E2_%7Bg_k%7D), *k=1,...,s*.
 
 ## Model assessment
 Performance of the *Reaction Norm* and *MxE model* will be compared with that of the *across-environments* model that ignores GxE modeling and the *single-environment* model which is fitted within each environment.
