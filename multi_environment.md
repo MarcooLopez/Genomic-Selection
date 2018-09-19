@@ -112,9 +112,8 @@ This procedure of TRN-TST can be repeated many times to allow for estimation of 
 ## Data preparation
 ### Load data, generate G-matrix
 ```
-# Load libraries
+rm(list=ls())
 library(BGLR)
-library(rrBLUP)
 
 # Load data
 data(wheat)
@@ -124,14 +123,9 @@ Y <- wheat.Y
 # Select environments. For instance, environments 2,4, and 5
 Y <- Y[,c(2,3,4)]
 
-n <- nrow(Y)
-p <- ncol(X)
-nEnv <- ncol(Y)
-y <- as.vector(Y)
-
 # Genomic relationship matrix
 M <- scale(X)
-G <- tcrossprod(M)/p
+G <- tcrossprod(M)/ncol(X)
 
 # Design matrix for individuals. It connects individuals with environments
 GID <- factor(rep(rownames(Y),ncol(Y)),levels=rownames(Y))
@@ -152,11 +146,15 @@ eigen_G0 <- eigen(ZgGZgt)
 eigen_GE <- eigen(GE)
 
 # Interaction terms (MxE model)
-MxE_eigen <- vector("list",nEnv)
-for(env in 1:nEnv){ 
-    tmp <- rep(0,nEnv) ; tmp[env] <- 1; G1 <- kronecker(diag(tmp),G)
+MxE_eigen <- vector("list",ncol(Y))
+for(env in 1:ncol(Y)){ 
+    tmp <- rep(0,ncol(Y)) ; tmp[env] <- 1; G1 <- kronecker(diag(tmp),G)
     MxE_eigen[[env]] <- eigen(G1)
 }
+
+# Save prepared data
+dir.create("../multiEnvironment")
+save(Y,envID,eigen_G,eigen_G0,eigen_GE,MxE_eigen,file="../multiEnvironment/prepData_multi.RData")
 ```
 
 ## Running models
@@ -165,14 +163,21 @@ for(env in 1:nEnv){
 Code below can be used after 'data preparation' part to fit all the models and to extract variance components.
 
 ```
+library(BGLR)
+load("../multiEnvironment/prepData_multi.RData")
+n <- nrow(Y)
+p <- ncol(X)
+nEnv <- ncol(Y)
+y <- as.vector(Y)
+
 set.seed(123)
 
 # Matrix to store results. It will save variance components for each model
-outVAR <- matrix(NA,ncol=4,nrow=1+2*ncol(Y))
+outVAR <- matrix(NA,ncol=4,nrow=1+2*nEnv)
 dimnames(outVAR) <- list(c("Main",rep(paste0("Env ",colnames(Y)),2)),c("Single","Across","MxE","R-Norm"))
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 30000; burnIn <- 2000
+nIter <- 300; burnIn <- 20
 
 #==============================================================
 # 1. Single environment (within-environment) model, ignoring GxE effect
@@ -225,7 +230,7 @@ fm <- BGLR(y=y,ETA=ETA,nIter=nIter,burnIn=burnIn)
 outVAR[1,4] <- fm$ETA[[2]]$varU
 outVAR[(1:nEnv)+1,4] <- fm$ETA[[3]]$varU
 outVAR[(1:nEnv)+4,4] <- fm$varE
-
+outVAR
 ```
 
 #### Results
