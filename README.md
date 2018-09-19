@@ -7,7 +7,7 @@ Response variable *y* for the *i*-th individual (*i=1,...,n*) is regressed on a 
 
 ![](https://latex.codecogs.com/gif.latex?y_i%3Df%28%5Ctextbf%7Bx%7D_i%29&plus;%5Cvarepsilon_i),
 
-where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) can be a parametric or non-parametric and ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%5Cvarepsilon%3D%5B%5Cvarepsilon_1%2C...%2C%5Cvarepsilon_n%5D%27) are the residuals which are usually assumed to be distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2CI%5Csigma%5E2_%5Cvarepsilon%29).
+where function ![](https://latex.codecogs.com/gif.latex?f%28%5Ctextbf%7Bx%7D_i%29) can be a parametric or non-parametric and ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cvarepsilon%7D%3D%5B%5Cvarepsilon_1%2C...%2C%5Cvarepsilon_n%5D%27) are the residuals which are usually assumed to be distributed Normal with constant variance ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7B%5Cvarepsilon%7D%5Csim%20N%28%5Ctextbf%7B0%7D%2C%5Csigma%5E2_%5Cvarepsilon%5Ctextbf%7BI%7D%29).
 
 ### Parametric regression
 The genotypic value of an individual is estimated using a **linear model** in which a linear combination of the marker genotypes are used, that is
@@ -19,7 +19,7 @@ where ![](https://latex.codecogs.com/gif.latex?%5Cmu) is the intercept, ![](http
 Model above presents some estimation difficulties when *p* is much bigger than *n* so penalization ans regularization aproaches are used to overcome this problem. Penalization and regularization solutions can be seen as posterior solutions in the Bayesian context.
 
 #### 1. Bayesian Ridge Regression (BRR).
-Is a penalization regression that assumes that the regression coefficients follow a Gaussian (Normal) prior distribution, this is ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bj%7D%5Csim%20N%280%2C%5Csigma%5E2_%5Cbeta%29).
+Is a penalization regression that assumes that the regression coefficients follow independently a Gaussian (Normal) prior distribution, this is ![](https://latex.codecogs.com/gif.latex?%5Cbeta_%7Bj%7D%5Csim%20N%280%2C%5Csigma%5E2_%5Cbeta%29).
 This prior induces shrinkage of estimates toward zero.
 
 #### 2. Bayesian LASSO.
