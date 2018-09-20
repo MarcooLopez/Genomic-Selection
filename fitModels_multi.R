@@ -1,5 +1,7 @@
+setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(BGLR)
+
 #=========================================================
 # User specifications
 #=========================================================
@@ -24,19 +26,16 @@ if(length(args)==0){
 }
 
 # Load data
-load("../multiEnvironment/prepData_multi.RData")
-n <- nrow(Y)
-nEnv <- ncol(Y)
+load("multiEnvironment/prepData_multi.RData")
+load(paste0("multiEnvironment/YNA_CV",CV,"_multiEnv.RData"))
+n <- nrow(Y);  nEnv <- ncol(Y)
 
 # Models
 models <- c("Single","Across","MxE","R-Norm")
-
-load(paste0("../multiEnvironment/YNA_CV",CV,"_multiEnv.RData"))
 model <- models[mod]
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 1000
-burnIn <- 200
+nIter <- 30000;  burnIn <- 2000
 
 YNA0 <- YNA[[part]]
 yNA <- as.vector(YNA0)
@@ -101,6 +100,6 @@ if(model=="R-Norm")
 }
 
 # Save results
-outfolder <- paste0("../multiEnvironment/CV",CV,"/",model)
+outfolder <- paste0("multiEnvironment/CV",CV,"/",model)
 if(!file.exists(outfolder)) dir.create(outfolder,recursive=T)
 save(YHat,file=paste0(outfolder,"/outPRED_multiEnv_partition_",part,".RData"))
