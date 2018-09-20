@@ -114,10 +114,9 @@ This procedure of TRN-TST can be repeated many times to allow for estimation of 
 The following R code, [prepareData_multi.R](https://github.com/MarcooLopez/Genomic-Selection/blob/master/prepareData_multi.R), can be used to prepare the data for analizes of the multi-environmental models.
 
 ```
+setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(BGLR)
-
-setwd("/mnt/home/lopezcru/GS")
 
 # Load data
 data(wheat)
@@ -167,10 +166,10 @@ save(Y,envID,eigen_G,eigen_G0,eigen_GE,MxE_eigen,file="multiEnvironment/prepData
 Code below, [get_VarComps_multi.R](https://github.com/MarcooLopez/Genomic-Selection/blob/master/get_VarComps_multi.R) script, can be used after 'data preparation' part to fit all the models and to extract variance components.
 
 ```
+setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(BGLR)
 
-setwd("/mnt/home/lopezcru/GS")
 load("multiEnvironment/prepData_multi.RData")
 n <- nrow(Y)
 nEnv <- ncol(Y)
@@ -258,8 +257,9 @@ After running the 'data preparation' part, it can be chosen either to perform CV
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
 ```
-rm(list=ls())
 setwd("/mnt/home/lopezcru/GS")
+rm(list=ls())
+
 #=========================================================
 # User specifications
 #=========================================================
@@ -299,8 +299,9 @@ save(YNA,file="multiEnvironment/YNA_CV1_multiEnv.RData")
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
 ```
-rm(list=ls())
 setwd("/mnt/home/lopezcru/GS")
+rm(list=ls())
+
 #=========================================================
 # User specifications
 #=========================================================
@@ -357,9 +358,10 @@ After running the code to generate partitions for either CV1 or CV2 scenarios, t
 The code runs a single partition for each model either for CV1 or CV2. These specifications need to be passed in variables `mod`, `CV`, and `part`. 
 
 ```
+setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(BGLR)
-setwd("/mnt/home/lopezcru/GS")
+
 #=========================================================
 # User specifications
 #=========================================================
@@ -386,16 +388,14 @@ if(length(args)==0){
 # Load data
 load("multiEnvironment/prepData_multi.RData")
 load(paste0("multiEnvironment/YNA_CV",CV,"_multiEnv.RData"))
-n <- nrow(Y)
-nEnv <- ncol(Y)
+n <- nrow(Y);  nEnv <- ncol(Y)
 
 # Models
 models <- c("Single","Across","MxE","R-Norm")
 model <- models[mod]
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 30000
-burnIn <- 2000
+nIter <- 30000;  burnIn <- 2000
 
 YNA0 <- YNA[[part]]
 yNA <- as.vector(YNA0)
@@ -478,10 +478,10 @@ sh run_jobs_multi.sh &
 The code below will retrieve results for all models fitted previously showing the within-environment correlation for all fitted models
 
 ```
+setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(ggplot2)
 library(reshape)
-setwd("/mnt/home/lopezcru/GS")
 
 #=========================================================
 # User specifications
@@ -546,7 +546,12 @@ Tables below are the results of running 100 partitions with `nIter=30000` and `b
 |Env 4  | 0.377(0.055)  | 0.395(0.053)  | 0.382(0.055) | 0.382(0.055) |
 |Env 5  | 0.441(0.056)  | 0.382(0.057)  | 0.412(0.054) | 0.409(0.055) |
 
-##
+
+<p align="center">
+<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuracy_distn_CV1_multiEnv.png" width="400">
+</b>
+
+###
 **Cross Validation 2. CV2**
 
 |       |Single-Env |Across-Env | MxE  | RNorm |
@@ -555,13 +560,9 @@ Tables below are the results of running 100 partitions with `nIter=30000` and `b
 |Env 4  | 0.375(0.058)  | 0.602(0.042)  | 0.591(0.043) | 0.585(0.044) |
 |Env 5  | 0.442(0.048)  | 0.493(0.045)  | 0.529(0.042) | 0.528(0.043) |
 
-##
-<p align="center">
-<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuracy_distn_CV1_multiEnv.png" width="350">
-</b>
 
 <p align="center">
-<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuracy_distn_CV2_multiEnv.png" width="350">
+<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuracy_distn_CV2_multiEnv.png" width="400">
 </b>
 
 #
