@@ -1,3 +1,4 @@
+setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(BGLR)
 
@@ -39,5 +40,5 @@ for(env in 1:ncol(Y)){
 }
 
 # Save prepared data
-dir.create("../multiEnvironment")
-save(Y,envID,eigen_G,eigen_G0,eigen_GE,MxE_eigen,file="../multiEnvironment/prepData_multi.RData")
+dir.create("multiEnvironment")
+save(Y,envID,eigen_G,eigen_G0,eigen_GE,MxE_eigen,file="multiEnvironment/prepData_multi.RData")
