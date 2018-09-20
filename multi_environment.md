@@ -113,7 +113,7 @@ This procedure of TRN-TST can be repeated many times to allow for estimation of 
 ### Load data, generate G-matrix
 The following code, 'prepareData_multi.R' can be used to prepare the data for analizes of the multi-environmental models.
 
-![](https://github.com/MarcooLopez/Genomic-Selection/blob/master/prepareData_multi.R)
+[](https://github.com/MarcooLopez/Genomic-Selection/blob/master/prepareData_multi.R)
 
 ```
 rm(list=ls())
