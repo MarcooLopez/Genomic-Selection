@@ -459,61 +459,12 @@ save(YHat,file=paste0(outfolder,"/outPRED_multiEnv_partition_",part,".RData"))
 ```
 
 #### 2.2 Running in parallel many jobs
-Code above will run a single combination of partition-model-CV, thus when running, for instance, several models for both CV1 and CV2, some parallelzation of jobs is needed for speeding of computation. The following bash code will submit many jobs depending of the core capacity of the computer. Jobs will be sent by chunks whose size is specified in variable `nb` (for instance, `nb=10` will run 10 jobs at the time). After jobs in the chunk are done, another chunk will be submited to be run. Variables `seq=2`, `seq2`, and `seq3` specify the 2 CV types, 4 models, and 100 partitions, respectiely.
+Code above will run a single combination of partition-model-CV, thus when running, for instance, several models for both CV1 and CV2, some parallelzation of jobs is needed for speeding of computation. The bash code called *[run_jobs_multi.sh]()* will submit many jobs depending of the core capacity of the computer. Jobs will be sent by chunks whose size is specified in variable `nb` (for instance, `nb=10` will run 10 jobs at the time). After jobs in the chunk are done, another chunk will be submited to be run. Variables `seq1=2`, `seq2=4`, and `seq3=100` specify the 2 CV types, 4 models, and 100 partitions, respectiely.
 
+The bash shell script needs to be saved in the same directory as the R script 'fitModels_multi.R' and it can be run from command line as
 ```
-#!/bin/bash
-# Number of jobs in each block
-nb=10
-seq1=2
-seq2=4
-seq3=100
-
-# Create a 'wait' sentence between chunks
-waittext="wait "
-for i in $(seq 1 $nb)
-do
-	waittext=("${waittext[*]}" "%$i")
-done
-
-# Create job_submit file
-cat > job_submit.sh <<EOF 
-#!/bin/bash
-
-EOF
-
-n=$((seq1*seq2*seq3))
-cont=0
-for i in $(seq 1 $seq1)
-do
-	for j in $(seq 1 $seq2)
-	do
-		for k in $(seq 1 $seq3)
-		do
-			cont=$(($cont +1))
-			LOG=${i}_${j}_${k}
-			
-cat >> job_submit.sh <<EOF 
-R CMD BATCH --no-save --no-restore '--args CV=$i mod=$j part=$k' fitModel_multi.R LOG_$LOG &
-EOF
-            
-			if [ $(($cont % $nb)) == 0 ] && [ "$cont" -lt "$n" ]
-			then
-cat >> job_submit.sh <<EOF 
-
-${waittext[@]}
-
-EOF
-			fi
-        done
-    done
-done
-
-sh job_submit.sh &
+sh run_jobs_multi.sh &
 ```
-
-run_Models.R
-
 
 #### 2.3 Retrieving results
 
