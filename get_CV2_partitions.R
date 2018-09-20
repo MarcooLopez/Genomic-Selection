@@ -1,4 +1,6 @@
+setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
+
 #=========================================================
 # User specifications
 #=========================================================
@@ -10,7 +12,7 @@ percTST <- 0.3
 #=========================================================
 
 # Load data
-load("../multiEnvironment/prepData_multi.RData")
+load("multiEnvironment/prepData_multi.RData")
 n <- nrow(Y)
 nEnv <- ncol(Y)
 
@@ -47,4 +49,4 @@ for(k in 1:m)
 }
 
 # Save YNA matrix
-save(YNA,file="../multiEnvironment/YNA_CV2_multiEnv.RData")
+save(YNA,file="multiEnvironment/YNA_CV2_multiEnv.RData")
