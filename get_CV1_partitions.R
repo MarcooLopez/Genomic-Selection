@@ -1,4 +1,6 @@
+setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
+
 #=========================================================
 # User specifications
 #=========================================================
@@ -10,7 +12,7 @@ percTST <- 0.3
 #=========================================================
 
 # Load data
-load("../multiEnvironment/prepData_multi.RData")
+load("multiEnvironment/prepData_multi.RData")
 n <- nrow(Y)
 
 # Creation of seed for repeated randomizations
@@ -30,4 +32,4 @@ for(k in 1:m)
 }
 
 # Save YNA matrix
-save(YNA,file="../multiEnvironment/YNA_CV1_multiEnv.RData")
+save(YNA,file="multiEnvironment/YNA_CV1_multiEnv.RData")
