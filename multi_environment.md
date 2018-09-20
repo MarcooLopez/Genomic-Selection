@@ -117,6 +117,8 @@ The following R code, [prepareData_multi.R](https://github.com/MarcooLopez/Genom
 rm(list=ls())
 library(BGLR)
 
+setwd("/mnt/home/lopezcru/GS")
+
 # Load data
 data(wheat)
 X <- wheat.X
@@ -155,8 +157,8 @@ for(env in 1:ncol(Y)){
 }
 
 # Save prepared data
-dir.create("../multiEnvironment")
-save(Y,envID,eigen_G,eigen_G0,eigen_GE,MxE_eigen,file="../multiEnvironment/prepData_multi.RData")
+dir.create("multiEnvironment")
+save(Y,envID,eigen_G,eigen_G0,eigen_GE,MxE_eigen,file="multiEnvironment/prepData_multi.RData")
 ```
 
 ## Running models
@@ -167,7 +169,9 @@ Code below, [get_VarComps_multi.R](https://github.com/MarcooLopez/Genomic-Select
 ```
 rm(list=ls())
 library(BGLR)
-load("../multiEnvironment/prepData_multi.RData")
+
+setwd("/mnt/home/lopezcru/GS")
+load("multiEnvironment/prepData_multi.RData")
 n <- nrow(Y)
 nEnv <- ncol(Y)
 y <- as.vector(Y)
@@ -235,7 +239,7 @@ outVAR[(1:nEnv)+4,4] <- fm$varE
 outVAR
 
 # Save results
-write.table(outVAR,file="../multiEnvironment/varComps.csv",sep=",",row.names=F)
+write.table(outVAR,file="multiEnvironment/varComps.csv",sep=",",row.names=F)
 ```
 
 #### Results
@@ -255,6 +259,7 @@ Code below will generate a matrix YNA containing "NA" values for the entries cor
 
 ```
 rm(list=ls())
+setwd("/mnt/home/lopezcru/GS")
 #=========================================================
 # User specifications
 #=========================================================
@@ -266,7 +271,7 @@ percTST <- 0.3
 #=========================================================
 
 # Load data
-load("../multiEnvironment/prepData_multi.RData")
+load("multiEnvironment/prepData_multi.RData")
 n <- nrow(Y)
 
 # Creation of seed for repeated randomizations
@@ -286,7 +291,7 @@ for(k in 1:m)
 }
 
 # Save YNA matrix
-save(YNA,file="../multiEnvironment/YNA_CV1_multiEnv.RData")
+save(YNA,file="multiEnvironment/YNA_CV1_multiEnv.RData")
 ```
 
 * **Cross Validation 2 (CV2)**
@@ -295,6 +300,7 @@ Code below will generate a matrix YNA containing "NA" values for the entries cor
 
 ```
 rm(list=ls())
+setwd("/mnt/home/lopezcru/GS")
 #=========================================================
 # User specifications
 #=========================================================
@@ -306,7 +312,7 @@ percTST <- 0.3
 #=========================================================
 
 # Load data
-load("../multiEnvironment/prepData_multi.RData")
+load("multiEnvironment/prepData_multi.RData")
 n <- nrow(Y)
 nEnv <- ncol(Y)
 
@@ -343,7 +349,7 @@ for(k in 1:m)
 }
 
 # Save YNA matrix
-save(YNA,file="../multiEnvironment/YNA_CV2_multiEnv.RData")
+save(YNA,file="multiEnvironment/YNA_CV2_multiEnv.RData")
 ```
 
 After running the code to generate partitions for either CV1 or CV2 scenarios, the following script ([fitModels_multi.R](https://github.com/MarcooLopez/Genomic-Selection/blob/master/fitModels_multi.R)) can be run to fit the models repeatealy for all partitions. In all multi-environment models, main effect of 'environment' will be regarded as fixed effect.
@@ -353,6 +359,7 @@ The code runs a single partition for each model either for CV1 or CV2. These spe
 ```
 rm(list=ls())
 library(BGLR)
+setwd("/mnt/home/lopezcru/GS")
 #=========================================================
 # User specifications
 #=========================================================
@@ -377,19 +384,18 @@ if(length(args)==0){
 }
 
 # Load data
-load("../multiEnvironment/prepData_multi.RData")
+load("multiEnvironment/prepData_multi.RData")
+load(paste0("multiEnvironment/YNA_CV",CV,"_multiEnv.RData"))
 n <- nrow(Y)
 nEnv <- ncol(Y)
 
 # Models
 models <- c("Single","Across","MxE","R-Norm")
-
-load(paste0("../multiEnvironment/YNA_CV",CV,"_multiEnv.RData"))
 model <- models[mod]
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 1000
-burnIn <- 200
+nIter <- 30000
+burnIn <- 2000
 
 YNA0 <- YNA[[part]]
 yNA <- as.vector(YNA0)
@@ -454,7 +460,7 @@ if(model=="R-Norm")
 }
 
 # Save results
-outfolder <- paste0("../multiEnvironment/CV",CV,"/",model)
+outfolder <- paste0("multiEnvironment/CV",CV,"/",model)
 if(!file.exists(outfolder)) dir.create(outfolder,recursive=T)
 save(YHat,file=paste0(outfolder,"/outPRED_multiEnv_partition_",part,".RData"))
 ```
@@ -475,7 +481,6 @@ The code below will retrieve results for all models fitted previously showing th
 rm(list=ls())
 library(ggplot2)
 library(reshape)
-
 setwd("/mnt/home/lopezcru/GS")
 
 #=========================================================
@@ -522,10 +527,10 @@ outCOR <- outCOR[!sapply(outCOR,is.null)]
 (means <- t(do.call("rbind",lapply(outCOR,function(x)apply(x[,-1],2,mean)))))
 (sds <- t(do.call("rbind",lapply(outCOR,function(x)apply(x[,-1],2,sd)))))
 
-write.csv(rbind(means,colnames(sds),sds),file=paste0("Accuracy_avg_CV",CV,"_multiEnv.csv"))
+write.csv(rbind(means,colnames(sds),sds),file=paste0("multiEnvironment/Accuracy_avg_CV",CV,"_multiEnv.csv"))
 
 toplot <- do.call("rbind",lapply(outCOR,function(x)melt(x,id="model")))
-png(paste0("Accuracy_distn_CV",CV,"_multiEnv.png"),height=350)
+png(paste0("multiEnvironment/Accuracy_distn_CV",CV,"_multiEnv.png"),height=350)
 ggplot(toplot,aes(x=model,y=value,fill=variable)) + geom_boxplot()+
 labs(fill="Env",y="Accuracy",title=paste0("Correlation between observed and predicted values. CV",CV))
 dev.off()
@@ -551,10 +556,13 @@ Tables below are the results of running 100 partitions with `nIter=30000` and `b
 |Env 5  | 0.442(0.048)  | 0.493(0.045)  | 0.529(0.042) | 0.528(0.043) |
 
 ##
-Distribution of accuracy over 100 partitions by model. CV1
+<p align="center">
+<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuracy_distn_CV1_multiEnv.png" width="350">
+</b>
 
-<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuacy_distn_CV1.png" width="350">
-
+<p align="center">
+<img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuracy_distn_CV2_multiEnv.png" width="350">
+</b>
 
 #
 * **[back](https://github.com/MarcooLopez/Genomic-Selection-Demo/blob/master/README.md)**
