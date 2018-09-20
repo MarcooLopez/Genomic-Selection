@@ -179,9 +179,9 @@ dimnames(outVAR) <- list(c("Main",rep(paste0("Env ",colnames(Y)),2)),c("Single",
 # Number of iterations and burn-in for Bayesian models
 nIter <- 30000; burnIn <- 2000
 
-#==============================================================
+#--------------------------------------------------------
 # 1. Single environment (within-environment) model
-#==============================================================
+#--------------------------------------------------------
 ETA <- list(G=list(V=eigen_G$vectors,d=eigen_G$values,model='RKHS'))
 for(env in 1:nEnv){
     fm <-BGLR(y=Y[,env],ETA=ETA,nIter=nIter,burnIn=burnIn)
@@ -189,9 +189,9 @@ for(env in 1:nEnv){
     outVAR[env+4,1] <- fm$varE
 }
 
-#==============================================================
+#--------------------------------------------------------
 # 2. Across-environments model
-#==============================================================
+#--------------------------------------------------------
 ETA <- list(list(~envID-1,model="FIXED"))
 ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
@@ -200,9 +200,9 @@ fm <- BGLR(y=y,ETA=ETA,nIter=nIter,burnIn=burnIn)
 outVAR[1,2] <- fm$ETA[[2]]$varU
 outVAR[(1:nEnv)+4,2] <- fm$varE
 
-#==============================================================
+#--------------------------------------------------------
 # 3. MxE interaction model
-#==============================================================
+#--------------------------------------------------------
 ETA <- list(list(~envID-1,model="FIXED"))
 ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 
@@ -218,9 +218,9 @@ outVAR[1,3] <- fm$ETA[[2]]$varU
 for(env in 1:nEnv) outVAR[env+1,3] <- fm$ETA[[env+2]]$varU
 outVAR[(1:nEnv)+4,3] <- fm$varE
 
-#==============================================================
+#--------------------------------------------------------
 # 4. Reaction-Norm model
-#==============================================================
+#--------------------------------------------------------
 ETA <- list(list(~envID-1,model="FIXED"))
 ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
 ETA[[3]] <- list(V=eigen_GE$vectors,d=eigen_GE$values,model="RKHS")
@@ -253,15 +253,15 @@ Code below will generate a matrix YNA containing "NA" values for the entries cor
 
 ```
 rm(list=ls())
-#==================================================
+#=========================================================
 # User specifications
-#==================================================
+#=========================================================
 # Number of replicates
 m <- 100
 
 # Percentage of the data assigned to Testing set
 percTST <- 0.3
-#==================================================
+#=========================================================
 
 # Load data
 load("../multiEnvironment/prepData_multi.RData")
@@ -293,15 +293,15 @@ Code below will generate a matrix YNA containing "NA" values for the entries cor
 
 ```
 rm(list=ls())
-#==================================================
+#=========================================================
 # User specifications
-#==================================================
+#=========================================================
 # Number of replicates
 m <- 100
 
 # Percentage of the data assigned to Testing set
 percTST <- 0.3
-#==================================================
+#=========================================================
 
 # Load data
 load("../multiEnvironment/prepData_multi.RData")
@@ -348,12 +348,13 @@ After running the code to generate partitions for either CV1 or CV2 scenarios, t
 
 The code runs a single partition for each model either for CV1 or CV2. These specifications need to be passed in variables `mod`, `CV`, and `part`. 
 
-```{r}
+**run_Models.R**
+```
 rm(list=ls())
 library(BGLR)
-#==================================================
+#=========================================================
 # User specifications
-#==================================================
+#=========================================================
 # Choose one model. 1: single; 2:across; 3:MxE; 4:R-Norm
 mod <- 4
 
@@ -362,7 +363,7 @@ CV <- 1
 
 # Partition number
 part <- 1
-#==================================================
+#=========================================================
 
 # Read arguments passed from command line
 args=(commandArgs(TRUE))
@@ -392,9 +393,9 @@ burnIn <- 200
 YNA0 <- YNA[[part]]
 yNA <- as.vector(YNA0)
     
-#==============================================================
+#--------------------------------------------------------
 # 1. Single environment (within-environment) model
-#==============================================================
+#--------------------------------------------------------
 if(model=="Single")
 {
     YHat <- matrix(NA,nrow=nrow(Y),ncol=ncol(Y))
@@ -405,9 +406,9 @@ if(model=="Single")
     }
 }
 
-#==============================================================
+#--------------------------------------------------------
 # 2. Across-environments model
-#==============================================================
+#--------------------------------------------------------
 if(model=="Across")
 {
     ETA <- list(list(~envID-1,model="FIXED"))
@@ -418,9 +419,9 @@ if(model=="Across")
     YHat <- matrix(fm$yHat,ncol=nEnv)
 }
     
-#==============================================================
+#--------------------------------------------------------
 # 3. MxE interaction model
-#==============================================================
+#--------------------------------------------------------
 if(model=="MxE")
 {
     ETA <- list(list(~envID-1,model="FIXED"))
@@ -437,9 +438,9 @@ if(model=="MxE")
     YHat <- matrix(fm$yHat,ncol=nEnv)
 }
 
-#==============================================================
+#--------------------------------------------------------
 # 4. Reaction-Norm model
-#==============================================================
+#--------------------------------------------------------
 if(model=="R-Norm")
 {
     ETA <- list(list(~envID-1,model="FIXED"))
@@ -452,10 +453,69 @@ if(model=="R-Norm")
 }
 
 # Save results
-save(YHat,file=paste0("outPRED_multiEnv_CV",CV,"_",model,"_partition_",part,".RData"))
+outfolder <- paste0("../multiEnvironment/CV",CV,"/",model)
+if(!file.exists(outfolder)) dir.create(outfolder,recursive=T)
+save(YHat,file=paste0(outfolder,"/outPRED_multiEnv_partition_",part,".RData"))
 ```
 
-#### 2.2 Retrieving results
+#### 2.2 Running in parallel many jobs
+Code above will run a single combination of partition-model-CV, thus when running, for instance, several models for both CV1 and CV2, some parallelzation of jobs is needed for speeding of computation. The following bash code will submit many jobs depending of the core capacity of the computer. Jobs will be sent by chunks whose size is specified in variable `nb` (for instance, `nb=10` will run 10 jobs at the time). After jobs in the chunk are done, another chunk will be submited to be run. Variables `seq=2`, `seq2`, and `seq3` specify the 2 CV types, 4 models, and 100 partitions, respectiely.
+
+```
+#!/bin/bash
+# Number of jobs in each block
+nb=10
+seq1=2
+seq2=4
+seq3=100
+
+# Create a 'wait' sentence between chunks
+waittext="wait "
+for i in $(seq 1 $nb)
+do
+	waittext=("${waittext[*]}" "%$i")
+done
+
+# Create job_submit file
+cat > job_submit.sh <<EOF 
+#!/bin/bash
+
+EOF
+
+n=$((seq1*seq2*seq3))
+cont=0
+for i in $(seq 1 $seq1)
+do
+	for j in $(seq 1 $seq2)
+	do
+		for k in $(seq 1 $seq3)
+		do
+			cont=$(($cont +1))
+			LOG=${i}_${j}_${k}
+			
+cat >> job_submit.sh <<EOF 
+R CMD BATCH --no-save --no-restore '--args CV=$i mod=$j part=$k' fitModel_multi.R LOG_$LOG &
+EOF
+            
+			if [ $(($cont % $nb)) == 0 ] && [ "$cont" -lt "$n" ]
+			then
+cat >> job_submit.sh <<EOF 
+
+${waittext[@]}
+
+EOF
+			fi
+        done
+    done
+done
+
+sh job_submit.sh &
+```
+
+run_Models.R
+
+
+#### 2.3 Retrieving results
 
 The code below will retrieve results for all models fitted previously showing the within-environment correlation for all fitted models
 
