@@ -472,64 +472,77 @@ sh run_jobs_multi.sh &
 The code below will retrieve results for all models fitted previously showing the within-environment correlation for all fitted models
 
 ```
+rm(list=ls())
 library(ggplot2)
 library(reshape)
 
-CV <- 1
+setwd("/mnt/home/lopezcru/GS")
+
+#=========================================================
+# User specifications
+#=========================================================
+# Type of CV. 1:CV1; 2:CV2
+CV <- 2
+#=========================================================
+
 models <- c("Single","Across","MxE","R-Norm")
 
-load(paste0("YNA_CV",CV,"_multiEnv.RData"))
+# Load data
+load("multiEnvironment/prepData_multi.RData")
+load(paste0("multiEnvironment/YNA_CV",CV,"_multiEnv.RData"))
 
 # Calculate within-environment correlation
 outCOR <- vector("list",length(models))
 names(outCOR) <- models
 for(mod in seq_along(models))
 {
-    filename <- paste0("outPRED_multiEnv_CV",CV,"_",models[mod],".RData")
-    if(file.exists(filename)){
-        load(filename,verbose=T)
-        outcor <- c()
-        for(k in 1:length(YHat))
+    outcor <- c()
+    for(part in 1:length(YNA)){
+        filename <- paste0("multiEnvironment/CV",CV,"/",models[mod],"/outPRED_multiEnv_partition_",part,".RData")
+        if(file.exists(filename))
         {
-            YNA0 <- YNA[[k]]; YHat0 <- YHat[[k]]
+            load(filename)
+            YNA0 <- YNA[[part]]
             tmp <- rep(NA,ncol(YNA0))
             for(env in 1:ncol(YNA0)){
                 indexTST <- which(is.na(YNA0[,env]))
-                tmp[env] <- cor(Y[indexTST,env],YHat0[indexTST,env])
+                tmp[env] <- cor(Y[indexTST,env],YHat[indexTST,env])
             }
             outcor <- rbind(outcor,tmp)
         }
-        colnames(outcor) <- paste0("Env ",colnames(YNA0))
-        rownames(outcor) <- NULL
-        outcor <- data.frame(model=models[mod],outcor)
-        outCOR[[mod]] <- outcor
     }    
+    colnames(outcor) <- paste0("Env ",colnames(YNA0))
+    rownames(outcor) <- NULL
+    outcor <- data.frame(model=models[mod],outcor)
+    outCOR[[mod]] <- outcor
 }
 outCOR <- outCOR[!sapply(outCOR,is.null)]
 
 # Calculate means and SD's
-t(do.call("rbind",lapply(outCOR,function(x)apply(x[,-1],2,mean))))
-t(do.call("rbind",lapply(outCOR,function(x)apply(x[,-1],2,sd))))
+(means <- t(do.call("rbind",lapply(outCOR,function(x)apply(x[,-1],2,mean)))))
+(sds <- t(do.call("rbind",lapply(outCOR,function(x)apply(x[,-1],2,sd)))))
+
+write.csv(rbind(means,colnames(sds),sds),file=paste0("Accuracy_avg_CV",CV,"_multiEnv.csv"))
 
 toplot <- do.call("rbind",lapply(outCOR,function(x)melt(x,id="model")))
-png(paste0("Accuacy_distn_CV",CV,".png"),height=350)
-ggplot(toplot,aes(x=model,y=value,fill=variable)) + geom_boxplot()+labs(fill="Env",y="Accuracy")
+png(paste0("Accuracy_distn_CV",CV,"_multiEnv.png"),height=350)
+ggplot(toplot,aes(x=model,y=value,fill=variable)) + geom_boxplot()+
+labs(fill="Env",y="Accuracy",title=paste0("Correlation between observed and predicted values. CV",CV))
 dev.off()
-
 ```
 
-Tables below are the results of running 100 partitions with `nIter=30000` and `burnIn=2000`. The mean and standard deviation across partitions are presented.
+Tables below are the results of running 100 partitions with `nIter=30000` and `burnIn=2000`. The mean and standard deviation (in parenthesis) across partitions are presented.
 
-**CV1. One TRN-TST partition**
+**Cross Validation 1. CV1**
 
 |       |Single-Env |Across-Env | MxE  | RNorm |
 |-------|-------|--------|------|------|
-|Env 2  | 0.41  | 0.33  | 0.38 | 0.38 |
-|Env 4  | 0.29  | 0.32  | 0.32 | 0.32 |
-|Env 5  | 0.47  | 0.49  | 0.51 | 0.51 |
+|Env 2  | 0.485(0.049)  | 0.441(0.052)  | 0.460(0.050) | 0.461(0.049) |
+|Env 4  | 0.377(0.055)  | 0.395(0.053)  | 0.382(0.055) | 0.382(0.055) |
+|Env 5  | 0.441(0.056)  | 0.382(0.057)  | 0.412(0.054) | 0.409(0.055) |
 
 ##
-**CV2. One TRN-TST partition**
+**Cross Validation 2. CV2**
 
 |       |Single-Env |Across-Env | MxE  | RNorm |
 |-------|-------|--------|------|-----|
