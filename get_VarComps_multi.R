@@ -1,6 +1,8 @@
+setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(BGLR)
-load("../multiEnvironment/prepData_multi.RData")
+
+load("multiEnvironment/prepData_multi.RData")
 n <- nrow(Y)
 nEnv <- ncol(Y)
 y <- as.vector(Y)
@@ -68,4 +70,4 @@ outVAR[(1:nEnv)+4,4] <- fm$varE
 outVAR
 
 # Save results
-write.table(outVAR,file="../multiEnvironment/varComps.csv",sep=",",row.names=F)
+write.table(outVAR,file="multiEnvironment/varComps.csv",sep=",",row.names=F)
