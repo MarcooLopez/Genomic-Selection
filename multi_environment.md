@@ -546,9 +546,9 @@ Tables below are the results of running 100 partitions with `nIter=30000` and `b
 
 |       |Single-Env |Across-Env | MxE  | RNorm |
 |-------|-------|--------|------|-----|
-|Env 2  | 0.41  | 0.62  | 0.64 | 0.63 |
-|Env 4  | 0.38  | 0.61  | 0.59 | 0.59 |
-|Env 5  | 0.43  | 0.41  | 0.46 | 0.45 |
+|Env 2  | 0.485(0.049)  | 0.629(0.032)  | 0.647(0.033) | 0.642(0.033) |
+|Env 4  | 0.375(0.058)  | 0.602(0.042)  | 0.591(0.043) | 0.585(0.044) |
+|Env 5  | 0.442(0.048)  | 0.493(0.045)  | 0.529(0.042) | 0.528(0.043) |
 
 ##
 Distribution of accuracy over 100 partitions by model. CV1
