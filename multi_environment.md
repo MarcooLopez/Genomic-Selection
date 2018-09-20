@@ -111,9 +111,7 @@ This procedure of TRN-TST can be repeated many times to allow for estimation of 
 
 ## Data preparation
 ### Load data, generate G-matrix
-The following code, 'prepareData_multi.R' can be used to prepare the data for analizes of the multi-environmental models.
-
-git show https://github.com/MarcooLopez/Genomic-Selection/blob/master/prepareData_multi.R
+The following R code, [prepareData_multi.R](https://github.com/MarcooLopez/Genomic-Selection/blob/master/prepareData_multi.R), can be used to prepare the data for analizes of the multi-environmental models.
 
 ```
 rm(list=ls())
@@ -164,7 +162,7 @@ save(Y,envID,eigen_G,eigen_G0,eigen_GE,MxE_eigen,file="../multiEnvironment/prepD
 ## Running models
 
 ### 1. Variance components estimation 
-Code below can be used after 'data preparation' part to fit all the models and to extract variance components.
+Code below, [get_VarComps_multi.R](https://github.com/MarcooLopez/Genomic-Selection/blob/master/get_VarComps_multi.R) script, can be used after 'data preparation' part to fit all the models and to extract variance components.
 
 ```
 rm(list=ls())
@@ -348,11 +346,10 @@ for(k in 1:m)
 save(YNA,file="../multiEnvironment/YNA_CV2_multiEnv.RData")
 ```
 
-After running the code to generate partitions for either CV1 or CV2 scenarios, the following code can be run to fit the models repeatealy for all partitions. In all multi-environment models, main effect of 'environment' will be regarded as fixed effect.
+After running the code to generate partitions for either CV1 or CV2 scenarios, the following script ([fitModels_multi.R](https://github.com/MarcooLopez/Genomic-Selection/blob/master/fitModels_multi.R)) can be run to fit the models repeatealy for all partitions. In all multi-environment models, main effect of 'environment' will be regarded as fixed effect.
 
 The code runs a single partition for each model either for CV1 or CV2. These specifications need to be passed in variables `mod`, `CV`, and `part`. 
 
-**run_Models.R**
 ```
 rm(list=ls())
 library(BGLR)
@@ -520,6 +517,8 @@ ggplot(toplot,aes(x=model,y=value,fill=variable)) + geom_boxplot()+labs(fill="En
 dev.off()
 
 ```
+
+Tables below are the results of running 100 partitions with `nIter=30000` and `burnIn=2000`. The mean and standard deviation across partitions are presented.
 
 **CV1. One TRN-TST partition**
 
