@@ -348,7 +348,7 @@ After running the code to generate partitions for either CV1 or CV2 scenarios, t
 
 The code runs a single partition for each model either for CV1 or CV2. These specifications need to be passed in variables `mod`, `CV`, and `part`. 
 
-```{"fit_models.R"}
+```{r}
 rm(list=ls())
 library(BGLR)
 #==================================================
