@@ -167,7 +167,6 @@ rm(list=ls())
 library(BGLR)
 load("../multiEnvironment/prepData_multi.RData")
 n <- nrow(Y)
-p <- ncol(X)
 nEnv <- ncol(Y)
 y <- as.vector(Y)
 
@@ -181,7 +180,7 @@ dimnames(outVAR) <- list(c("Main",rep(paste0("Env ",colnames(Y)),2)),c("Single",
 nIter <- 30000; burnIn <- 2000
 
 #==============================================================
-# 1. Single environment (within-environment) model, ignoring GxE effect
+# 1. Single environment (within-environment) model
 #==============================================================
 ETA <- list(G=list(V=eigen_G$vectors,d=eigen_G$values,model='RKHS'))
 for(env in 1:nEnv){
@@ -191,7 +190,7 @@ for(env in 1:nEnv){
 }
 
 #==============================================================
-# 2. Across-environments model. Factor 'environment' as fixed effect
+# 2. Across-environments model
 #==============================================================
 ETA <- list(list(~envID-1,model="FIXED"))
 ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
@@ -202,7 +201,7 @@ outVAR[1,2] <- fm$ETA[[2]]$varU
 outVAR[(1:nEnv)+4,2] <- fm$varE
 
 #==============================================================
-# 3. MxE interaction model. Factor 'environment' as fixed effect
+# 3. MxE interaction model
 #==============================================================
 ETA <- list(list(~envID-1,model="FIXED"))
 ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
@@ -220,7 +219,7 @@ for(env in 1:nEnv) outVAR[env+1,3] <- fm$ETA[[env+2]]$varU
 outVAR[(1:nEnv)+4,3] <- fm$varE
 
 #==============================================================
-# 4. Reaction-Norm model. Factor 'environment' as fixed effect
+# 4. Reaction-Norm model
 #==============================================================
 ETA <- list(list(~envID-1,model="FIXED"))
 ETA[[2]] <- list(V=eigen_G0$vectors,d=eigen_G0$values,model='RKHS')
@@ -232,6 +231,9 @@ outVAR[1,4] <- fm$ETA[[2]]$varU
 outVAR[(1:nEnv)+1,4] <- fm$ETA[[3]]$varU
 outVAR[(1:nEnv)+4,4] <- fm$varE
 outVAR
+
+# Save results
+write.table(outVAR,file="../multiEnvironment/varComps.csv",sep=",",row.names=F)
 ```
 
 #### Results
@@ -342,10 +344,13 @@ for(k in 1:m)
 save(YNA,file="../multiEnvironment/YNA_CV2_multiEnv.RData")
 ```
 
-After running the code to generate partitions for either CV1 or CV2 scenarios, the following code can be run to fit the models repeatealy for all partitions.
+After running the code to generate partitions for either CV1 or CV2 scenarios, the following code can be run to fit the models repeatealy for all partitions. In all multi-environment models, main effect of 'environment' will be regarded as fixed effect.
 
-```
+The code runs a single partition for each model either for CV1 or CV2. These specifications need to be passed in variables `mod`, `CV`, and `part`. 
+
+```{"fit_models.R"}
 rm(list=ls())
+library(BGLR)
 #==================================================
 # User specifications
 #==================================================
@@ -359,24 +364,36 @@ CV <- 1
 part <- 1
 #==================================================
 
+# Read arguments passed from command line
+args=(commandArgs(TRUE))
+if(length(args)==0){
+   cat('No args provided',"\n")
+ }else{
+    for(i in 1:length(args)){
+         eval(parse(text=args[[i]]))
+    }
+}
+
+# Load data
+load("../multiEnvironment/prepData_multi.RData")
+n <- nrow(Y)
+nEnv <- ncol(Y)
+
 # Models
 models <- c("Single","Across","MxE","R-Norm")
 
-load(paste0("YNA_CV",CV,"_multiEnv.RData"))
-
+load(paste0("../multiEnvironment/YNA_CV",CV,"_multiEnv.RData"))
 model <- models[mod]
 
 # Number of iterations and burn-in for Bayesian models
-nIter <- 12000
-burnIn <- 2000
+nIter <- 1000
+burnIn <- 200
 
-for(k in 1:m)   # Loop for the partitions
-{
 YNA0 <- YNA[[part]]
 yNA <- as.vector(YNA0)
     
 #==============================================================
-# 1. Single environment (within-environment) model, ignoring GxE effect
+# 1. Single environment (within-environment) model
 #==============================================================
 if(model=="Single")
 {
@@ -389,7 +406,7 @@ if(model=="Single")
 }
 
 #==============================================================
-# 2. Across-environments model. Factor 'environment' as fixed effect
+# 2. Across-environments model
 #==============================================================
 if(model=="Across")
 {
@@ -402,7 +419,7 @@ if(model=="Across")
 }
     
 #==============================================================
-# 3. MxE interaction model. Factor 'environment' as fixed effect
+# 3. MxE interaction model
 #==============================================================
 if(model=="MxE")
 {
@@ -421,7 +438,7 @@ if(model=="MxE")
 }
 
 #==============================================================
-# 4. Reaction-Norm model. Factor 'environment' as fixed effect
+# 4. Reaction-Norm model
 #==============================================================
 if(model=="R-Norm")
 {
