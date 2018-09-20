@@ -539,15 +539,14 @@ dev.off()
 Tables below are the results of running 100 partitions with `nIter=30000` and `burnIn=2000`. The mean and standard deviation (in parenthesis) across partitions are presented.
 
 **Cross Validation 1. CV1**
-<p align="center">
-    
+ 
 |       |Single-Env |Across-Env | MxE  | RNorm |
 |-------|-------|--------|------|------|
 |Env 2  | 0.485(0.049)  | 0.441(0.052)  | 0.460(0.050) | 0.461(0.049) |
 |Env 4  | 0.377(0.055)  | 0.395(0.053)  | 0.382(0.055) | 0.382(0.055) |
 |Env 5  | 0.441(0.056)  | 0.382(0.057)  | 0.412(0.054) | 0.409(0.055) |
 
-</b>
+&nbsp;
 
 <p align="center">
 <img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuracy_distn_CV1_multiEnv.png" width="400">
@@ -562,6 +561,7 @@ Tables below are the results of running 100 partitions with `nIter=30000` and `b
 |Env 4  | 0.375(0.058)  | 0.602(0.042)  | 0.591(0.043) | 0.585(0.044) |
 |Env 5  | 0.442(0.048)  | 0.493(0.045)  | 0.529(0.042) | 0.528(0.043) |
 
+&nbsp;
 
 <p align="center">
 <img src="https://github.com/MarcooLopez/Genomic-Selection/blob/master/Accuracy_distn_CV2_multiEnv.png" width="400">
