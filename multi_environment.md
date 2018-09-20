@@ -111,6 +111,8 @@ This procedure of TRN-TST can be repeated many times to allow for estimation of 
 
 ## Data preparation
 ### Load data, generate G-matrix
+The following code, 'prepareData_multi.R' can be used to prepare the data for analizes of the multi-environmental models.
+
 ```
 rm(list=ls())
 library(BGLR)
