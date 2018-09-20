@@ -459,7 +459,7 @@ save(YHat,file=paste0(outfolder,"/outPRED_multiEnv_partition_",part,".RData"))
 ```
 
 #### 2.2 Running in parallel many jobs
-Code above will run a single combination of partition-model-CV, thus when running, for instance, several models for both CV1 and CV2, some parallelzation of jobs is needed for speeding of computation. The bash code called *[run_jobs_multi.sh]()* will submit many jobs depending of the core capacity of the computer. Jobs will be sent by chunks whose size is specified in variable `nb` (for instance, `nb=10` will run 10 jobs at the time). After jobs in the chunk are done, another chunk will be submited to be run. Variables `seq1=2`, `seq2=4`, and `seq3=100` specify the 2 CV types, 4 models, and 100 partitions, respectiely.
+Code above will run a single combination of partition-model-CV, thus when running, for instance, several models for both CV1 and CV2, some parallelzation of jobs is needed for speeding of computation. The bash code called *[run_jobs_multi.sh](https://github.com/MarcooLopez/Genomic-Selection/blob/master/run_jobs_multi.sh)* will submit many jobs depending of the core capacity of the computer. Jobs will be sent by chunks whose size is specified in variable `nb` (for instance, `nb=10` will run 10 jobs at the time). After jobs in the chunk are done, another chunk will be submited to be run. Variables `seq1=2`, `seq2=4`, and `seq3=100` specify the 2 CV types, 4 models, and 100 partitions, respectiely.
 
 The bash shell script needs to be saved in the same directory as the R script 'fitModels_multi.R' and it can be run from command line as
 ```
