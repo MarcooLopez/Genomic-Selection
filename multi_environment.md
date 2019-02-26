@@ -113,7 +113,7 @@ This procedure of TRN-TST can be repeated many times to allow for estimation of 
 ### Load data, generate G-matrix
 The following R code, [prepareData_multi.R](https://github.com/MarcooLopez/Genomic-Selection/blob/master/prepareData_multi.R), can be used to prepare the data for analizes of the multi-environmental models.
 
-```
+```r
 setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(BGLR)
@@ -165,7 +165,7 @@ save(Y,envID,eigen_G,eigen_G0,eigen_GE,MxE_eigen,file="multiEnvironment/prepData
 ### 1. Variance components estimation 
 Code below, [get_VarComps_multi.R](https://github.com/MarcooLopez/Genomic-Selection/blob/master/get_VarComps_multi.R) script, can be used after 'data preparation' part to fit all the models and to extract variance components.
 
-```
+```r
 setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(BGLR)
@@ -256,7 +256,7 @@ After running the 'data preparation' part, it can be chosen either to perform CV
 
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV1 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
-```
+```r
 setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 
@@ -298,7 +298,7 @@ save(YNA,file="multiEnvironment/YNA_CV1_multiEnv.RData")
 
 Code below will generate a matrix YNA containing "NA" values for the entries corresponding to the TST set mimicing the CV2 prediction problem. It generates a 'list' with 'm' matrices containing the TRN-TST partitions
 
-```
+```r
 setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 
@@ -357,7 +357,7 @@ After running the code to generate partitions for either CV1 or CV2 scenarios, t
 
 The code runs a single partition for each model either for CV1 or CV2. These specifications need to be passed in variables `mod`, `CV`, and `part`. 
 
-```
+```r
 setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(BGLR)
@@ -477,7 +477,7 @@ sh run_jobs_multi.sh &
 
 The code below will retrieve results for all models fitted previously showing the within-environment correlation for all fitted models
 
-```
+```r
 setwd("/mnt/home/lopezcru/GS")
 rm(list=ls())
 library(ggplot2)
