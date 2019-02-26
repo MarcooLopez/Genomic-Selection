@@ -77,7 +77,7 @@ Data from CIMMYT’s Global Wheat Program. Lines were evaluated for grain yield 
 Data is available for download in the R-package 'BGLR'.
 
 ### R-packages installation
-```
+```r
 if(!"BGLR"%in%rownames(installed.packages()))  install.packages("BGLR")
 if(!"rrBLUP"%in%rownames(installed.packages())) install.packages("rrBLUP")
 library(BGLR)
@@ -85,7 +85,7 @@ library(rrBLUP)
 ```
 
 ### Download data
-```
+```r
 data(wheat)
 X <- wheat.X
 Y <- wheat.Y
