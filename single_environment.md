@@ -5,7 +5,7 @@ The prediction power of the model will be assessed using the training-testing (T
 
 ## Data preparation
 ### Load data, generate G-matrix and create objects to store results
-```
+```r
 # Load libraries
 library(BGLR)
 library(rrBLUP)
@@ -35,7 +35,7 @@ Zg <- model.matrix(~GID-1)
 ### 1. Variance components estimation
 After running the 'data preparation' part, the code following code can be used to fit all models and to extract variance components and other parameters.
 
-```
+```r
 set.seed(123)
 
 # Matrix to store results. It will save the main parameters for each model
@@ -95,7 +95,7 @@ print(outVAR)
 ### 2. Replicates of partitions to obtain standard deviations of predictions
 After running the 'data preparation' part, the code below runs repeated partitions to obtain mean and standard deviations of accuracies for all models. All the models will be run using 'BGLR' package.
 
-```
+```r
 # Models
 models <- c("GBLUP","BRR","LASSO","BayesB")
 
@@ -150,7 +150,7 @@ save(outCOR,file=paste0("outCOR_",model,".RData"))
 #### 2.1 Results
 The code below will retrieve results for all models fitted previously
 
-```
+```r
 models <- c("GBLUP","BRR","LASSO","BayesB")
 
 OUT <- c()
