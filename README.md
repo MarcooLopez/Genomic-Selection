@@ -112,6 +112,6 @@ X[1:10,1:5]
 * Meuwissen, T. H. E., Hayes, B. J., & Goddard, M. E. (2001). **Prediction of total genetic value using genome-wide dense marker maps**. Genetics, 157(4), 1819–1829.
 * Park, T., & Casella, G. (2008). **The Bayesian Lasso**. Journal of the American Statistical Association, 103(482), 681–686.
 * Perez, P., & de los Campos, G. (2014). **Genome-wide regression and prediction with the BGLR statistical package**. Genetics, 198(2), 483–495. 
-R Development Core Team. (2015). **R: A Language and Environment for Statistical Computing**. Vienna, Austria: R Foundation for Statistical Computing.
+* R Development Core Team. (2015). **R: A Language and Environment for Statistical Computing**. Vienna, Austria: R Foundation for Statistical Computing.
 
 
